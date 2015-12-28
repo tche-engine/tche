@@ -8,7 +8,7 @@ var stage = new PIXI.Container();
 //TODO :: como colocar isso no local certo sem criar sempre o path absoluto??
 var texture = PIXI.Texture.fromImage('http://localhost:8080/tche-maker/sample-game/assets/bunny.png');
 
-var createAndAnimateBunny = function(pos){
+var createAndAnimateBunny = function(pos,left){
 	// create a new Sprite using the texture
 	var bunny = new PIXI.Sprite(texture);
 
@@ -28,7 +28,11 @@ var createAndAnimateBunny = function(pos){
 	    requestAnimationFrame(animate);
 
 	    // just for fun, let's rotate mr rabbit a little
-	    bunny.rotation += 0.1;
+	    if (left){
+	    	bunny.rotation += 0.1;
+	    }else{
+	    	bunny.rotation -= 0.1;
+	    }
 
 	    // render the container
 	    renderer.render(stage);
@@ -41,6 +45,7 @@ for (var j = 10 - 1; j >= 0; j--) {
 		createAndAnimateBunny({
 			x: 100 * j,
 			y: 75 * i
-		});
+		},
+		j % 2 === 0);
 	}
 }
