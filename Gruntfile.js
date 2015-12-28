@@ -7,18 +7,9 @@ module.exports = function(grunt) {
         separator: ';'
       },
       dist: {
-        src: ['src/**/*.js'],
+        src: ['engine/framework/**/*.js'],
         dest: 'dist/<%= pkg.name %>.js'
       }
-    },
-    copy: {
-      main: {
-        expand: true,
-        cwd: 'src/assets/',
-        src: '**',
-        dest: 'dist/assets/',
-        nonull:true
-      },
     },
     uglify: {
       options: {
@@ -31,7 +22,7 @@ module.exports = function(grunt) {
       }
     },
     jshint: {
-      files: ['Gruntfile.js', 'src/**/*.js'],
+      files: ['Gruntfile.js', 'engine/framework/**/*.js'],
       options: {
         globals: {
           jQuery: false,
@@ -51,8 +42,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-concat');
-  grunt.loadNpmTasks('grunt-contrib-copy');
 
-  grunt.registerTask('default', ['jshint', 'concat', 'uglify','copy']);
+  grunt.registerTask('default', ['jshint', 'concat', 'uglify']);
 
 };
