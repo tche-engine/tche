@@ -6,7 +6,7 @@ var stage = new PIXI.Container();
 
 
 //TODO :: como colocar isso no local certo sem criar sempre o path absoluto??
-var texture = PIXI.Texture.fromImage('http://localhost:8080/tche-maker/dist/assets/bunny.png');
+var texture = PIXI.Texture.fromImage('http://localhost:8080/tche-maker/sample-game/assets/bunny.png');
 
 var createAndAnimateBunny = function(pos){
 	// create a new Sprite using the texture
