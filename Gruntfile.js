@@ -7,7 +7,7 @@ module.exports = function(grunt) {
         separator: ';'
       },
       dist: {
-        src: ['engine/framework/**/*.js'],
+        src: ['engine/Tche.js', 'engine/helpers/*.js', 'engine/managers/*.js', 'engine/scenes/*.js', 'engine/main.js'],
         dest: 'dist/<%= pkg.name %>.js'
       }
     },
@@ -22,7 +22,7 @@ module.exports = function(grunt) {
       }
     },
     jshint: {
-      files: ['Gruntfile.js', 'engine/framework/**/*.js'],
+      files: ['Gruntfile.js', 'engine/Tche.js', 'engine/helpers/*.js', 'engine/managers/*.js', 'engine/scenes/*.js', 'engine/main.js'],
       options: {
         globals: {
           jQuery: false,
@@ -34,7 +34,7 @@ module.exports = function(grunt) {
     },
     watch: {
       files: ['<%= jshint.files %>'],
-      tasks: ['jshint']
+      tasks: ['default']
     }
   });
 
