@@ -5,8 +5,8 @@
   $.prototype.initialize = function(){
     parent.initialize.call(this);
 
-    //TODO :: como colocar isso no local certo sem criar sempre o path absoluto??
-    this._texture = PIXI.Texture.fromImage('http://localhost/tche-maker/sample-game/assets/bunny.png');
+    
+    this._texture = PIXI.Texture.fromImage('assets/bunny.png');
     this._bunnies = [];
 
     for (var j = 10 - 1; j >= 0; j--) {
@@ -22,19 +22,23 @@
 
   $.prototype.update = function(){
     parent.update.call(this);
-
+    var input = TCHE.InputManager.getDirection();
     for (var i = 0; i < this._bunnies.length; i++) {
       var bunny = this._bunnies[i].bunny;
-      var left = this._bunnies[i].left;
 
       // just for fun, let's rotate mr rabbit a little
-      if (left){
+      
+      if(input === "left"){
+
         bunny.rotation += 0.1;
-      }else{
+      }else if(input === "right"){
+
         bunny.rotation -= 0.1;
       }
+      
     }
   };
+
 
   $.prototype.terminate = function(){
     parent.terminate.call(this);

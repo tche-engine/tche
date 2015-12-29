@@ -70,6 +70,23 @@
     }
   };
 
+  // incomplete
+  $.getAllKeys = function(){
+    var pressedKeys = [];
+    for(var keyCode in this.keyStates){
+      if (!!this.keyStates[keyCode]){
+        pressedKeys.push(keyCode);
+      }
+    }
+    return pressedKeys;
+  };
+
+  $.getDirection = function(){
+    return ['left', 'right', 'up', 'down'].find(function(direction){
+      return $.isKeyNamePressed(direction);
+    });
+  };
+
   $.onKeyDown = function(event){
     if (this.isBlockedKey(event.keyCode)) {
       event.preventDefault();

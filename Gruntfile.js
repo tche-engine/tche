@@ -7,7 +7,13 @@ module.exports = function(grunt) {
         separator: ';'
       },
       dist: {
-        src: ['engine/Tche.js', 'engine/helpers/*.js', 'engine/managers/*.js', 'engine/scenes/*.js', 'engine/main.js'],
+        src: [
+          'engine/Tche.js',
+          'engine/helpers/*.js',
+          'engine/managers/*.js',
+          'engine/scenes/*.js',
+          'engine/main.js'
+        ],
         dest: 'dist/<%= pkg.name %>.js'
       }
     },
@@ -22,7 +28,14 @@ module.exports = function(grunt) {
       }
     },
     jshint: {
-      files: ['Gruntfile.js', 'engine/Tche.js', 'engine/helpers/*.js', 'engine/managers/*.js', 'engine/scenes/*.js', 'engine/main.js'],
+      files: [
+        'Gruntfile.js',
+        'engine/Tche.js',
+        'engine/helpers/*.js',
+        'engine/managers/*.js',
+        'engine/scenes/*.js',
+        'engine/main.js'
+      ],
       options: {
         globals: {
           jQuery: false,

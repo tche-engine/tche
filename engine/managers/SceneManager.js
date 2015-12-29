@@ -19,6 +19,7 @@
       this.requestAnimationFrame();
     } catch (e) {
       //#ToDo: Create a method to catch exceptions
+      console.log('[TCHE.error]',e);
     }  
   };
 
