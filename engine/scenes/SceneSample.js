@@ -12,7 +12,7 @@
   $.prototype.update = function(){
     parent.update.call(this);
 
-    this._bunny.managerMove_();
+    this._bunny.managerMove();
   
   };
 
@@ -26,7 +26,7 @@
     this._bunny = new PIXI.Sprite(this._texture);
 
     // center the sprite's anchor point
-    this._bunny_.anchor.x = 0.5;
+    this._bunny.anchor.x = 0.5;
     this._bunny.anchor.y = 0.5;
 
     // move the sprite to the center of the screen

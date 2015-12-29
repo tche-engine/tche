@@ -1,7 +1,7 @@
 module.exports = function(grunt) {
 
   var files = [
-    'Gruntfile.js',
+    'engine/Bah.js',
     'engine/Tche.js',
     'engine/helpers/*.js',
     'engine/managers/*.js',
