@@ -1,5 +1,14 @@
 module.exports = function(grunt) {
 
+  var files = [
+    'Gruntfile.js',
+    'engine/Tche.js',
+    'engine/helpers/*.js',
+    'engine/managers/*.js',
+    'engine/scenes/*.js',
+    'engine/main.js'
+  ];
+
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     concat: {
@@ -7,13 +16,7 @@ module.exports = function(grunt) {
         separator: ';'
       },
       dist: {
-        src: [
-          'engine/Tche.js',
-          'engine/helpers/*.js',
-          'engine/managers/*.js',
-          'engine/scenes/*.js',
-          'engine/main.js'
-        ],
+        src: files,
         dest: 'dist/<%= pkg.name %>.js'
       }
     },
@@ -28,14 +31,7 @@ module.exports = function(grunt) {
       }
     },
     jshint: {
-      files: [
-        'Gruntfile.js',
-        'engine/Tche.js',
-        'engine/helpers/*.js',
-        'engine/managers/*.js',
-        'engine/scenes/*.js',
-        'engine/main.js'
-      ],
+      src: files,
       options: {
         globals: {
           jQuery: false,
@@ -56,6 +52,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-concat');
 
-  grunt.registerTask('default', ['jshint', 'concat', 'uglify']);
+  
+  grunt.registerTask('default', ['jshint', 'concat']);
+  grunt.registerTask('prod', ['jshint', 'concat', 'uglify']);
 
 };

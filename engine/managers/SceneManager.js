@@ -19,13 +19,13 @@
       this.requestAnimationFrame();
     } catch (e) {
       //#ToDo: Create a method to catch exceptions
-      console.log('[TCHE.error]',e);
+      BAH.log(e);
     }  
   };
 
   $.changeScene = function(newScene){
     //#ToDo: Make it properly change from one scene to next
-
+    
     // if (!!this._scene) {
     //   this._scene.terminate();
     // };

@@ -45,14 +45,14 @@
   $.keyStates = {};
 
   $.isKeyCodePressed = function(keyCode) {
-    return !!this.keyStates[keyCode];
+    return !!$.keyStates[keyCode];
   };
 
   $.isKeyNamePressed = function(keyName) {
-    for (var key in this.keys) {
-      if (this.keys.hasOwnProperty(key)) {
-        if (this.keys[key].toUpperCase() == keyName.toUpperCase()) {
-          if (this.isKeyCodePressed(key)) {
+    for (var key in $.keys) {
+      if ($.keys.hasOwnProperty(key)) {
+        if ($.keys[key].toUpperCase() == keyName.toUpperCase()) {
+          if ($.isKeyCodePressed(key)) {
             return true;
           }
         }
@@ -64,17 +64,17 @@
 
   $.isKeyPressed = function(keyCodeOrName) {
     if (typeof(keyCodeOrName) == "string") {
-      return this.isKeyNamePressed(keyCodeOrName);
+      return $.isKeyNamePressed(keyCodeOrName);
     } else {
-      return this.isKeyCodePressed(keyCodeOrName);
+      return $.isKeyCodePressed(keyCodeOrName);
     }
   };
 
   // incomplete
   $.getAllKeys = function(){
     var pressedKeys = [];
-    for(var keyCode in this.keyStates){
-      if (!!this.keyStates[keyCode]){
+    for(var keyCode in $.keyStates){
+      if (!!$.keyStates[keyCode]){
         pressedKeys.push(keyCode);
       }
     }
@@ -88,23 +88,23 @@
   };
 
   $.onKeyDown = function(event){
-    if (this.isBlockedKey(event.keyCode)) {
+    if ($.isBlockedKey(event.keyCode)) {
       event.preventDefault();
     }
 
-    this.keyStates[event.keyCode] = true;
+    $.keyStates[event.keyCode] = true;
   };
 
   $.onKeyUp = function(event) {
-    this.keyStates[event.keyCode] = false;
+    $.keyStates[event.keyCode] = false;
   };
 
   $.onWindowBlur = function() {
-    this.clear();
+    $.clear();
   };
 
   $.clear = function(){
-    this.keyStates = {};
+    $.keyStates = {};
   };
 
   $.isBlockedKey = function(keyCode) {
