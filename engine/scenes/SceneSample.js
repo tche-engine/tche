@@ -1,6 +1,6 @@
 (function($){
   "use strict";
-  var parent = TCHE.Scene.prototype;
+  var parent = TCHE.SceneMap.prototype;
 
   $.prototype.initialize = function(){
     parent.initialize.call(this);
@@ -49,4 +49,4 @@
     this.addChild(this._bunny);
 
   }; 
-})(TCHE.declareClass('SceneSample', TCHE.Scene));
+})(TCHE.declareClass('SceneSample', TCHE.SceneMap));

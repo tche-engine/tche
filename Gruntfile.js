@@ -4,8 +4,11 @@ module.exports = function(grunt) {
     'engine/Bah.js',
     'engine/Tche.js',
     'engine/helpers/*.js',
+    'engine/classes/*.js',
+    'engine/sprites/*.js',
     'engine/managers/*.js',
     'engine/scenes/*.js',
+    'engine/globals/*.js',
     'engine/main.js'
   ];
 
