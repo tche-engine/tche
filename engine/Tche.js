@@ -51,6 +51,8 @@ var TCHE = {
 
     constructor.prototype = Object.create(parent.prototype);
     constructor.prototype.constructor = constructor;
+    constructor.prototype.parentClass = parent.prototype;
+
     constructor.extend = function (/* constructor*/) {
       if (arguments.length) {
         return $.extend(constructor, arguments[0]);

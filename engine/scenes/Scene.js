@@ -14,5 +14,6 @@
 
   $.prototype.update = function(){
 
+
   };
 })(TCHE.declareClass('Scene', PIXI.Container));

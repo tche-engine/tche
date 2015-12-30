@@ -8,7 +8,7 @@
   };
 
   $.update = function(){
-    try {
+    // try {
       TCHE.startFrame();
 
       if (!!$._scene) {
@@ -19,10 +19,10 @@
 
       TCHE.endFrame();
       $.requestAnimationFrame();
-    } catch (e) {
-      //#ToDo: Create a method to catch exceptions
-      BAH.log(e);
-    }  
+    // } catch (e) {
+    //   //#ToDo: Create a method to catch exceptions
+    //   BAH.log(e);
+    // }  
   };
 
   $.changeScene = function(newScene){

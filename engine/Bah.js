@@ -9,4 +9,8 @@ var BAH = {};
 
   };
 
+  $.error = function(exception){
+    console.error(exception);
+  };
+
 })(BAH);
