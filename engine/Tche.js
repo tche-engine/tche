@@ -142,8 +142,22 @@ var TCHE = {
     this.renderer = PIXI.autoDetectRenderer(800, 600, {backgroundColor : 0x1099bb});
     document.body.appendChild(this.renderer.view);
 
+    this.meter = new FPSMeter();
+
     this.SceneManager.changeScene(new TCHE.SceneSample());
     this.SceneManager.requestAnimationFrame();
+  }
+
+  function startFrame(){
+    if (!!this.meter) {
+      this.meter.tickStart();
+    }
+  }
+
+  function endFrame(){
+    if (!!this.meter) {
+      this.meter.tick();
+    }
   }
 
   $.ajaxLoadFile = ajaxLoadFile;
@@ -155,4 +169,6 @@ var TCHE = {
   $.shallowClone = shallowClone;
   $.deepClone = deepClone;
   $.init = init;
+  $.startFrame = startFrame;
+  $.endFrame = endFrame;
 })(TCHE);
