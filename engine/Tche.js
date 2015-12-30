@@ -142,7 +142,7 @@ var TCHE = {
     this.renderer = PIXI.autoDetectRenderer(800, 600, {backgroundColor : 0x1099bb});
     document.body.appendChild(this.renderer.view);
 
-    this.meter = new FPSMeter();
+    this.meter = new FPSMeter({theme : 'transparent', graph : 1, decimals : 0});
 
     this.SceneManager.changeScene(new TCHE.SceneSample());
     this.SceneManager.requestAnimationFrame();
