@@ -163,6 +163,7 @@ var TCHE = {
 
   function createGlobals(){
     TCHE.globals.player = new TCHE.Player();
+    TCHE.globals.map = new TCHE.Map();
   }
 
   function init(settings) {
