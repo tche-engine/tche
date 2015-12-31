@@ -70,21 +70,22 @@
     }
   };
 
-  // incomplete
-  $.getAllKeys = function(){
-    var pressedKeys = [];
-    for(var keyCode in $.keyStates){
-      if (!!$.keyStates[keyCode]){
-        pressedKeys.push(keyCode);
-      }
-    }
-    return pressedKeys;
+  $.getPressedKeys = function(keys) {
+    return Object.keys($.keys).filter(function(key){
+      return $.isKeyCodePressed(key);
+    });
+  };
+
+  $.getFirstDirection = function(){
+    return ['left', 'right', 'up', 'down'].find(function(direction){
+      return $.isKeyNamePressed(direction);
+    }) || '';
   };
 
   $.getDirection = function(){
-    return ['left', 'right', 'up', 'down'].find(function(direction){
+    return ['left', 'right', 'up', 'down'].filter(function(direction){
       return $.isKeyNamePressed(direction);
-    });
+    }).join('-');
   };
 
   $.onKeyDown = function(event){

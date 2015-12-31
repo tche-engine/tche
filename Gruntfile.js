@@ -9,6 +9,7 @@ module.exports = function(grunt) {
     'engine/managers/*.js',
     'engine/scenes/*.js',
     'engine/globals/*.js',
+    'sample-game/scenes/*.js',
     'engine/main.js'
   ];
 

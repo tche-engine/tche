@@ -1,8 +1,13 @@
 (function($){
   "use strict";
 
-  $.initialize = function(){
+  var parent = PIXI.Container;
 
+  //The sprite property of the Sprite class is a PIXI sprite.
+  TCHE.accessor($, 'sprite');
+
+  $.initialize = function(){
+    this._sprite = null;
   };
 
-})(TCHE.declareClass('Sprite'));
+})(TCHE.declareClass('Sprite', PIXI.Container));

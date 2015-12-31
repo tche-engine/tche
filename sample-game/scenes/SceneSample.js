@@ -1,24 +1,19 @@
 (function($){
   "use strict";
-  var parent = TCHE.Scene.prototype;
+  var parent = TCHE.SceneMap.prototype;
 
   $.initialize = function(){
     parent.initialize.call(this);
-
-    this._playerSprite = new TCHE.CharacterSprite(TCHE.globals.player);
-    this.addChild(this._playerSprite);
 
   };
 
   $.update = function(){
     parent.update.call(this);
 
-    
-
-    this._playerSprite.update();
   };
+
 
   $.terminate = function(){
     parent.terminate.call(this);
   };
-})(TCHE.declareClass('SceneMap', TCHE.Scene));
+})(TCHE.declareClass('SceneSample', TCHE.SceneMap));

@@ -1,4 +1,5 @@
 var TCHE = {
+  globals : {}
 };
 
 (function($){
@@ -148,14 +149,40 @@ var TCHE = {
     return obj;
   }
 
-  function init(){
-    TCHE.renderer = PIXI.autoDetectRenderer(800, 600, {backgroundColor : 0x1099bb});
+  function fillSettings(settings) {
+    settings.initialScene = settings.initialScene || null;
+    settings.playerX = settings.playerX || 0;
+    settings.playerY = settings.playerY || 0;
+    settings.screenWidth = settings.screenWidth || 800;
+    settings.screenHeight = settings.screenHeight || 600;
+    settings.backgroundColor = settings.backgroundColor || 0x1099bb;
+    settings.showFps = settings.showFps !== false;
+
+    TCHE.settings = settings;
+  }
+
+  function createGlobals(){
+    TCHE.globals.player = new TCHE.Player();
+  }
+
+  function init(settings) {
+    TCHE.fillSettings(settings);
+
+    TCHE.renderer = PIXI.autoDetectRenderer(settings.screenWidth, settings.screenHeight, {backgroundColor : settings.backgroundColor});
     document.body.appendChild(TCHE.renderer.view);
 
-    TCHE.meter = new FPSMeter({theme : 'transparent', graph : 1, decimals : 0});
+    if (settings.showFps) {
+      TCHE.meter = new FPSMeter({theme : 'transparent', graph : 1, decimals : 0});
+    }
 
-    TCHE.SceneManager.changeScene(new TCHE.SceneSample());
-    TCHE.SceneManager.requestAnimationFrame();
+    createGlobals();
+
+    if (!!settings.initialScene) {
+      TCHE.SceneManager.changeScene(new (settings.initialScene)());
+      TCHE.SceneManager.requestAnimationFrame();
+    } else {
+      throw new Error("You need to define the initial scene.");
+    }
   }
 
   function startFrame(){
@@ -170,6 +197,7 @@ var TCHE = {
     }
   }
 
+  $.fillSettings = fillSettings;
   $.ajaxLoadFile = ajaxLoadFile;
   $.extend = extend;
   $.declareClass = declareClass;
