@@ -1,12 +1,19 @@
 (function($){
   "use strict";
 
+  $.changeImage = function(image) {
+    this._image = image;
+    this._dirty = true;
+  };
+
   TCHE.accessor($, 'x');
   TCHE.accessor($, 'y');
   TCHE.accessor($, 'direction');
-  TCHE.accessor($, 'image');
+  TCHE.accessor($, 'image', $.changeImage);
+  TCHE.accessor($, 'dirty');
   
   $.initialize = function(){
+
   };
 
   $.update = function(){
@@ -26,5 +33,6 @@
       this._y += 3;
     }
   };
+
 
 })(TCHE.declareClass('Character'));
