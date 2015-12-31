@@ -2,19 +2,19 @@
   "use strict";
   var parent = TCHE.Scene.prototype;
 
-  $.prototype.initialize = function(){
+  $.initialize = function(){
     parent.initialize.call(this);
 
     
   };
 
-  $.prototype.update = function(){
+  $.update = function(){
     parent.update.call(this);
 
 
   };
 
-  $.prototype.terminate = function(){
+  $.terminate = function(){
     parent.terminate.call(this);
   };
 })(TCHE.declareClass('SceneMap', TCHE.Scene));

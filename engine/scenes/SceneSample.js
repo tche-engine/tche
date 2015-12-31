@@ -2,14 +2,14 @@
   "use strict";
   var parent = TCHE.SceneMap.prototype;
 
-  $.prototype.initialize = function(){
+  $.initialize = function(){
     parent.initialize.call(this);
 
     this._texture = PIXI.Texture.fromImage('assets/bunny.png');
     this.createBunny();
   };
 
-  $.prototype.update = function(){
+  $.update = function(){
     parent.update.call(this);
 
     this._bunny.managerMove();
@@ -17,11 +17,11 @@
   };
 
 
-  $.prototype.terminate = function(){
+  $.terminate = function(){
     parent.terminate.call(this);
   };
 
-  $.prototype.createBunny = function(pos, left) {
+  $.createBunny = function(pos, left) {
     // create a new Sprite using the texture
     this._bunny = new PIXI.Sprite(this._texture);
 

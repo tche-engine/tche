@@ -64,7 +64,7 @@ var TCHE = {
     return constructor;
   }
 
-  function declareClass(className /*, parent, content*/) {
+  function _declareClass(className /*, parent, content*/) {
     var parent = Object;
     var content;
     var classObj;
@@ -76,7 +76,7 @@ var TCHE = {
       parent = arguments[1];
     }
 
-    classObj = this.extend(parent);
+    classObj = TCHE.extend(parent);
 
     if (!!content) {
       for (var key in content) {
@@ -87,7 +87,15 @@ var TCHE = {
     }
 
     TCHE[className] = classObj;
-    return classObj;
+    return classObj;    
+  }
+
+  function declareClass(className /*, parent, content*/) {
+    return _declareClass.apply(this, arguments).prototype;
+  }
+
+  function declareStaticClass(className) {
+    return _declareClass(className);
   }
 
   function reader(obj, name /*, getter */) {
@@ -141,30 +149,31 @@ var TCHE = {
   }
 
   function init(){
-    this.renderer = PIXI.autoDetectRenderer(800, 600, {backgroundColor : 0x1099bb});
-    document.body.appendChild(this.renderer.view);
+    TCHE.renderer = PIXI.autoDetectRenderer(800, 600, {backgroundColor : 0x1099bb});
+    document.body.appendChild(TCHE.renderer.view);
 
-    this.meter = new FPSMeter({theme : 'transparent', graph : 1, decimals : 0});
+    TCHE.meter = new FPSMeter({theme : 'transparent', graph : 1, decimals : 0});
 
-    this.SceneManager.changeScene(new TCHE.SceneSample());
-    this.SceneManager.requestAnimationFrame();
+    TCHE.SceneManager.changeScene(new TCHE.SceneSample());
+    TCHE.SceneManager.requestAnimationFrame();
   }
 
   function startFrame(){
-    if (!!this.meter) {
-      this.meter.tickStart();
+    if (!!TCHE.meter) {
+      TCHE.meter.tickStart();
     }
   }
 
   function endFrame(){
-    if (!!this.meter) {
-      this.meter.tick();
+    if (!!TCHE.meter) {
+      TCHE.meter.tick();
     }
   }
 
   $.ajaxLoadFile = ajaxLoadFile;
   $.extend = extend;
   $.declareClass = declareClass;
+  $.declareStaticClass = declareStaticClass;
   $.reader = reader;
   $.writer = writer;
   $.accessor = accessor;

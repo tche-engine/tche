@@ -37,4 +37,4 @@
     // }
     $._scene = newScene;
   };
-})(TCHE.declareClass('SceneManager'));
+})(TCHE.declareStaticClass('SceneManager'));

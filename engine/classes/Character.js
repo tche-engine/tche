@@ -1,10 +1,10 @@
 (function($){
   "use strict";
 
-  $.prototype.initialize = function(){
+  $.initialize = function(){
   };
 
-  $.prototype.update = function(){
+  $.update = function(){
 
   };
 })(TCHE.declareClass('Character'));

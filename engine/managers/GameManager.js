@@ -8,4 +8,4 @@
   $.loadGameSettings = function(){
     
   };
-})(TCHE.declareClass('GameManager'));
+})(TCHE.declareStaticClass('GameManager'));

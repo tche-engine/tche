@@ -126,4 +126,4 @@
   document.addEventListener('keyup', $.onKeyUp.bind($));
   window.addEventListener('blur', $.onWindowBlur.bind($));
 
-})(TCHE.declareClass('InputManager'));
+})(TCHE.declareStaticClass('InputManager'));
