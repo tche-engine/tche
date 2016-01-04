@@ -3,10 +3,7 @@
   var parent = TCHE.SceneMap.prototype;
 
   $.initialize = function(){
-    parent.initialize.call(this);
-    this.key.on("a", function (argument) {
-      
-    });
+    parent.initialize.call(this);    
 
   };
 

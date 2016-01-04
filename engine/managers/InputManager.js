@@ -105,7 +105,7 @@
       }
     }
 
-    return false;    
+    return false;
   };
 
   $.isKeyNameTriggered = function(keyName) {

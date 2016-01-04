@@ -173,6 +173,10 @@ var TCHE = {
 
     if (settings.showFps) {
       TCHE.meter = new FPSMeter({theme : 'transparent', graph : 1, decimals : 0});
+
+      TCHE.InputManager.on("FPS", function (argument) {
+        return TCHE.meter.isPaused ? TCHE.meter.show() : TCHE.meter.hide();
+      });
     }
 
     createGlobals();
@@ -185,6 +189,8 @@ var TCHE = {
     }
 
     TCHE.fire("ready");
+
+
   }
 
   function startFrame(){
