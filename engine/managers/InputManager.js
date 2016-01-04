@@ -39,8 +39,12 @@
     98: 'down', // numpad 2
     100: 'left', // numpad 4
     102: 'right', // numpad 6
-    104: 'up' // numpad 8
+    104: 'up', // numpad 8
+
+    113 : 'F2'
   };
+
+  $.keyAliases = {};
 
   $.keyStates = {};
   $.previousKeyStates = {};
@@ -68,6 +72,11 @@
     this.keys[code] = name;
   };
 
+  $.addKeyAlias = function(keyName, keyAlias) {
+    $.keyAliases[keyName] = $.keyAliases[keyName] || [];
+    $.keyAliases[keyName].push(keyAlias);
+  };
+
   $.isKeyCodePressed = function(keyCode) {
     return !!$.keyStates[keyCode];
   };
@@ -80,46 +89,48 @@
     return $.releasedKeys.indexOf(keyCode) >= 0;
   };
 
-  $.isKeyNamePressed = function(keyName) {
+  $.getKeyCodes = function(keyName) {
+    var codes = [];
+
     for (var key in $.keys) {
       if ($.keys.hasOwnProperty(key)) {
         if ($.keys[key].toUpperCase() == keyName.toUpperCase()) {
-          if ($.isKeyCodePressed(key)) {
-            return true;
-          }
+          codes.push(key);
+          continue;
+        }
+
+        var thisKeyName = $.keys[key];
+        if (!!$.keyAliases[thisKeyName] && $.keyAliases[thisKeyName].indexOf(keyName) >= 0) {
+          codes.push(key);
         }
       }
     }
 
-    return false;
+    return codes;
+  };
+
+  $.isKeyNamePressed = function(keyName) {
+    var codes = $.getKeyCodes(keyName);
+
+    return codes.find(function(key){
+      return $.isKeyCodePressed(key);
+    }) || false;
   };
 
   $.isKeyNameReleased = function(keyName) {
-    for (var key in $.keys) {
-      if ($.keys.hasOwnProperty(key)) {
-        if ($.keys[key].toUpperCase() == keyName.toUpperCase()) {
-          if ($.isKeyCodeReleased(key)) {
-            return true;
-          }
-        }
-      }
-    }
+    var codes = $.getKeyCodes(keyName);
 
-    return false;    
+    return codes.find(function(key){
+      return $.isKeyCodeReleased(key);
+    }) || false;
   };
 
   $.isKeyNameTriggered = function(keyName) {
-    for (var key in $.keys) {
-      if ($.keys.hasOwnProperty(key)) {
-        if ($.keys[key].toUpperCase() == keyName.toUpperCase()) {
-          if ($.isKeyCodeTriggered(key)) {
-            return true;
-          }
-        }
-      }
-    }
+    var codes = $.getKeyCodes(keyName);
 
-    return false;
+    return codes.find(function(key){
+      return $.isKeyCodeTriggered(key);
+    }) || false;
   };
 
   $.isKeyPressed = function(keyCodeOrName) {

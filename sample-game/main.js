@@ -6,11 +6,3 @@ TCHE.init({
 });
 
 
-TCHE.InputManager.addKeyCode(71, "G");
-
-TCHE.InputManager.on("G", function (argument) {
-  console.log("teste");
-});
-TCHE.InputManager.on("up", function (argument) {
-  console.log("subiu");
-});
