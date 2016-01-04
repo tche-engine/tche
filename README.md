@@ -5,6 +5,12 @@
 ```
 npm install
 grunt
+
+
+
 grunt server
+
+
+grunt build
 
 ```
