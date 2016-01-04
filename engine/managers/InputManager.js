@@ -44,6 +44,10 @@
 
   $.keyStates = {};
 
+  $.addKeyCode = function(code, name) {
+    this.keys[code] = name;
+  };
+
   $.isKeyCodePressed = function(keyCode) {
     return !!$.keyStates[keyCode];
   };
@@ -94,6 +98,10 @@
     }
 
     $.keyStates[event.keyCode] = true;
+
+    if (this.keys[event.keyCode]) {
+      this.fire(this.keys[event.keyCode], {});
+    }
   };
 
   $.onKeyUp = function(event) {

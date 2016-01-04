@@ -4,7 +4,8 @@
   "main": "./sample-game/index.html",
   "window": {
     "frame": true,
-    "toolbar": false
+    "toolbar": false,
+    "fullscreen" : true
   },
   "devDependencies": {
     "grunt": "^0.4.5",

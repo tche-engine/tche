@@ -4,6 +4,9 @@
 
   $.initialize = function(){
     parent.initialize.call(this);
+    this.key.on("a", function (argument) {
+      
+    });
 
   };
 
