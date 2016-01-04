@@ -5,4 +5,4 @@ TCHE.init({
   playerImage : 'assets/bunny.png'
 });
 
-
+TCHE.InputManager.addKeyAlias('F2', "FPS");

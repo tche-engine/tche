@@ -66,6 +66,14 @@
     }
 
     $.previousKeyStates = TCHE.shallowClone($.keyStates);
+
+    for (var i = 0; i < $.triggeredKeys.length; i++) {
+      var names = $.getKeyNames($.triggeredKeys[i]);
+
+      for (var j = 0; j < names.length; j++) {
+        this.fire(names[j], {});
+      }
+    }
   };
 
   $.addKeyCode = function(code, name) {
@@ -107,6 +115,22 @@
     }
 
     return codes;
+  };
+
+  $.getKeyNames = function(keyCode) {
+    var names = [];
+
+    if (!!$.keys[keyCode]) {
+      var name = $.keys[keyCode];
+      
+      names.push(name);
+
+      if (!!$.keyAliases[name]) {
+        names = names.concat($.keyAliases[name]);
+      }
+    }
+
+    return names;
   };
 
   $.isKeyNamePressed = function(keyName) {
@@ -181,10 +205,6 @@
     }
 
     $.keyStates[event.keyCode] = true;
-
-    if (this.keys[event.keyCode]) {
-      this.fire(this.keys[event.keyCode], {});
-    }
   };
 
   $.onKeyUp = function(event) {
