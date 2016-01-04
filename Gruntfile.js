@@ -127,8 +127,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-nw-builder');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.registerTask('default', ['jshint', 'concat']);
-  grunt.registerTask('server', ['http-server']);
-  grunt.registerTask('build', ['copy','nwjs']);
+  grunt.registerTask('server', ['default','http-server']);
+  grunt.registerTask('build', ['default','copy','nwjs']);
   grunt.registerTask('prod', ['jshint', 'concat', 'uglify']);
 
 };
