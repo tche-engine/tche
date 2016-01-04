@@ -43,9 +43,37 @@
   };
 
   $.keyStates = {};
+  $.previousKeyStates = {};
+  $.triggeredKeys = [];
+  $.releasedKeys = [];
+
+  $.update = function(){
+    $.triggeredKeys = [];
+    $.releasedKeys = [];
+
+    for (var key in $.keyStates) {
+      if ($.keyStates[key] === $.previousKeyStates[key]) continue;
+
+      if ($.keyStates[key]) {
+        $.triggeredKeys.push(key);
+      } else {
+        $.releasedKeys.push(key);
+      }
+    }
+
+    $.previousKeyStates = TCHE.shallowClone($.keyStates);
+  };
 
   $.isKeyCodePressed = function(keyCode) {
     return !!$.keyStates[keyCode];
+  };
+
+  $.isKeyCodeTriggered = function(keyCode) {
+    return $.triggeredKeys.indexOf(keyCode) >= 0;
+  };
+
+  $.isKeyCodeReleased = function(keyCode) {
+    return $.releasedKeys.indexOf(keyCode) >= 0;
   };
 
   $.isKeyNamePressed = function(keyName) {
@@ -62,11 +90,55 @@
     return false;
   };
 
+  $.isKeyNameReleased = function(keyName) {
+    for (var key in $.keys) {
+      if ($.keys.hasOwnProperty(key)) {
+        if ($.keys[key].toUpperCase() == keyName.toUpperCase()) {
+          if ($.isKeyCodeReleased(key)) {
+            return true;
+          }
+        }
+      }
+    }
+
+    return false;    
+  };
+
+  $.isKeyNameTriggered = function(keyName) {
+    for (var key in $.keys) {
+      if ($.keys.hasOwnProperty(key)) {
+        if ($.keys[key].toUpperCase() == keyName.toUpperCase()) {
+          if ($.isKeyCodeTriggered(key)) {
+            return true;
+          }
+        }
+      }
+    }
+
+    return false;
+  };
+
   $.isKeyPressed = function(keyCodeOrName) {
     if (typeof(keyCodeOrName) == "string") {
       return $.isKeyNamePressed(keyCodeOrName);
     } else {
       return $.isKeyCodePressed(keyCodeOrName);
+    }
+  };
+
+  $.isKeyTriggered = function(keyCodeOrName) {
+    if (typeof(keyCodeOrName) == "string") {
+      return $.isKeyNameTriggered(keyCodeOrName);
+    } else {
+      return $.isKeyCodeTriggered(keyCodeOrName);
+    }
+  };
+
+  $.isKeyReleased = function(keyCodeOrName) {
+    if (typeof(keyCodeOrName) == "string") {
+      return $.isKeyNameReleased(keyCodeOrName);
+    } else {
+      return $.isKeyCodeReleased(keyCodeOrName);
     }
   };
 

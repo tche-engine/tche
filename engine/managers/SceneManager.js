@@ -11,6 +11,7 @@
     // try {
       TCHE.startFrame();
 
+      TCHE.InputManager.update();
       TCHE.globals.player.update();
 
       if (!!$._scene) {
