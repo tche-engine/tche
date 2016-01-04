@@ -42,4 +42,5 @@ function Trigger(el) {
       }
     }
   };
+  return el;
 }

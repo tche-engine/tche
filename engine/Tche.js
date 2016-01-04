@@ -1,9 +1,6 @@
 var TCHE = {
   globals : {}
 };
-
-Trigger(TCHE);
-
 (function($){
   /*jshint validthis: true */
   "use strict";
@@ -94,7 +91,7 @@ Trigger(TCHE);
   }
 
   function declareClass(className /*, parent, content*/) {
-    return _declareClass.apply(this, arguments).prototype;
+    return this.trigger(_declareClass.apply(this, arguments).prototype);
   }
 
   function declareStaticClass(className) {
@@ -202,6 +199,7 @@ Trigger(TCHE);
     }
   }
 
+  $.trigger = Trigger;
   $.fillSettings = fillSettings;
   $.ajaxLoadFile = ajaxLoadFile;
   $.extend = extend;
@@ -215,4 +213,6 @@ Trigger(TCHE);
   $.init = init;
   $.startFrame = startFrame;
   $.endFrame = endFrame;
+
+  $.trigger(TCHE);
 })(TCHE);
