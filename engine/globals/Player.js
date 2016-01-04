@@ -5,7 +5,7 @@
 
   $.initialize = function(){
     parent.initialize.call(this);
-    
+
     this._x = TCHE.settings.playerX;
     this._y = TCHE.settings.playerY;
     this._image = TCHE.settings.playerImage;
@@ -22,6 +22,6 @@
 
     if (!!direction) {
       this.move(direction);
-    }    
+    }
   };
 })(TCHE.declareClass('Player', TCHE.Character));

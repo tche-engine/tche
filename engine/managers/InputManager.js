@@ -1,4 +1,4 @@
-(function($){
+(function($) {
   "use strict";
 
   $.keys = {
@@ -17,10 +17,10 @@
     40: 'down', // down arrow
     45: 'escape', // insert
 
-    65 : 'left', // A
-    83 : 'down', // S
-    68 : 'right', // D
-    87 : 'up', // W
+    65: 'left', // A
+    83: 'down', // S
+    68: 'right', // D
+    87: 'up', // W
 
     74: 'ok', // J
     75: 'shift', // K
@@ -71,24 +71,24 @@
   };
 
   $.getPressedKeys = function(keys) {
-    return Object.keys($.keys).filter(function(key){
+    return Object.keys($.keys).filter(function(key) {
       return $.isKeyCodePressed(key);
     });
   };
 
-  $.getFirstDirection = function(){
-    return ['left', 'right', 'up', 'down'].find(function(direction){
+  $.getFirstDirection = function() {
+    return ['left', 'right', 'up', 'down'].find(function(direction) {
       return $.isKeyNamePressed(direction);
     }) || '';
   };
 
-  $.getDirection = function(){
-    return ['left', 'right', 'up', 'down'].filter(function(direction){
+  $.getDirection = function() {
+    return ['left', 'right', 'up', 'down'].filter(function(direction) {
       return $.isKeyNamePressed(direction);
     }).join('-');
   };
 
-  $.onKeyDown = function(event){
+  $.onKeyDown = function(event) {
     if ($.isBlockedKey(event.keyCode)) {
       event.preventDefault();
     }
@@ -104,7 +104,7 @@
     $.clear();
   };
 
-  $.clear = function(){
+  $.clear = function() {
     $.keyStates = {};
   };
 
@@ -126,5 +126,23 @@
   document.addEventListener('keydown', $.onKeyDown.bind($));
   document.addEventListener('keyup', $.onKeyUp.bind($));
   window.addEventListener('blur', $.onWindowBlur.bind($));
+
+  TCHE.on("ready", function() {
+    TCHE.renderer.view.addEventListener("click", function(evt) {
+
+      var tmp = getMousePos(this, evt);
+
+      TCHE.globals.player.setDest(tmp.x, tmp.y);
+    });
+  });
+
+  function getMousePos(canvas, evt) {
+    var rect = canvas.getBoundingClientRect();
+    return {
+      x: evt.clientX - rect.left,
+      y: evt.clientY - rect.top
+    };
+  }
+
 
 })(TCHE.declareStaticClass('InputManager'));

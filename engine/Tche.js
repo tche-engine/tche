@@ -2,6 +2,8 @@ var TCHE = {
   globals : {}
 };
 
+Trigger(TCHE);
+
 (function($){
   /*jshint validthis: true */
   "use strict";
@@ -88,7 +90,7 @@ var TCHE = {
     }
 
     TCHE[className] = classObj;
-    return classObj;    
+    return classObj;
   }
 
   function declareClass(className /*, parent, content*/) {
@@ -184,6 +186,8 @@ var TCHE = {
     } else {
       throw new Error("You need to define the initial scene.");
     }
+
+    TCHE.fire("ready");
   }
 
   function startFrame(){

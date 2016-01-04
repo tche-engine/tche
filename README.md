@@ -6,5 +6,6 @@ Tchê Maker
 ```
 npm install
 grunt
+grunt server
 
 ```
