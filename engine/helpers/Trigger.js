@@ -10,6 +10,7 @@ function Trigger(el) {
   };
 
   el.fire = function(event) {
+    event = event || {};
     if (typeof event == "string") {
       event = {
         type: event

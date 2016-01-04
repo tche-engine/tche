@@ -95,7 +95,7 @@ var TCHE = {
   }
 
   function declareStaticClass(className) {
-    return _declareClass(className);
+    return this.trigger(_declareClass(className));
   }
 
   function reader(obj, name /*, getter */) {
