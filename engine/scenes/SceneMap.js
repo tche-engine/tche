@@ -5,17 +5,18 @@
   $.initialize = function(){
     parent.initialize.call(this);
 
-    this._playerSprite = new TCHE.CharacterSprite(TCHE.globals.player);
-    this.addChild(this._playerSprite);
+    TCHE.globals.map.loadMap(TCHE.settings.initialMap);
 
+    this._mapSprite = new TCHE.Map2d(TCHE.globals.map);
+    this.addChild(this._mapSprite);
   };
 
   $.update = function(){
     parent.update.call(this);
 
-    
+    this._mapSprite.update();
 
-    this._playerSprite.update();
+    // this._playerSprite.update();
   };
 
   $.terminate = function(){

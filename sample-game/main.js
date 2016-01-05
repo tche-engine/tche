@@ -1,8 +1,8 @@
 TCHE.init({
-  initialScene : TCHE.SceneSample,
   playerX : 100,
   playerY : 150,
-  playerImage : 'assets/bunny.png'
+  playerImage : 'assets/bunny.png',
+  initialMap : "whiteMap"
 });
 
 TCHE.InputManager.addKeyAlias('F2', "FPS");

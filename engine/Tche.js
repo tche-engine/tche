@@ -1,6 +1,9 @@
 var TCHE = {
-  globals : {}
+  globals : {},
+  data : {},
+  maps : {}
 };
+
 (function($){
   /*jshint validthis: true */
   "use strict";
@@ -31,12 +34,36 @@ var TCHE = {
       xhr.overrideMimeType(mimeType);
     }
     xhr.send();
-    if (xhr.status < 200) {
+    if (xhr.status <= 200 || xhr.status == 304) {
       return xhr.responseText;
     }
     else {
       throw new Error("Cannot load file " + filePath);
     }
+  }
+
+  function ajaxLoadFileAsync(name, filePath, onLoad, onError, mimeType){
+    mimeType = mimeType || "application/json";
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', filePath);
+    if (mimeType && xhr.overrideMimeType) {
+      xhr.overrideMimeType(mimeType);
+    }
+    if(onLoad === undefined){
+      onLoad = function(xhr, filePath, name) {
+        if (xhr.status < 400) {
+          TCHE.data[name] = JSON.parse(xhr.responseText);
+        }
+      };
+    }
+    xhr.onload = function() {
+      onLoad.call(this, xhr, filePath, name);
+    };
+    xhr.onerror = onError;
+    if(onLoad !== undefined){
+      TCHE.data[name] = null;
+    }
+    xhr.send();
   }
 
   function extend(/*parent , constructor */) {
@@ -149,13 +176,19 @@ var TCHE = {
   }
 
   function fillSettings(settings) {
-    settings.initialScene = settings.initialScene || null;
-    settings.playerX = settings.playerX || 0;
-    settings.playerY = settings.playerY || 0;
     settings.screenWidth = settings.screenWidth || 800;
     settings.screenHeight = settings.screenHeight || 600;
     settings.backgroundColor = settings.backgroundColor || 0x1099bb;
+
     settings.showFps = settings.showFps !== false;
+    settings.fpsVisibleOnStartup = settings.fpsVisibleOnStartup === true;
+
+    // settings.initialScene = settings.initialScene || null;
+    settings.playerX = settings.playerX || 0;
+    settings.playerY = settings.playerY || 0;
+    settings.initialMap = settings.initialMap || null;
+
+    // settings.sceneParams = settings.sceneParams || {};
 
     TCHE.settings = settings;
   }
@@ -165,32 +198,31 @@ var TCHE = {
     TCHE.globals.map = new TCHE.Map();
   }
 
+  function setupFpsMeter(){
+    if (TCHE.settings.showFps) {
+      TCHE.meter = new FPSMeter({theme : 'transparent', graph : 1, decimals : 0});
+
+      if (!TCHE.settings.fpsVisibleOnStartup) {
+        TCHE.meter.hide();
+      }
+
+      TCHE.InputManager.on("FPS", function (argument) {
+        return TCHE.meter.isPaused ? TCHE.meter.show() : TCHE.meter.hide();
+      });
+    }
+  }
+
   function init(settings) {
     TCHE.fillSettings(settings);
 
     TCHE.renderer = PIXI.autoDetectRenderer(settings.screenWidth, settings.screenHeight, {backgroundColor : settings.backgroundColor});
     document.body.appendChild(TCHE.renderer.view);
 
-    if (settings.showFps) {
-      TCHE.meter = new FPSMeter({theme : 'transparent', graph : 1, decimals : 0});
-
-      TCHE.InputManager.on("FPS", function (argument) {
-        return TCHE.meter.isPaused ? TCHE.meter.show() : TCHE.meter.hide();
-      });
-    }
-
+    setupFpsMeter();
     createGlobals();
 
-    if (!!settings.initialScene) {
-      TCHE.SceneManager.changeScene(new (settings.initialScene)());
-      TCHE.SceneManager.requestAnimationFrame();
-    } else {
-      throw new Error("You need to define the initial scene.");
-    }
-
+    TCHE.SceneManager.start(TCHE.SceneLaunch);
     TCHE.fire("ready");
-
-
   }
 
   function startFrame(){
@@ -208,6 +240,7 @@ var TCHE = {
   $.trigger = Trigger;
   $.fillSettings = fillSettings;
   $.ajaxLoadFile = ajaxLoadFile;
+  $.ajaxLoadFileAsync = ajaxLoadFileAsync;
   $.extend = extend;
   $.declareClass = declareClass;
   $.declareStaticClass = declareStaticClass;

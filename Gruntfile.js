@@ -6,8 +6,13 @@ module.exports = function(grunt) {
     'engine/helpers/*.js',
     'engine/classes/*.js',
     'engine/sprites/*.js',
+    'engine/sprites/maps/*.js',
     'engine/managers/*.js',
-    'engine/scenes/*.js',
+    'engine/scenes/Scene.js',
+    'engine/scenes/SceneLoading.js',
+    'engine/scenes/SceneLaunch.js',
+    'engine/scenes/SceneMap.js',
+    // 'engine/scenes/*.js',
     'engine/globals/*.js',
     'sample-game/scenes/*.js'
   ];

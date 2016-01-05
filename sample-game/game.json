@@ -4,16 +4,7 @@
     "x" : 50,
     "y" : 200
   },
-  "objects" : [
-    {
-      "image" : "bunny.png",
-      "x" : 50,
-      "y" : 60
-    },
-    {
-      "image" : "red-bunny.png",
-      "x" : 300,
-      "y" : 250
-    }
+  "maps" : [
+    "whiteMap"
   ]
 }

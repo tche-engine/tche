@@ -2,8 +2,8 @@
   "use strict";
   var parent = TCHE.SceneMap.prototype;
 
-  $.initialize = function(){
-    parent.initialize.call(this);
+  $.initialize = function(params){
+    parent.initialize.call(this, params);
   };
 
   $.update = function(){
