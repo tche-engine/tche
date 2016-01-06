@@ -1,16 +1,4 @@
-var BAH = {};
-
-(function($){
-  /*jshint validthis: true */
-  "use strict";
-
-  $.log = function(message){
-  	console.log('[BAH.TCHE.error]',message);
-
-  };
-
-  $.error = function(exception){
-    console.error(exception);
-  };
-
-})(BAH);
+class BAH {
+  static log(msg) { console.log(msg); }
+  static error(msg) { console.error(msg); }
+}

@@ -1,3 +1,4 @@
+var pkg = require("./package.json");
 module.exports = function(grunt) {
 
   var files = [
@@ -16,13 +17,10 @@ module.exports = function(grunt) {
     'engine/globals/*.js',
     'sample-game/scenes/*.js'
   ];
-
-  grunt.initConfig({
+  var config = {
     pkg: grunt.file.readJSON('package.json'),
     concat: {
-      options: {
-        separator: ';'
-      },
+      options: {},
       dist: {
         src: files,
         dest: 'dist/<%= pkg.name %>.js'
@@ -41,6 +39,7 @@ module.exports = function(grunt) {
     jshint: {
       src: files,
       options: {
+        esnext: true,
         globals: {
           jQuery: false,
           console: true,
@@ -104,7 +103,7 @@ module.exports = function(grunt) {
     },
     nwjs: {
       options: {
-        platforms: ['linux',"win","osx"],
+        platforms: ['linux', "win", "osx"],
         buildDir: './generated', // Where the build version of my NW.js app is saved
         version: '0.12.0'
       },
@@ -116,14 +115,30 @@ module.exports = function(grunt) {
           // includes files within path
           {
             expand: true,
-            src: ['dist/**',"sample-game/**",'package.json',"engine/libs/**"],
+            src: ['dist/**', "sample-game/**", 'package.json', "engine/libs/**"],
             dest: 'tmp/'
           },
         ],
       },
     },
-  });
+    babel: {
+      options: {
+        // sourceMap: true,
+        presets: ['babel-preset-es2015']
+      },
+      dist: {
+        files: {
 
+        }
+      }
+    }
+  };
+
+  config.babel.dist.files['dist/' + pkg.name + '.js'] = 'dist/' + pkg.name + '.js';
+
+  grunt.initConfig(config);
+
+  grunt.loadNpmTasks('grunt-babel');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
@@ -131,9 +146,11 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-http-server');
   grunt.loadNpmTasks('grunt-nw-builder');
   grunt.loadNpmTasks('grunt-contrib-copy');
-  grunt.registerTask('default', ['jshint', 'concat']);
-  grunt.registerTask('server', ['default','http-server']);
-  grunt.registerTask('build', ['default','copy','nwjs']);
-  grunt.registerTask('prod', ['jshint', 'concat', 'uglify']);
+
+
+
+  grunt.registerTask('default', ['jshint', 'concat', "babel"]);
+  grunt.registerTask('server', ['default', 'http-server']);
+  grunt.registerTask('build', ['default', 'copy', 'nwjs']);
 
 };
