@@ -138,7 +138,7 @@ module.exports = function(grunt) {
     "bower-install-simple": {
       options: {
         color: true,
-        directory: "lib"
+        directory: "engine/libs"
       },
       "prod": {
         options: {
