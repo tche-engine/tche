@@ -8,6 +8,8 @@
       this._direction = null;
       this._image = null;
       this._dirty = false;
+      this._height = null;
+      this._width = null;
     }
 
     get x() { return this._x; }
@@ -22,7 +24,14 @@
     set direction(value) { this._direction = value; }
     get dirty() { return this._dirty; }
     set dirty(value) { this._dirty = value; }
-    
+    get width() { return this._width; }
+    set width(value) { this._width = value; }
+    get height() { return this._height; }
+    set height(value) { this._height = value; }
+
+    get rightX() { return this.x + this.width; }
+    get bottomY() { return this.y + this.height; }
+
     get image() { return this._image; }
     set image(value) { 
       this._image = value;
@@ -56,18 +65,24 @@
       this._yDest = y;
     }
 
+    canMove(direction) {
+      return TCHE.globals.map.canMove(this, direction);
+    }
+
     move(direction) {
-      if (direction.indexOf('left') >= 0) {
+      if (direction.indexOf('left') >= 0 && this.canMove('left')) {
         this._x -= this.stepSize;
-      } else if (direction.indexOf('right') >= 0) {
+      } else if (direction.indexOf('right') >= 0 && this.canMove('right')) {
         this._x += this.stepSize;
       }
 
-      if (direction.indexOf('up') >= 0) {
+      if (direction.indexOf('up') >= 0 && this.canMove('up')) {
         this._y -= this.stepSize;
-      } else if (direction.indexOf('down') >= 0) {
+      } else if (direction.indexOf('down') >= 0 && this.canMove('down')) {
         this._y += this.stepSize;
       }
+
+      TCHE.globals.map.requestCollisionMapRefresh();
     }
   }
   

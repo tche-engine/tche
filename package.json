@@ -4,8 +4,8 @@
   "main": "./sample-game/index.html",
   "window": {
     "frame": true,
-    "toolbar": false,
-    "fullscreen": true
+    "toolbar": true,
+    "fullscreen": false
   },
   "devDependencies": {
     "babel-preset-es2015": "^6.3.13",

@@ -13,9 +13,7 @@ module.exports = function(grunt) {
     'engine/scenes/SceneLoading.js',
     'engine/scenes/SceneLaunch.js',
     'engine/scenes/SceneMap.js',
-    // 'engine/scenes/*.js',
-    'engine/globals/*.js',
-    'sample-game/scenes/*.js'
+    'engine/globals/*.js'
   ];
   var config = {
     pkg: grunt.file.readJSON('package.json'),

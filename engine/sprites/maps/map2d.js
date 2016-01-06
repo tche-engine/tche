@@ -3,7 +3,6 @@
     constructor(map) {
       super(map);
 
-      this._objects = [];
       this._objectSprites = [];
 
       this.createBackground();
@@ -32,18 +31,10 @@
     }
 
     createObjects() {
-      this._objects = [];
       this._objectSprites = [];
 
-      this._map.objects.forEach(function(obj){
-        var objCharacter = new TCHE.Character();
-        objCharacter.x = obj.x;
-        objCharacter.y = obj.y;
-        objCharacter.image = obj.image;
-
-        this._objects.push(objCharacter);
-
-        var objSprite = new TCHE.CharacterSprite(objCharacter);
+      this._map._mapData.objects.forEach(function(obj){
+        var objSprite = new TCHE.CharacterSprite(obj);
         this._objectSprites.push(objSprite);
         this.addChild(objSprite);
       }.bind(this));

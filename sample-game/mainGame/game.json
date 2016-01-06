@@ -2,7 +2,9 @@
   "player" : {
     "image" : "assets/green-bunny.png",
     "x" : 50,
-    "y" : 200
+    "y" : 200,
+    "width" : 26,
+    "height" : 37
   },
   "initialMap" : "yellowMap",
   
