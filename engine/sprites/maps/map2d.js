@@ -33,7 +33,7 @@
     createObjects() {
       this._objectSprites = [];
 
-      this._map._mapData.objects.forEach(function(obj){
+      this._map.objects.forEach(function(obj){
         var objSprite = new TCHE.CharacterSprite(obj);
         this._objectSprites.push(objSprite);
         this.addChild(objSprite);
