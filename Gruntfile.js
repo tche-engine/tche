@@ -149,7 +149,7 @@ module.exports = function(grunt) {
 
 
 
-  grunt.registerTask('default', ['jshint', 'concat', "babel"]);
+  grunt.registerTask('default', ['jshint', 'concat', 'babel']);
   grunt.registerTask('server', ['default', 'http-server']);
   grunt.registerTask('build', ['default', 'copy', 'nwjs']);
 
