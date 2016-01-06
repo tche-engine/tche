@@ -20,14 +20,17 @@ function Trigger(el) {
       event.target = this;
     }
 
-    if (!event.type) { //falsy
+    if (!event.type) { //false
       throw new Error("Event object missing 'type' property.");
     }
 
     if (this._listeners[event.type] instanceof Array) {
       var listeners = this._listeners[event.type];
+      var params = Array.prototype.slice.call(arguments);
+      params.shift();
+
       for (var i = 0, len = listeners.length; i < len; i++) {
-        listeners[i].call(this, event);
+        listeners[i].apply(this, params);
       }
     }
   };
