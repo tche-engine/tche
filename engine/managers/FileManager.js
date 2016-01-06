@@ -62,5 +62,5 @@
     }
   }
   
-  TCHE.FileManager = FileManager;
+  TCHE.registerStaticClass('FileManager', FileManager);
 })();

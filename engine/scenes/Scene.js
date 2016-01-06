@@ -13,5 +13,5 @@
     }
   }
   
-  TCHE.Scene = Scene;
+  TCHE.registerClass('Scene', Scene);
 })();

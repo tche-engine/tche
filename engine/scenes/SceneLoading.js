@@ -66,5 +66,5 @@
 
   }
   
-  TCHE.SceneLoading = SceneLoading;
+  TCHE.registerClass('SceneLoading', SceneLoading);
 })();

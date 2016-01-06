@@ -9,5 +9,5 @@
     set map(value) { this._map = value; }
   }
   
-  TCHE.MapSprite = MapSprite;
+  TCHE.registerClass('MapSprite', MapSprite);
 })();

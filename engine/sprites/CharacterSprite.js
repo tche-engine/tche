@@ -45,5 +45,5 @@
     }
   }
   
-  TCHE.CharacterSprite = CharacterSprite;
+  TCHE.registerClass('CharacterSprite', CharacterSprite);
 })();

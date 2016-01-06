@@ -58,5 +58,5 @@
     }
   }
   
-  TCHE.Map2d = Map2d;
+  TCHE.registerClass('Map2d', Map2d);
 })();

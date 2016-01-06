@@ -66,5 +66,5 @@
     }
   }
   
-  TCHE.SceneManager = SceneManager;
+  TCHE.registerStaticClass('SceneManager', SceneManager);
 })();

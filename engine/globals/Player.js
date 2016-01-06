@@ -17,5 +17,5 @@
     }
   }
   
-  TCHE.Player = Player;
+  TCHE.registerClass('Player', Player);
 })();

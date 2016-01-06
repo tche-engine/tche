@@ -60,6 +60,16 @@ var TCHE = {
     return obj;
   }
 
+  function registerClass(className, classDeclaration) {
+    TCHE[className] = classDeclaration;
+    TCHE.trigger(classDeclaration.prototype);
+  }
+
+  function registerStaticClass(className, classDeclaration) {
+    TCHE[className] = classDeclaration;
+    TCHE.trigger(classDeclaration);    
+  }
+
   function fillSettings(settings) {
     settings.screenWidth = settings.screenWidth || 800;
     settings.screenHeight = settings.screenHeight || 600;
@@ -107,7 +117,7 @@ var TCHE = {
     createGlobals();
 
     TCHE.SceneManager.start(TCHE.SceneLaunch);
-    TCHE.fire("ready");
+    TCHE.fire("started");
   }
 
   function startFrame(){
@@ -130,6 +140,8 @@ var TCHE = {
   $.init = init;
   $.startFrame = startFrame;
   $.endFrame = endFrame;
+  $.registerClass = registerClass;
+  $.registerStaticClass = registerStaticClass;
 
   $.trigger(TCHE);
 })(TCHE);

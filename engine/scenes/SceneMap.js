@@ -21,5 +21,5 @@
     }    
   }
   
-  TCHE.SceneMap = SceneMap;
+  TCHE.registerClass('SceneMap', SceneMap);
 })();

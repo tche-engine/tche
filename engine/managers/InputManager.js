@@ -236,11 +236,9 @@
   document.addEventListener('keyup', InputManager.onKeyUp.bind(InputManager));
   window.addEventListener('blur', InputManager.onWindowBlur.bind(InputManager));
 
-  TCHE.on("ready", function() {
+  TCHE.on("started", function() {
     TCHE.renderer.view.addEventListener("click", function(evt) {
-
       var tmp = getMousePos(this, evt);
-
       TCHE.globals.player.setDest(tmp.x, tmp.y);
     });
   });
@@ -253,7 +251,5 @@
     };
   }
 
-  Trigger(InputManager);
-  
-  TCHE.InputManager = InputManager;
+  TCHE.registerStaticClass('InputManager', InputManager);
 })();

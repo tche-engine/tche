@@ -14,5 +14,5 @@
     }    
   }
   
-  TCHE.Sprite = Sprite;
+  TCHE.registerClass('Sprite', Sprite);
 })();

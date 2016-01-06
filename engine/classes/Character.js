@@ -10,6 +10,10 @@
       this._dirty = false;
       this._height = null;
       this._width = null;
+      this._lastBlockedByCharacter = null;
+      this._lastBlockCharacter = null;
+      this._frameInitialX = null;
+      this._frameInitialY = null;
     }
 
     get x() { return this._x; }
@@ -41,6 +45,9 @@
     get stepSize() { return 5; }
 
     update() {
+      this._frameInitialX = this.x;
+      this._frameInitialY = this.y;
+
       var direction = {
         "x": ["right", "left"],
         "y": ["down", "up"]
@@ -82,9 +89,31 @@
         this._y += this.stepSize;
       }
 
-      TCHE.globals.map.requestCollisionMapRefresh();
+      if (this.isMoving()) {
+        this._lastBlockCharacter = null;
+        this._lastBlockedByCharacter = null;
+        TCHE.globals.map.requestCollisionMapRefresh();
+      }
+    }
+
+    isMoving() {
+      return this._frameInitialX !== this._x || this._frameInitialY !== this._y;
+    }
+
+    onBlockCharacter(character) {
+      if (this._lastBlockCharacter !== character) {
+        this._lastBlockCharacter = character;
+        this.fire('blockCharacter', character);
+      }
+    }
+
+    onBlockedBy(character) {
+      if (this._lastBlockedByCharacter !== character) {
+        this._lastBlockedByCharacter = character;
+        this.fire('blockedBy', character);
+      }
     }
   }
   
-  TCHE.Character = Character;
+  TCHE.registerClass('Character', Character);
 })();

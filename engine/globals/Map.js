@@ -103,9 +103,17 @@
       if (y > this.collisionMap[x].length) return false;
       if (!this.collisionMap[x][y]) return false;
 
-      return this.collisionMap[x][y].find(function(item){
+      let blockingCharacter = this.collisionMap[x][y].find(function(item){
         return item != character;
-      }) !== undefined;
+      });
+
+      if (blockingCharacter === undefined) {
+        return false;
+      }
+
+      blockingCharacter.onBlockCharacter(character);
+      character.onBlockedBy(blockingCharacter);
+      return true;
     }
 
     canMoveLeft(character) {
@@ -185,5 +193,5 @@
     }
   }
   
-  TCHE.Map = Map;
+  TCHE.registerClass('Map', Map);
 })();
