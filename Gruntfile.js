@@ -34,7 +34,7 @@ module.exports = function(grunt) {
         }
       }
     },
-    jshint: {
+    "jshint": {
       src: files,
       options: {
         esnext: true,
@@ -46,7 +46,7 @@ module.exports = function(grunt) {
         }
       }
     },
-    watch: {
+    "watch": {
       files: ['<%= jshint.files %>'],
       tasks: ['default']
     },
@@ -99,7 +99,7 @@ module.exports = function(grunt) {
       }
 
     },
-    nwjs: {
+    "nwjs": {
       options: {
         platforms: ['linux', "win", "osx"],
         buildDir: './generated', // Where the build version of my NW.js app is saved
@@ -107,7 +107,7 @@ module.exports = function(grunt) {
       },
       src: ['./tmp/**'] // Your NW.js app
     },
-    copy: {
+    "copy": {
       main: {
         files: [
           // includes files within path
@@ -119,7 +119,7 @@ module.exports = function(grunt) {
         ],
       },
     },
-    babel: {
+    "babel": {
       options: {
         // sourceMap: true,
         presets: ['babel-preset-es2015']
@@ -129,13 +129,31 @@ module.exports = function(grunt) {
 
         }
       }
+    },
+    "bower": {
+      dev: {
+        dest: './'
+      }
+    },
+    "bower-install-simple": {
+      options: {
+        color: true,
+        directory: "lib"
+      },
+      "prod": {
+        options: {
+          production: true
+        }
+      }
     }
   };
 
   config.babel.dist.files['dist/' + pkg.name + '.js'] = 'dist/' + pkg.name + '.js';
 
   grunt.initConfig(config);
-
+  grunt.registerTask("bower-install", ["bower-install-simple:prod"]);
+  grunt.loadNpmTasks('grunt-bower');
+  grunt.loadNpmTasks("grunt-bower-install-simple");
   grunt.loadNpmTasks('grunt-babel');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-jshint');
@@ -147,7 +165,7 @@ module.exports = function(grunt) {
 
 
 
-  grunt.registerTask('default', ['jshint', 'concat', 'babel']);
+  grunt.registerTask('default', ['jshint', 'concat', 'babel', 'bower-install']);
   grunt.registerTask('server', ['default', 'http-server']);
   grunt.registerTask('build', ['default', 'copy', 'nwjs']);
 
