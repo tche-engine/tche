@@ -1,16 +1,17 @@
-(function($){
-  "use strict";
+(function(){
+  class Scene extends PIXI.Container {
+    constructor() {
+      super();
+    }
 
-  $.initialize = function(){
-    PIXI.Container.call(this);
-  };
+    update() {
+      
+    }
 
-  $.terminate = function(){
+    terminate() {
 
-  };
-
-  $.update = function(){
-
-
-  };
-})(TCHE.declareClass('Scene', PIXI.Container));
+    }
+  }
+  
+  TCHE.Scene = Scene;
+})();

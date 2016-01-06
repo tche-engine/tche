@@ -1,15 +1,13 @@
-(function($){
-  "use strict";
+(function(){
+  class MapSprite extends TCHE.Sprite {
+    constructor(map) {
+      super();
+      this._map = map;
+    }
 
-  var parent = TCHE.Sprite.prototype;
-
-  TCHE.accessor($, 'map');
-
-  $.initialize = function(map) {
-    parent.initialize.call(this);
-    this._map = map;
-  };
-
-  $.update = function() {
-  };
-})(TCHE.declareClass('MapSprite', TCHE.Sprite));
+    get map() { return this._map; } 
+    set map(value) { this._map = value; }
+  }
+  
+  TCHE.MapSprite = MapSprite;
+})();

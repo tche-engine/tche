@@ -1,67 +1,75 @@
-(function($) {
-  "use strict";
-  $.STEP = 5;
-  $.STEP_WALKING = 3;
-  $.STEP_RUNNING = 5;
+(function(){
+  class Character {
+    constructor() {
+      this._x = null;
+      this._y = null;
+      this._xDest = null;
+      this._yDest = null;
+      this._direction = null;
+      this._image = null;
+      this._dirty = false;
+    }
 
-  $.changeImage = function(image) {
-    this._image = image;
-    this._dirty = true;
-  };
+    get x() { return this._x; }
+    set x(value) { this._x = value; }
+    get y() { return this._y; }
+    set y(value) { this._y = value; }
+    get xDest() { return this._xDest; }
+    set xDest(value) { this._xDest = value; }
+    get yDest() { return this._yDest; }
+    set yDest(value) { this._yDest = value; }
+    get direction() { return this._direction; }
+    set direction(value) { this._direction = value; }
+    get dirty() { return this._dirty; }
+    set dirty(value) { this._dirty = value; }
+    
+    get image() { return this._image; }
+    set image(value) { 
+      this._image = value;
+      this._dirty = true;
+    }
 
-  TCHE.accessor($, 'x');
-  TCHE.accessor($, 'y');
-  TCHE.accessor($, 'xDest');
-  TCHE.accessor($, 'yDest');
-  TCHE.accessor($, 'direction');
-  TCHE.accessor($, 'image', $.changeImage);
-  TCHE.accessor($, 'dirty');
+    get stepSize() { return 5; }
 
-  $.initialize = function() {
+    update() {
+      var direction = {
+        "x": ["right", "left"],
+        "y": ["down", "up"]
+      };
 
-  };
-
-  $.setDest = function(x, y) {
-    this._xDest = x;
-    this._yDest = y;
-  };
-
-  $.update = function() {
-    var direction = {
-      "x": ["right", "left"],
-      "y": ["down", "up"]
-    };
-
-    this.move(Object.keys(direction).reduce(function(old, val) {
-      var dest = this["_" + val + "Dest"];
-      if (dest) {
-        var pos = this["_" + val];
-        if (Math.abs(dest - pos) >= this.STEP) {
-          old.push(dest > pos ? direction[val][0] : direction[val][1]);
-        } else {
-          this["_" + val + "Dest"] = undefined;
+      this.move(Object.keys(direction).reduce(function(old, val) {
+        var dest = this["_" + val + "Dest"];
+        if (dest) {
+          var pos = this["_" + val];
+          if (Math.abs(dest - pos) >= this.stepSize) {
+            old.push(dest > pos ? direction[val][0] : direction[val][1]);
+          } else {
+            this["_" + val + "Dest"] = undefined;
+          }
         }
+        return old;
+      }.bind(this), []).join(" "));
+    }
+
+    setDest(x, y) {
+      this._xDest = x;
+      this._yDest = y;
+    }
+
+    move(direction) {
+      if (direction.indexOf('left') >= 0) {
+        this._x -= this.stepSize;
+      } else if (direction.indexOf('right') >= 0) {
+        this._x += this.stepSize;
       }
-      return old;
-    }.bind(this), []).join(" "));
 
-  };
-
-  $.move = function(direction) {
-
-
-    if (direction.indexOf('left') >= 0) {
-      this._x -= this.STEP;
-    } else if (direction.indexOf('right') >= 0) {
-      this._x += this.STEP;
+      if (direction.indexOf('up') >= 0) {
+        this._y -= this.stepSize;
+      } else if (direction.indexOf('down') >= 0) {
+        this._y += this.stepSize;
+      }
     }
-
-    if (direction.indexOf('up') >= 0) {
-      this._y -= this.STEP;
-    } else if (direction.indexOf('down') >= 0) {
-      this._y += this.STEP;
-    }
-  };
-
-
-})(TCHE.declareClass('Character'));
+  }
+  
+  TCHE.Character = Character;
+})();

@@ -1,23 +1,21 @@
-(function($){
-  "use strict";
-
-  var parent = TCHE.Character.prototype;
-
-  $.initialize = function(){
-    parent.initialize.call(this);
-  };
-
-  $.update = function(){
-    parent.update.call(this);
-
-    this.processInput();
-  };
-
-  $.processInput = function(){
-    var direction = TCHE.InputManager.getDirection();
-
-    if (!!direction) {
-      this.move(direction);
+(function(){
+  class Player extends TCHE.Character {
+    constructor() {
+      super();
     }
-  };
-})(TCHE.declareClass('Player', TCHE.Character));
+
+    update() {
+      super.update();
+      this.processInput();
+    }
+
+    processInput() {
+      var direction = TCHE.InputManager.getDirection();
+      if (!!direction) {
+        this.move(direction);
+      }
+    }
+  }
+  
+  TCHE.Player = Player;
+})();

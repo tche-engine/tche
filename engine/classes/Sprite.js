@@ -1,13 +1,18 @@
-(function($){
-  "use strict";
+(function(){
+  class Sprite extends PIXI.Container {
+    constructor() {
+      super();
+      this._sprite = null;
+    }
 
-  var parent = PIXI.Container;
+    //The sprite property of the Sprite class is a PIXI sprite.
+    get sprite() { return this._sprite; } 
+    set sprite(value) { this._sprite = value; }
 
-  //The sprite property of the Sprite class is a PIXI sprite.
-  TCHE.accessor($, 'sprite');
-
-  $.initialize = function(){
-    this._sprite = null;
-  };
-
-})(TCHE.declareClass('Sprite', PIXI.Container));
+    update() {
+      
+    }    
+  }
+  
+  TCHE.Sprite = Sprite;
+})();

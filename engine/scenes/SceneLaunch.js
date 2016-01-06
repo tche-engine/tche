@@ -1,17 +1,15 @@
-(function($){
-  "use strict";
-
-  var parent = TCHE.SceneLoading.prototype;
-
-  $.initialize = function() {
-    parent.initialize.call(this);
-  };
-
-  $.update = function() {
-    parent.update.call(this);
-
-    if (TCHE.FileManager.isLoaded()) {
-      TCHE.SceneManager.changeScene(TCHE.SceneMap);
+(function(){
+  class SceneLaunch extends TCHE.SceneLoading {
+    constructor() {
+      super();
     }
-  };
-})(TCHE.declareClass('SceneLaunch', TCHE.SceneLoading));
+
+    update() {
+      if (TCHE.FileManager.isLoaded()) {
+        TCHE.SceneManager.changeScene(TCHE.SceneMap);
+      }      
+    }    
+  }
+  
+  TCHE.SceneLaunch = SceneLaunch;
+})();

@@ -1,26 +1,27 @@
-(function($){
-  "use strict";
-
-  $.initialize = function(){
-    this._mapData = {};
-  };
-
-  $.update = function(){
-    
-    
-  };
-
-  $.loadMap = function(mapName) {
-    this._mapData = TCHE.maps[mapName];
-
-  };
-
-  TCHE.reader($, 'objects', function(){
-    if (!!this._mapData) {
-      return this._mapData.objects || [];
+(function(){
+  class Map {
+    constructor() {
+      this._mapData = {};
     }
 
-    return [];
-  });
+    get mapData() { return this._mapData; } 
+    set mapData(value) { this._mapData = value; }
 
-})(TCHE.declareClass('Map'));
+    get objects() {
+      if (!!this._mapData) {
+        return this._mapData.objects || [];
+      }
+      return [];
+    }
+
+    update() {
+      
+    }
+
+    loadMap(mapName) {
+      this._mapData = TCHE.maps[mapName];
+    }
+  }
+  
+  TCHE.Map = Map;
+})();
