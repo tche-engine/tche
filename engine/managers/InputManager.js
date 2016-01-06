@@ -1,7 +1,11 @@
-(function($) {
-  "use strict";
+(function(){
+  let keyAliases = {};
+  let keyStates = {};
+  let previousKeyStates = {};
+  let triggeredKeys = [];
+  let releasedKeys = [];
 
-  $.keys = {
+  let keys = {
     9: 'tab', // tab
     13: 'ok', // enter
     16: 'shift', // shift
@@ -44,199 +48,193 @@
     113 : 'F2'
   };
 
-  $.keyAliases = {};
+  class InputManager {
+    static update() {
+      triggeredKeys = [];
+      releasedKeys = [];
 
-  $.keyStates = {};
-  $.previousKeyStates = {};
-  $.triggeredKeys = [];
-  $.releasedKeys = [];
+      for (var key in keyStates) {
+        if (keyStates[key] === previousKeyStates[key]) continue;
 
-  $.update = function(){
-    $.triggeredKeys = [];
-    $.releasedKeys = [];
+        if (keyStates[key]) {
+          triggeredKeys.push(key);
+        } else {
+          releasedKeys.push(key);
+        }
+      }
 
-    for (var key in $.keyStates) {
-      if ($.keyStates[key] === $.previousKeyStates[key]) continue;
+      previousKeyStates = TCHE.shallowClone(keyStates);
 
-      if ($.keyStates[key]) {
-        $.triggeredKeys.push(key);
+      for (var i = 0; i < triggeredKeys.length; i++) {
+        var names = this.getKeyNames(triggeredKeys[i]);
+
+        for (var j = 0; j < names.length; j++) {
+          this.fire(names[j], {});
+        }
+      }
+    }
+
+    static addKeyCode(code, name) {
+      keys[code] = name;
+    }
+
+    static addKeyAlias(keyName, keyAlias) {
+      keyAliases[keyName] = keyAliases[keyName] || [];
+      keyAliases[keyName].push(keyAlias);
+    }
+
+    static isKeyCodePressed(keyCode) {
+      return !!keyStates[keyCode];
+    }
+
+    static isKeyCodeTriggered(keyCode) {
+      return triggeredKeys.indexOf(keyCode) >= 0;
+    }
+
+    static isKeyCodeReleased(keyCode) {
+      return releasedKeys.indexOf(keyCode) >= 0;
+    }
+
+    static getKeyCodes(keyName) {
+      var codes = [];
+
+      for (var key in keys) {
+        if (keys.hasOwnProperty(key)) {
+          if (keys[key].toUpperCase() == keyName.toUpperCase()) {
+            codes.push(key);
+            continue;
+          }
+
+          var thisKeyName = keys[key];
+          if (!!keyAliases[thisKeyName] && keyAliases[thisKeyName].indexOf(keyName) >= 0) {
+            codes.push(key);
+          }
+        }
+      }
+
+      return codes;
+    }
+
+    static getKeyNames(keyCode) {
+      var names = [];
+
+      if (!!keys[keyCode]) {
+        var name = keys[keyCode];
+
+        names.push(name);
+        if (!!keyAliases[name]) {
+          names = names.concat(keyAliases[name]);
+        }
+      }
+
+      return names;
+    }
+
+    static isKeyNamePressed(keyName) {
+      var codes = this.getKeyCodes(keyName);
+
+      return codes.find(function(key){
+        return this.isKeyCodePressed(key);
+      }.bind(this)) || false;
+    }
+
+    static isKeyNameReleased(keyName) {
+      var codes = this.getKeyCodes(keyName);
+
+      return codes.find(function(key){
+        return this.isKeyCodeReleased(key);
+      }.bind(this)) || false;
+    }
+
+    static isKeyNameTriggered(keyName) {
+      var codes = this.getKeyCodes(keyName);
+
+      return codes.find(function(key){
+        return this.isKeyCodeTriggered(key);
+      }.bind(this)) || false;
+    }
+
+    static isKeyPressed(keyCodeOrName) {
+      if (typeof(keyCodeOrName) == "string") {
+        return this.isKeyNamePressed(keyCodeOrName);
       } else {
-        $.releasedKeys.push(key);
+        return this.isKeyCodePressed(keyCodeOrName);
       }
     }
 
-    $.previousKeyStates = TCHE.shallowClone($.keyStates);
-
-    for (var i = 0; i < $.triggeredKeys.length; i++) {
-      var names = $.getKeyNames($.triggeredKeys[i]);
-
-      for (var j = 0; j < names.length; j++) {
-        this.fire(names[j], {});
-      }
-    }
-  };
-
-  $.addKeyCode = function(code, name) {
-    this.keys[code] = name;
-  };
-
-  $.addKeyAlias = function(keyName, keyAlias) {
-    $.keyAliases[keyName] = $.keyAliases[keyName] || [];
-    $.keyAliases[keyName].push(keyAlias);
-  };
-
-  $.isKeyCodePressed = function(keyCode) {
-    return !!$.keyStates[keyCode];
-  };
-
-  $.isKeyCodeTriggered = function(keyCode) {
-    return $.triggeredKeys.indexOf(keyCode) >= 0;
-  };
-
-  $.isKeyCodeReleased = function(keyCode) {
-    return $.releasedKeys.indexOf(keyCode) >= 0;
-  };
-
-  $.getKeyCodes = function(keyName) {
-    var codes = [];
-
-    for (var key in $.keys) {
-      if ($.keys.hasOwnProperty(key)) {
-        if ($.keys[key].toUpperCase() == keyName.toUpperCase()) {
-          codes.push(key);
-          continue;
-        }
-
-        var thisKeyName = $.keys[key];
-        if (!!$.keyAliases[thisKeyName] && $.keyAliases[thisKeyName].indexOf(keyName) >= 0) {
-          codes.push(key);
-        }
+    static isKeyTriggered(keyCodeOrName) {
+      if (typeof(keyCodeOrName) == "string") {
+        return this.isKeyNameTriggered(keyCodeOrName);
+      } else {
+        return this.isKeyCodeTriggered(keyCodeOrName);
       }
     }
 
-    return codes;
-  };
-
-  $.getKeyNames = function(keyCode) {
-    var names = [];
-
-    if (!!$.keys[keyCode]) {
-      var name = $.keys[keyCode];
-      
-      names.push(name);
-
-      if (!!$.keyAliases[name]) {
-        names = names.concat($.keyAliases[name]);
+    static isKeyReleased(keyCodeOrName) {
+      if (typeof(keyCodeOrName) == "string") {
+        return this.isKeyNameReleased(keyCodeOrName);
+      } else {
+        return this.isKeyCodeReleased(keyCodeOrName);
       }
     }
 
-    return names;
-  };
-
-  $.isKeyNamePressed = function(keyName) {
-    var codes = $.getKeyCodes(keyName);
-
-    return codes.find(function(key){
-      return $.isKeyCodePressed(key);
-    }) || false;
-  };
-
-  $.isKeyNameReleased = function(keyName) {
-    var codes = $.getKeyCodes(keyName);
-
-    return codes.find(function(key){
-      return $.isKeyCodeReleased(key);
-    }) || false;
-  };
-
-  $.isKeyNameTriggered = function(keyName) {
-    var codes = $.getKeyCodes(keyName);
-
-    return codes.find(function(key){
-      return $.isKeyCodeTriggered(key);
-    }) || false;
-  };
-
-  $.isKeyPressed = function(keyCodeOrName) {
-    if (typeof(keyCodeOrName) == "string") {
-      return $.isKeyNamePressed(keyCodeOrName);
-    } else {
-      return $.isKeyCodePressed(keyCodeOrName);
-    }
-  };
-
-  $.isKeyTriggered = function(keyCodeOrName) {
-    if (typeof(keyCodeOrName) == "string") {
-      return $.isKeyNameTriggered(keyCodeOrName);
-    } else {
-      return $.isKeyCodeTriggered(keyCodeOrName);
-    }
-  };
-
-  $.isKeyReleased = function(keyCodeOrName) {
-    if (typeof(keyCodeOrName) == "string") {
-      return $.isKeyNameReleased(keyCodeOrName);
-    } else {
-      return $.isKeyCodeReleased(keyCodeOrName);
-    }
-  };
-
-  $.getPressedKeys = function(keys) {
-    return Object.keys($.keys).filter(function(key) {
-      return $.isKeyCodePressed(key);
-    });
-  };
-
-  $.getFirstDirection = function() {
-    return ['left', 'right', 'up', 'down'].find(function(direction) {
-      return $.isKeyNamePressed(direction);
-    }) || '';
-  };
-
-  $.getDirection = function() {
-    return ['left', 'right', 'up', 'down'].filter(function(direction) {
-      return $.isKeyNamePressed(direction);
-    }).join('-');
-  };
-
-  $.onKeyDown = function(event) {
-    if ($.isBlockedKey(event.keyCode)) {
-      event.preventDefault();
+    static getPressedKeys(keys) {
+      return Object.keys(keys).filter(function(key){
+        return this.isKeyCodePressed(key);
+      }.bind(this));
     }
 
-    $.keyStates[event.keyCode] = true;
-  };
-
-  $.onKeyUp = function(event) {
-    $.keyStates[event.keyCode] = false;
-  };
-
-  $.onWindowBlur = function() {
-    $.clear();
-  };
-
-  $.clear = function() {
-    $.keyStates = {};
-  };
-
-  $.isBlockedKey = function(keyCode) {
-    switch (keyCode) {
-      case 8: // backspace
-      case 33: // pageup
-      case 34: // pagedown
-      case 37: // left arrow
-      case 38: // up arrow
-      case 39: // right arrow
-      case 40: // down arrow
-        return true;
-      default:
-        return false;
+    static getFirstDirection() {
+      return ['left', 'right', 'up', 'down'].find(function(direction) {
+        return this.isKeyNamePressed(direction);
+      }.bind(this)) || '';
     }
-  };
 
-  document.addEventListener('keydown', $.onKeyDown.bind($));
-  document.addEventListener('keyup', $.onKeyUp.bind($));
-  window.addEventListener('blur', $.onWindowBlur.bind($));
+    static getDirection() {
+      return ['left', 'right', 'up', 'down'].filter(function(direction) {
+        return this.isKeyNamePressed(direction);
+      }.bind(this)).join('-');
+    }
+
+    static onKeyDown(event) {
+      if (this.isBlockedKey(event.keyCode)) {
+        event.preventDefault();
+      }
+
+      keyStates[event.keyCode] = true;
+    }
+
+    static onKeyUp(event) {
+      keyStates[event.keyCode] = false;
+    }
+
+    static onWindowBlur() {
+      this.clear();
+    }
+
+    static clear() {
+      keyStates = {};
+    }
+
+    static isBlockedKey(keyCode) {
+      switch (keyCode) {
+        case 8: // backspace
+        case 33: // pageup
+        case 34: // pagedown
+        case 37: // left arrow
+        case 38: // up arrow
+        case 39: // right arrow
+        case 40: // down arrow
+          return true;
+        default:
+          return false;
+      }      
+    }
+  }
+
+  document.addEventListener('keydown', InputManager.onKeyDown.bind(InputManager));
+  document.addEventListener('keyup', InputManager.onKeyUp.bind(InputManager));
+  window.addEventListener('blur', InputManager.onWindowBlur.bind(InputManager));
 
   TCHE.on("ready", function() {
     TCHE.renderer.view.addEventListener("click", function(evt) {
@@ -255,5 +253,7 @@
     };
   }
 
-
-})(TCHE.declareStaticClass('InputManager'));
+  Trigger(InputManager);
+  
+  TCHE.InputManager = InputManager;
+})();
