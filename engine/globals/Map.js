@@ -15,4 +15,12 @@
 
   };
 
+  TCHE.reader($, 'objects', function(){
+    if (!!this._mapData) {
+      return this._mapData.objects || [];
+    }
+
+    return [];
+  });
+
 })(TCHE.declareClass('Map'));

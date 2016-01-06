@@ -3,12 +3,12 @@
   "background-color" : "0xEEEEEE",
   "objects" : [
     {
-      "image" : "bunny.png",
+      "image" : "assets/bunny.png",
       "x" : 50,
       "y" : 60
     },
     {
-      "image" : "red-bunny.png",
+      "image" : "assets/red-bunny.png",
       "x" : 300,
       "y" : 250
     }
