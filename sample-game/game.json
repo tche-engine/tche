@@ -1,10 +1,13 @@
 {
   "player" : {
-    "image" : "green-bunny.png",
+    "image" : "assets/green-bunny.png",
     "x" : 50,
     "y" : 200
   },
+  "initialMap" : "yellowMap",
+  
   "maps" : [
-    "whiteMap"
+    "whiteMap",
+    "yellowMap"
   ]
 }

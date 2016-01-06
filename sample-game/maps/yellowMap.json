@@ -1,0 +1,16 @@
+{
+  "class" : "Map2d",
+  "background-color" : "0xFFFF00",
+  "objects" : [
+    {
+      "image" : "bunny.png",
+      "x" : 50,
+      "y" : 60
+    },
+    {
+      "image" : "red-bunny.png",
+      "x" : 300,
+      "y" : 250
+    }
+  ]
+}
