@@ -1,0 +1,24 @@
+{
+  "name": "tche",
+  "description": "framework rpg tche",
+  "main": "./sample-game/index.html",
+  "authors": [
+    "Guilherme Gazzo <guilhermegazzo@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/Hudell/tche-maker",
+  "moduleType": [],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],  
+  "dependencies": {
+    "SoundJS": "~0.6.2",
+    "pixi.js": "pixi#~3.0.9",
+    "fpsmeter": "https://github.com/darsain/fpsmeter.git#~0.3.1"
+  }
+}
