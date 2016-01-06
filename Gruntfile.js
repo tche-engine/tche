@@ -2,6 +2,7 @@ var pkg = require("./package.json");
 module.exports = function(grunt) {
 
   var files = [
+    'engine/pollyfills/*.js',
     'engine/Bah.js',
     'engine/Tche.js',
     'engine/helpers/*.js',
