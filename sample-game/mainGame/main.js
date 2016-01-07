@@ -5,9 +5,8 @@ TCHE.on("ready", function(){
     var oldImage = TCHE.globals.player.image;
     TCHE.globals.player.image = character.image;
     character.image = oldImage;
+    TCHE.SoundManager.play("sound");
 
-    createjs.Sound.play("sound");
-    
   });
 });
 TCHE.on("started", function(){ console.log("started");});
@@ -16,5 +15,4 @@ TCHE.on("started", function(){ console.log("started");});
 TCHE.init({
 });
 
-
-createjs.Sound.registerSound({src:"assets/bookClose.ogg", id:"sound"});
+TCHE.SoundManager.setSound('sound',"assets/bookClose.ogg");
