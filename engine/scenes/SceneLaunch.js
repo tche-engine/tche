@@ -7,7 +7,8 @@
     update() {
       if (TCHE.FileManager.isLoaded()) {
         TCHE.fire("ready");
-        TCHE.SceneManager.changeScene(TCHE.SceneMap);
+        console.log(TCHE.settings.initialMap);
+        TCHE.SceneManager.changeScene(TCHE.SceneMap, {mapName : TCHE.data.game.initialMap});
       }
     }    
   }

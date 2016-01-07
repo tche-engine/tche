@@ -6,14 +6,14 @@
   "objects" : [
     {
       "image" : "assets/bunny.png",
-      "x" : 50,
+      "x" : 300,
       "y" : 60,
       "width" : 26,
       "height" : 37
     },
     {
       "image" : "assets/red-bunny.png",
-      "x" : 300,
+      "x" : 500,
       "y" : 250,
       "width" : 26,
       "height" : 37

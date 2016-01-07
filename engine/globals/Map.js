@@ -1,12 +1,16 @@
 (function(){
   let collisionMapDirty = true;
+  let shouldCreateCollisionMap = true;
 
   class Map {
     constructor() {
       this._mapData = {};
       this._objects = [];
       this._collisionMap = [];
+      this._mapName = null;
     }
+
+    get mapName() { return this._mapName; }
 
     get mapData() { return this._mapData; } 
     set mapData(value) {
@@ -23,7 +27,7 @@
     }
 
     get collisionMap() {
-      if (collisionMapDirty) {
+      if (shouldCreateCollisionMap) {
         this.createCollisionMap();
       }
 
@@ -53,6 +57,7 @@
       }.bind(this));
 
       collisionMapDirty = true;
+      shouldCreateCollisionMap = true;
     }
 
     addCharacterToCollisionMap(character) {
@@ -82,10 +87,13 @@
 
       this.addCharacterToCollisionMap(TCHE.globals.player);
       collisionMapDirty = false;
+      shouldCreateCollisionMap = false;
     }
 
     update() {
-      
+      if (collisionMapDirty) {
+        shouldCreateCollisionMap = true;
+      }
     }
 
     isValid(x, y) {
@@ -189,7 +197,12 @@
     }
 
     loadMap(mapName) {
+      this._mapName = mapName;
       this.mapData = TCHE.maps[mapName];
+    }
+
+    changeMap(newMapName) {
+      TCHE.SceneManager.changeScene(TCHE.SceneMap, { mapName : newMapName });
     }
   }
   

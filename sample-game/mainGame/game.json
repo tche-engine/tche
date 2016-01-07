@@ -11,5 +11,9 @@
   "maps" : [
     "whiteMap",
     "yellowMap"
-  ]
+  ],
+
+  "sounds" : {
+    "sound" : "assets/bookClose.ogg"
+  }
 }

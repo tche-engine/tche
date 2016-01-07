@@ -2,17 +2,24 @@ TCHE.InputManager.addKeyAlias('F2', "FPS");
 
 TCHE.on("ready", function(){
   TCHE.globals.player.on('blockedBy', function(character){
-    var oldImage = TCHE.globals.player.image;
-    TCHE.globals.player.image = character.image;
-    character.image = oldImage;
-    TCHE.SoundManager.play("sound");
+    var mapName = TCHE.globals.map.mapName;
 
+    if (mapName == "yellowMap") {
+      mapName = "whiteMap";
+    } else {
+      mapName = "yellowMap";
+    }
+
+    TCHE.globals.player.teleport(mapName, character.x, character.y);
+    TCHE.SoundManager.play("sound");
   });
 });
-TCHE.on("started", function(){ console.log("started");});
+
+TCHE.on("started", function(){
+  TCHE.FileManager.loadSoundFile('sound', "assets/bookClose.ogg");
+});
 
 
 TCHE.init({
 });
 
-TCHE.SoundManager.setSound('sound',"assets/bookClose.ogg");

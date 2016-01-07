@@ -42,7 +42,7 @@
       this._dirty = true;
     }
 
-    get stepSize() { return 5; }
+    get stepSize() { return 4; }
 
     update() {
       this._frameInitialX = this.x;

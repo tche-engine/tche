@@ -13,6 +13,7 @@ module.exports = function(grunt) {
     'engine/scenes/Scene.js',
     'engine/scenes/SceneLoading.js',
     'engine/scenes/SceneLaunch.js',
+    'engine/scenes/SceneLoadMap.js',
     'engine/scenes/SceneMap.js',
     'engine/globals/*.js'
   ];

@@ -1,5 +1,5 @@
 {
-  "name": "tche-maker",
+  "name": "tche",
   "version": "0.0.1",
   "main": "./sample-game/index.html",
   "window": {

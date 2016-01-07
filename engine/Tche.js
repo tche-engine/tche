@@ -78,13 +78,6 @@ var TCHE = {
     settings.showFps = settings.showFps !== false;
     settings.fpsVisibleOnStartup = settings.fpsVisibleOnStartup === true;
 
-    // settings.initialScene = settings.initialScene || null;
-    settings.playerX = settings.playerX || 0;
-    settings.playerY = settings.playerY || 0;
-    settings.initialMap = settings.initialMap || null;
-
-    // settings.sceneParams = settings.sceneParams || {};
-
     TCHE.settings = settings;
   }
 

@@ -3,23 +3,23 @@
   let _loading = 0;
 
   class FileManager {
-    static _loadGameSettings() {
+    static loadGameSettings() {
       var path = './game.json';
 
       TCHE.ajaxLoadFileAsync('game', path);
     }
 
-    static _loadAllMaps() {
+    static loadAllMaps() {
       if (!TCHE.data.game) return;
 
       var maps = TCHE.data.game.maps;
 
       maps.forEach(function(mapName){
-        this._loadMapData(mapName);
+        this.loadMapData(mapName);
       }.bind(this));
     }
 
-    static _loadMapData(mapName) {
+    static loadMapData(mapName) {
       var path = './maps/' + mapName + '.json';
       _loading++;
 
@@ -41,7 +41,7 @@
     static update() {
       if (!TCHE.data.game) {
         if (TCHE.data.game === undefined) {
-          this._loadGameSettings();
+          this.loadGameSettings();
         }
 
         return;
@@ -49,8 +49,17 @@
 
       if (!_startedLoadingMaps) {
         _startedLoadingMaps = true;
-        this._loadAllMaps();
+        this.loadAllMaps();
       }
+    }
+
+    //Sound files are loaded by the sound lib
+    static loadSoundFile(name, path) {
+      createjs.Sound.registerSound({src : path, id : name});
+    }
+
+    static loadSoundList(list, path = "./assets/") {
+      createjs.Sound.createjs.Sound.registerSounds(list, path);
     }
 
     static isLoaded() {
@@ -58,7 +67,7 @@
       if (!_startedLoadingMaps) return false;
       if (_loading > 0) return false;
 
-      return true;      
+      return true;
     }
   }
   

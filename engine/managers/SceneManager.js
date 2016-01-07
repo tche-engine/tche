@@ -1,12 +1,13 @@
 (function(){
   let scene;
   let newScene;
+  let newSceneParams;
 
   class SceneManager {
-    get scene() { return scene; }
-    set scene(value) { scene = value; }
+    static get scene() { return scene; }
+    static set scene(value) { scene = value; }
 
-    get newScene() { return newScene; }
+    static get newScene() { return newScene; }
 
     static requestAnimationFrame(){
       window.requestAnimationFrame(this.update.bind(this));
@@ -20,7 +21,7 @@
         }
 
         if (!!newScene) {
-          scene = new (newScene)();
+          scene = new (newScene)(newSceneParams);
         }
       }
 
@@ -52,8 +53,9 @@
       }
     }
 
-    static changeScene(newSceneClass) {
+    static changeScene(newSceneClass, params) {
       newScene = newSceneClass;
+      newSceneParams = params;
     }
 
     static start(initialScene) {
