@@ -1,5 +1,5 @@
 (()=>
-    TCHE.SoundManager = new class SoundManager {
+    TCHE.SoundManager = Trigger(new class SoundManager {
         play(sound) {
             createjs.Sound.play(sound);
         }
@@ -9,5 +9,5 @@
         setSounds(obj, assetsPath = "./assets/"){
             createjs.Sound.createjs.Sound.registerSounds(sounds, assetsPath);
         }
-    }()
+    }())
 )();
