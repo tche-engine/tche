@@ -137,13 +137,6 @@ var TCHE = {
     settings.showFps = settings.showFps !== false;
     settings.fpsVisibleOnStartup = settings.fpsVisibleOnStartup === true;
 
-    // settings.initialScene = settings.initialScene || null;
-    settings.playerX = settings.playerX || 0;
-    settings.playerY = settings.playerY || 0;
-    settings.initialMap = settings.initialMap || null;
-
-    // settings.sceneParams = settings.sceneParams || {};
-
     TCHE.settings = settings;
   }
 
@@ -439,7 +432,7 @@ function Trigger(el) {
     }, {
       key: 'stepSize',
       get: function get() {
-        return 5;
+        return 4;
       }
     }]);
 
@@ -662,26 +655,26 @@ function Trigger(el) {
     }
 
     _createClass(FileManager, null, [{
-      key: '_loadGameSettings',
-      value: function _loadGameSettings() {
+      key: 'loadGameSettings',
+      value: function loadGameSettings() {
         var path = './game.json';
 
         TCHE.ajaxLoadFileAsync('game', path);
       }
     }, {
-      key: '_loadAllMaps',
-      value: function _loadAllMaps() {
+      key: 'loadAllMaps',
+      value: function loadAllMaps() {
         if (!TCHE.data.game) return;
 
         var maps = TCHE.data.game.maps;
 
         maps.forEach((function (mapName) {
-          this._loadMapData(mapName);
+          this.loadMapData(mapName);
         }).bind(this));
       }
     }, {
-      key: '_loadMapData',
-      value: function _loadMapData(mapName) {
+      key: 'loadMapData',
+      value: function loadMapData(mapName) {
         var path = './maps/' + mapName + '.json';
         _loading++;
 
@@ -704,7 +697,7 @@ function Trigger(el) {
       value: function update() {
         if (!TCHE.data.game) {
           if (TCHE.data.game === undefined) {
-            this._loadGameSettings();
+            this.loadGameSettings();
           }
 
           return;
@@ -712,8 +705,23 @@ function Trigger(el) {
 
         if (!_startedLoadingMaps) {
           _startedLoadingMaps = true;
-          this._loadAllMaps();
+          this.loadAllMaps();
         }
+      }
+
+      //Sound files are loaded by the sound lib
+
+    }, {
+      key: 'loadSoundFile',
+      value: function loadSoundFile(name, path) {
+        createjs.Sound.registerSound({ src: path, id: name });
+      }
+    }, {
+      key: 'loadSoundList',
+      value: function loadSoundList(list) {
+        var path = arguments.length <= 1 || arguments[1] === undefined ? "./assets/" : arguments[1];
+
+        createjs.Sound.createjs.Sound.registerSounds(list, path);
       }
     }, {
       key: 'isLoaded',
@@ -1020,26 +1028,14 @@ function Trigger(el) {
 (function () {
   var scene = undefined;
   var newScene = undefined;
+  var newSceneParams = undefined;
 
   var SceneManager = (function () {
     function SceneManager() {
       _classCallCheck(this, SceneManager);
     }
 
-    _createClass(SceneManager, [{
-      key: 'scene',
-      get: function get() {
-        return scene;
-      },
-      set: function set(value) {
-        scene = value;
-      }
-    }, {
-      key: 'newScene',
-      get: function get() {
-        return newScene;
-      }
-    }], [{
+    _createClass(SceneManager, null, [{
       key: 'requestAnimationFrame',
       value: function requestAnimationFrame() {
         window.requestAnimationFrame(this.update.bind(this));
@@ -1054,7 +1050,7 @@ function Trigger(el) {
           }
 
           if (!!newScene) {
-            scene = new newScene();
+            scene = new newScene(newSceneParams);
           }
         }
 
@@ -1088,8 +1084,9 @@ function Trigger(el) {
       }
     }, {
       key: 'changeScene',
-      value: function changeScene(newSceneClass) {
+      value: function changeScene(newSceneClass, params) {
         newScene = newSceneClass;
+        newSceneParams = params;
       }
     }, {
       key: 'start',
@@ -1102,6 +1099,19 @@ function Trigger(el) {
       value: function end() {
         this.changeScene(null);
       }
+    }, {
+      key: 'scene',
+      get: function get() {
+        return scene;
+      },
+      set: function set(value) {
+        scene = value;
+      }
+    }, {
+      key: 'newScene',
+      get: function get() {
+        return newScene;
+      }
     }]);
 
     return SceneManager;
@@ -1110,34 +1120,23 @@ function Trigger(el) {
   TCHE.registerStaticClass('SceneManager', SceneManager);
 })();
 (function () {
-  return TCHE.SoundManager = Trigger(new ((function () {
+  var SoundManager = (function () {
     function SoundManager() {
       _classCallCheck(this, SoundManager);
     }
 
-    _createClass(SoundManager, [{
+    _createClass(SoundManager, null, [{
       key: 'play',
-      value: function play(sound) {
-        createjs.Sound.play(sound);
-      }
-    }, {
-      key: 'setSound',
-      value: function setSound(id, src) {
-        createjs.Sound.registerSound({ src: src, id: id });
-      }
-    }, {
-      key: 'setSounds',
-      value: function setSounds(obj) {
-        var assetsPath = arguments.length <= 1 || arguments[1] === undefined ? "./assets/" : arguments[1];
-
-        createjs.Sound.createjs.Sound.registerSounds(sounds, assetsPath);
+      value: function play(soundName) {
+        createjs.Sound.play(soundName);
       }
     }]);
 
     return SoundManager;
-  })())());
-})();
+  })();
 
+  TCHE.registerStaticClass('SoundManager', SoundManager);
+})();
 (function () {
   var Scene = (function (_PIXI$Container2) {
     _inherits(Scene, _PIXI$Container2);
@@ -1258,7 +1257,8 @@ function Trigger(el) {
       value: function update() {
         if (TCHE.FileManager.isLoaded()) {
           TCHE.fire("ready");
-          TCHE.SceneManager.changeScene(TCHE.SceneMap);
+          console.log(TCHE.settings.initialMap);
+          TCHE.SceneManager.changeScene(TCHE.SceneMap, { mapName: TCHE.data.game.initialMap });
         }
       }
     }]);
@@ -1272,7 +1272,7 @@ function Trigger(el) {
   var SceneMap = (function (_TCHE$Scene2) {
     _inherits(SceneMap, _TCHE$Scene2);
 
-    function SceneMap() {
+    function SceneMap(params) {
       _classCallCheck(this, SceneMap);
 
       var _this8 = _possibleConstructorReturn(this, Object.getPrototypeOf(SceneMap).call(this));
@@ -1283,7 +1283,7 @@ function Trigger(el) {
       TCHE.globals.player.height = TCHE.data.game.player.height;
       TCHE.globals.player.image = TCHE.data.game.player.image;
 
-      TCHE.globals.map.loadMap(TCHE.data.game.initialMap);
+      TCHE.globals.map.loadMap(params.mapName);
 
       _this8._mapSprite = new TCHE.Map2d(TCHE.globals.map);
       _this8.addChild(_this8._mapSprite);
@@ -1305,6 +1305,7 @@ function Trigger(el) {
 })();
 (function () {
   var collisionMapDirty = true;
+  var shouldCreateCollisionMap = true;
 
   var Map = (function () {
     function Map() {
@@ -1313,6 +1314,7 @@ function Trigger(el) {
       this._mapData = {};
       this._objects = [];
       this._collisionMap = [];
+      this._mapName = null;
     }
 
     _createClass(Map, [{
@@ -1341,6 +1343,7 @@ function Trigger(el) {
         }).bind(this));
 
         collisionMapDirty = true;
+        shouldCreateCollisionMap = true;
       }
     }, {
       key: 'addCharacterToCollisionMap',
@@ -1374,10 +1377,15 @@ function Trigger(el) {
 
         this.addCharacterToCollisionMap(TCHE.globals.player);
         collisionMapDirty = false;
+        shouldCreateCollisionMap = false;
       }
     }, {
       key: 'update',
-      value: function update() {}
+      value: function update() {
+        if (collisionMapDirty) {
+          shouldCreateCollisionMap = true;
+        }
+      }
     }, {
       key: 'isValid',
       value: function isValid(x, y) {
@@ -1488,7 +1496,18 @@ function Trigger(el) {
     }, {
       key: 'loadMap',
       value: function loadMap(mapName) {
+        this._mapName = mapName;
         this.mapData = TCHE.maps[mapName];
+      }
+    }, {
+      key: 'changeMap',
+      value: function changeMap(newMapName) {
+        TCHE.SceneManager.changeScene(TCHE.SceneMap, { mapName: newMapName });
+      }
+    }, {
+      key: 'mapName',
+      get: function get() {
+        return this._mapName;
       }
     }, {
       key: 'mapData',
@@ -1518,7 +1537,7 @@ function Trigger(el) {
     }, {
       key: 'collisionMap',
       get: function get() {
-        if (collisionMapDirty) {
+        if (shouldCreateCollisionMap) {
           this.createCollisionMap();
         }
 
@@ -1554,6 +1573,14 @@ function Trigger(el) {
         if (!!direction) {
           this.move(direction);
         }
+      }
+    }, {
+      key: 'teleport',
+      value: function teleport(mapName, x, y) {
+        TCHE.data.game.player.x = x;
+        TCHE.data.game.player.y = y;
+
+        TCHE.globals.map.changeMap(mapName);
       }
     }]);
 
