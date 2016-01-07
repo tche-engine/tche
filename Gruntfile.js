@@ -50,65 +50,8 @@ module.exports = function(grunt) {
     "watch": {
       files: ['<%= jshint.files %>'],
       tasks: ['default']
-    },
-    'http-server': {
-
-      'dev': {
-
-        // the server root directory
-        root: "./",
-
-        // the server port
-        // can also be written as a function, e.g.
-        // port: function() { return 8282; }
-        port: 8080,
-
-        // the host ip address
-        // If specified to, for example, "127.0.0.1" the server will
-        // only be available on that ip.
-        // Specify "0.0.0.0" to be available everywhere
-        host: "0.0.0.0",
-
-        cache: 1,
-        showDir: true,
-        autoIndex: true,
-
-        // server default file extension
-        ext: "html",
-
-        // run in parallel with other tasks
-        runInBackground: false,
-
-        // specify a logger function. By default the requests are
-        // sent to stdout.
-        logFn: function(req, res, error) {},
-
-        // Proxies all requests which can't be resolved locally to the given url
-        // Note this this will disable 'showDir'
-        // proxy: "http://someurl.com",
-
-        /// Use 'https: true' for default module SSL configuration
-        /// (default state is disabled)
-        // https: {
-        //     cert: "cert.pem",
-        //     key : "key.pem"
-        // },
-
-        // Tell grunt task to open the browser
-        // openBrowser : true
-
-      }
-
-    },
-    "nwjs": {
-      options: {
-        platforms: ['linux', "win", "osx"],
-        buildDir: './generated', // Where the build version of my NW.js app is saved
-        version: '0.12.0'
-      },
-      src: ['./tmp/**'] // Your NW.js app
-    },
-    "copy": {
+  },
+  "copy": {
       main: {
         files: [
           // includes files within path
@@ -131,22 +74,6 @@ module.exports = function(grunt) {
         }
       }
     },
-    "bower": {
-      dev: {
-        dest: './'
-      }
-    },
-    "bower-install-simple": {
-      options: {
-        color: true,
-        directory: "engine/libs"
-      },
-      "prod": {
-        options: {
-          production: true
-        }
-      }
-    }
   };
 
   config.babel.dist.files['dist/' + pkg.name + '.js'] = 'dist/' + pkg.name + '.js';
@@ -166,7 +93,7 @@ module.exports = function(grunt) {
 
 
 
-  grunt.registerTask('default', ['jshint', 'concat', 'babel', 'bower-install']);
+  grunt.registerTask('default', ['jshint', 'concat', 'babel','uglify']);
   grunt.registerTask('server', ['default', 'http-server']);
   grunt.registerTask('build', ['default', 'copy', 'nwjs']);
 
