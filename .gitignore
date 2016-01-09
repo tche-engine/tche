@@ -4,3 +4,4 @@ cache/*
 tmp/*
 generated/*
 engine/libs/*
+dist/*
