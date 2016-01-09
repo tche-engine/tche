@@ -64,7 +64,7 @@
       for (let x = character.x; x < character.rightX; x++) {
         for (let y = character.y; y < character.bottomY; y++) {
           if (this._collisionMap.length < x || !this._collisionMap[x]) {
-            this._collisionMap[x] = [];
+            this._collisionMap[x] = {};
           }
           if (this._collisionMap[x].length < y || !this._collisionMap[x][y]) {
             this._collisionMap[x][y] = [];
@@ -77,7 +77,7 @@
 
     // Go over all objects to form a list of blocked pixels
     createCollisionMap() {
-      this._collisionMap = [];
+      this._collisionMap = {};
 
       for (let i = 0; i < this._objects.length; i++) {
         let obj = this._objects[i];
@@ -85,7 +85,8 @@
         this.addCharacterToCollisionMap(obj);
       }
 
-      this.addCharacterToCollisionMap(TCHE.globals.player);
+      //The player is not added to the collision map, collisions with it should be tested directly
+      // this.addCharacterToCollisionMap(TCHE.globals.player);
       collisionMapDirty = false;
       shouldCreateCollisionMap = false;
     }
@@ -105,11 +106,18 @@
       return true;
     }
 
-    isCollided(x, y, character) {
+    validateCollision(x, y) {
       if (x > this.collisionMap.length) return false;
       if (!this.collisionMap[x]) return false;
       if (y > this.collisionMap[x].length) return false;
       if (!this.collisionMap[x][y]) return false;
+      return true;
+    }
+
+    isCollided(x, y, character, triggerEvents = false) {
+      if (this.validateCollision(x, y) !== true) {
+        return false;
+      }
 
       let blockingCharacter = this.collisionMap[x][y].find(function(item){
         return item != character;
@@ -119,17 +127,32 @@
         return false;
       }
 
-      blockingCharacter.onBlockCharacter(character);
-      character.onBlockedBy(blockingCharacter);
+      if (triggerEvents) {
+        blockingCharacter.onBlockCharacter(character);
+        character.onBlockedBy(blockingCharacter);
+      }
+
       return true;
     }
 
-    canMoveLeft(character) {
+    collidedObjects(x, y, character) {
+      if (this.validateCollision(x, y) !== true) {
+        return [];
+      }
+
+      let blockingCharacters = this.collisionMap[x][y].filter(function(item){
+        return item != character;
+      });
+
+      return blockingCharacters;
+    }
+
+    canMoveLeft(character, triggerEvents = false) {
       for (let y = character.y; y < character.bottomY; y++) {
         if (!this.isValid(character.x - character.stepSize, y)) return false;
 
         for (let i = character.stepSize; i > 0; i--) {
-          if (this.isCollided(character.x - i, y, character)) {
+          if (this.isCollided(character.x - i, y, character, triggerEvents)) {
             return false;
           }
         }
@@ -138,12 +161,12 @@
       return true;
     }
 
-    canMoveRight(character) {
+    canMoveRight(character, triggerEvents = false) {
       for (let y = character.y; y < character.bottomY; y++) {
         if (!this.isValid(character.rightX + character.stepSize, y)) return false;
 
         for (let i = character.stepSize; i > 0; i--) {
-          if (this.isCollided(character.rightX + i, y, character)) {
+          if (this.isCollided(character.rightX + i, y, character, triggerEvents)) {
             return false;
           }
         }
@@ -152,12 +175,12 @@
       return true;
     }
 
-    canMoveUp(character) {
+    canMoveUp(character, triggerEvents = false) {
       for (let x = character.x; x < character.rightX; x++) {
         if (!this.isValid(x, character.y - character.stepSize)) return false;
 
         for (let i = character.stepSize; i > 0; i--) {
-          if (this.isCollided(x, character.y - i, character)) {
+          if (this.isCollided(x, character.y - i, character, triggerEvents)) {
             return false;
           }
         }
@@ -166,12 +189,12 @@
       return true;
     }
 
-    canMoveDown(character) {
+    canMoveDown(character, triggerEvents = false) {
       for (let x = character.x; x < character.rightX; x++) {
         if (!this.isValid(x, character.bottomY + character.stepSize)) return false;
 
         for (let i = character.stepSize; i > 0; i--) {
-          if (this.isCollided(x, character.bottomY + i, character)) {
+          if (this.isCollided(x, character.bottomY + i, character, triggerEvents)) {
             return false;
           }
         }
@@ -180,20 +203,100 @@
       return true;
     }
 
-    canMove(character, direction) {
+    reasonNotToMoveUp(character) {
+      for (let x = character.x; x < character.rightX; x++) {
+        if (!this.isValid(x, character.y - character.stepSize)) return [];
+
+        for (let i = character.stepSize; i > 0; i--) {
+          if (this.isCollided(x, character.y - i, character)) {
+            return this.collidedObjects(x, y, character);
+          }
+        }
+      }
+
+      return [];   
+    }
+
+    reasonNotToMoveDown(character) {
+      for (let x = character.x; x < character.rightX; x++) {
+        if (!this.isValid(x, character.bottomY + character.stepSize)) return undefined;
+
+        for (let i = character.stepSize; i > 0; i--) {
+          if (this.isCollided(x, character.bottomY + i, character)) {
+            return this.collidedObjects(x, y, character);
+          }
+        }
+      }
+
+      return [];      
+    }
+
+    reasonNotToMoveLeft(character) {
+      for (let y = character.y; y < character.bottomY; y++) {
+        if (!this.isValid(character.x - character.stepSize, y)) return undefined;
+
+        for (let i = character.stepSize; i > 0; i--) {
+          if (this.isCollided(character.x - i, y, character)) {
+            return this.collidedObjects(x, y, character);
+          }
+        }
+      }
+
+      return [];
+    }
+
+    reasonNotToMoveRight(character) {
+      for (let y = character.y; y < character.bottomY; y++) {
+        if (!this.isValid(character.rightX + character.stepSize, y)) return undefined;
+
+        for (let i = character.stepSize; i > 0; i--) {
+          if (this.isCollided(character.rightX + i, y, character)) {
+            return this.collidedObjects(x, y, character);
+          }
+        }
+      }
+
+      return [];
+    }
+
+    canMove(character, direction, triggerEvents = false) {
       if (direction.indexOf('left') >= 0) {
-        if (!this.canMoveLeft(character)) return false;
+        if (!this.canMoveLeft(character, triggerEvents)) {
+          return false;
+        }
       } else if (direction.indexOf('right') >= 0) {
-        if (!this.canMoveRight(character)) return false;
+        if (!this.canMoveRight(character, triggerEvents)) {
+          return false;
+        }
       }
 
       if (direction.indexOf('up') >= 0) {
-        if (!this.canMoveUp(character)) return false;
+        if (!this.canMoveUp(character, triggerEvents)) {
+          return false;
+        }
       } else if (direction.indexOf('down') >= 0) {
-        if (!this.canMoveDown(character)) return false;
+        if (!this.canMoveDown(character, triggerEvents)) {
+          return false;
+        }
       }
 
       return true;
+    }
+
+    reasonNotToMove(character, direction) {
+      if (direction.indexOf('left') >= 0) {
+        return this.reasonNotToMoveLeft(character);
+      } else if (direction.indexOf('right') >= 0) {
+        return this.reasonNotToMoveRight(character);
+      }
+
+      if (direction.indexOf('up') >= 0) {
+        return this.reasonNotToMoveUp(character);
+      } else if (direction.indexOf('down') >= 0) {
+        return this.reasonNotToMoveDown(character);
+      }
+
+      return [];
     }
 
     loadMap(mapName) {

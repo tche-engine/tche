@@ -18,7 +18,7 @@
         this.removeChildren();
 
         this._sprite = TCHE.SpriteManager.loadSprite(this._character);
-        var frame = TCHE.SpriteManager.getSpriteFrame(this._sprite, this._character.sprite);
+        var frame = TCHE.SpriteManager.getSpriteFrame(this._character, this._sprite, this._character.sprite);
         if (frame === false) {
           this._useFrame = false;
         } else {

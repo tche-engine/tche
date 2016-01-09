@@ -36,9 +36,6 @@
       TCHE.FileManager.update();
       TCHE.InputManager.update();
 
-      TCHE.globals.map.update();
-      TCHE.globals.player.update();
-
       if (!!scene) {
         scene.update();
 

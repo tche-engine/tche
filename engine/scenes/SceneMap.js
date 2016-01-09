@@ -17,6 +17,10 @@
 
     update() {
       super.update();
+
+      TCHE.globals.map.update();
+      TCHE.globals.player.update();
+
       this._mapSprite.update();
     }    
   }

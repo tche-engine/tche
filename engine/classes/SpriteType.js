@@ -7,18 +7,15 @@
     static configureLoadedSprite(character, spriteObj, spriteData) {
     }
 
-    static getSpriteFrame(spriteObj, spriteName) {
-      return false;
-    }
-
-    static getSpriteCrop(character, spriteObj, spriteData) {
+    static getSpriteFrame(character, spriteObj, spriteName) {
       return false;
     }
 
     static update(character, spriteObj, spriteData) {
-
-
     }
+
+    static updateAnimationStep(character) {
+    }    
   }
 
   TCHE.SpriteType = SpriteType;

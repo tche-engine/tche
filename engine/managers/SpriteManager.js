@@ -16,10 +16,10 @@
       this.getSpriteType(spriteData).configureLoadedSprite(character, spriteObj, spriteData);
     }
 
-    static getSpriteFrame(spriteObj, spriteName) {
+    static getSpriteFrame(character, spriteObj, spriteName) {
       var spriteData = this.getSpriteData(spriteName);
 
-      return this.getSpriteType(spriteData).getSpriteFrame(spriteObj, spriteData);
+      return this.getSpriteType(spriteData).getSpriteFrame(character, spriteObj, spriteData);
     }
 
     static getTextureFromCache(spriteName) {
@@ -77,6 +77,11 @@
     static updateCharacterSprite(spriteObj, character) {
       var data = this.getSpriteData(character.sprite);
       this.getSpriteType(data).update(character, spriteObj, data);
+    }
+
+    static updateAnimationStep(character) {
+      var data = this.getSpriteData(character.sprite);
+      this.getSpriteType(data).updateAnimationStep(character);
     }
   }
   

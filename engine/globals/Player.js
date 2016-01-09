@@ -5,15 +5,19 @@
     }
 
     update() {
-      super.update();
       this.processInput();
+      super.update();
+
     }
 
     processInput() {
       var direction = TCHE.InputManager.getDirection();
       if (!!direction) {
         this.clearDestination();
-        this.move(direction);
+        
+        if (!this.move(direction)) {
+          this.updateDirection(direction.split('-'));
+        }
       }
     }
 
@@ -23,6 +27,12 @@
 
       this.clearDestination();
       TCHE.globals.map.changeMap(mapName);
+    }
+
+    requestCollisionMapRefresh() {
+      //Don't refresh the collision map for movements of the player.
+
+      
     }
   }
   

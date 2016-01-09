@@ -14,6 +14,10 @@
       this._lastBlockCharacter = null;
       this._frameInitialX = null;
       this._frameInitialY = null;
+      this._animationStep = 0;
+      this._animationStepCount = 0;
+      this._animationDelay = 10;
+      this._animationDelayCount = 0;
     }
 
     get x() { return this._x; }
@@ -25,13 +29,24 @@
     get yDest() { return this._yDest; }
     set yDest(value) { this._yDest = value; }
     get direction() { return this._direction; }
-    set direction(value) { this._direction = value; }
+    set direction(value) {
+      console.log(value);
+      this._direction = value;
+    }
     get dirty() { return this._dirty; }
     set dirty(value) { this._dirty = value; }
     get width() { return this._width; }
     set width(value) { this._width = value; }
     get height() { return this._height; }
     set height(value) { this._height = value; }
+    get animationStep() { return this._animationStep; }
+    set animationStep(value) { this._animationStep = value; }
+    get animationStepCount() { return this._animationStepCount; }
+    set animationStepCount(value) { this._animationStepCount = value; }
+    get animationDelay() { return this._animationDelay; }
+    set animationDelay(value) { this._animationDelay = value; }
+    get animationDelayCount() { return this._animationDelayCount; }
+    set animationDelayCount(value) { this._animationDelayCount = value; }
 
     get rightX() { return this.x + this.width; }
     get bottomY() { return this.y + this.height; }
@@ -73,11 +88,12 @@
     }
 
     respondToMouseMovement() {
-      if (!this._xDest || !this._yDest) return;
+      if (this._xDest === null || this._yDest === null || isNaN(this._xDest) || isNaN(this._yDest)) return;
+      if (this._xDest == this._x && this._yDest == this._y) return;
 
       var direction = this.getDirectionToDest();
       if (direction !== false) {
-        this.move(direction);
+        this.performMovement(direction);
       }
     }
 
@@ -86,6 +102,7 @@
       this._frameInitialY = this.y;
 
       this.respondToMouseMovement();
+      this.updateAnimation();
     }
 
     setDest(x, y) {
@@ -98,36 +115,101 @@
       this._yDest = null;
     }
 
-    canMove(direction) {
-      return TCHE.globals.map.canMove(this, direction);
+    canMove(direction, triggerEvents = false) {
+      return TCHE.globals.map.canMove(this, direction, triggerEvents);
     }
 
-    move(direction) {
-      if (direction.indexOf('left') >= 0 && this.canMove('left')) {
+    updateDirection(directions) {
+      if (directions.indexOf(this._direction) >= 0) return false;
+      if (directions.length > 0) {
+        this._direction = directions[0];
+      }
+    }
+
+    updateAnimation() {
+      TCHE.SpriteManager.updateAnimationStep(this);
+    }
+
+    performMovement(direction) {
+      var actualDirections = [];
+
+      if (direction.indexOf('left') >= 0 && this.canMove('left', true)) {
         this._x -= this.stepSize;
-        this._direction = "left";
-      } else if (direction.indexOf('right') >= 0 && this.canMove('right')) {
+        actualDirections.push('left');
+      } else if (direction.indexOf('right') >= 0 && this.canMove('right', true)) {
         this._x += this.stepSize;
-        this._direction = "right";
+        actualDirections.push('right');
       }
 
-      if (direction.indexOf('up') >= 0 && this.canMove('up')) {
+      if (direction.indexOf('up') >= 0 && this.canMove('up', true)) {
         this._y -= this.stepSize;
-        this._direction = "up";
-      } else if (direction.indexOf('down') >= 0 && this.canMove('down')) {
+        actualDirections.push('up');
+      } else if (direction.indexOf('down') >= 0 && this.canMove('down', true)) {
         this._y += this.stepSize;
-        this._direction = "down";
+        actualDirections.push('down');
       }
 
       if (this.isMoving()) {
         this._lastBlockCharacter = null;
         this._lastBlockedByCharacter = null;
-        TCHE.globals.map.requestCollisionMapRefresh();
+        this.requestCollisionMapRefresh();
       }
+
+      this.updateDirection(actualDirections);
+    }
+
+    move(direction) {
+      var anyDirection = false;
+      this._xDest = this._x;
+      this._yDest = this._y;
+
+      var leftPressed = direction.indexOf('left') >= 0;
+      var rightPressed = direction.indexOf('right') >= 0;
+
+      if (leftPressed && this.canMove('left')) {
+        this._xDest = this._x - this.stepSize;
+        anyDirection = true;
+      } else if (rightPressed && this.canMove('right')) {
+        this._xDest = this._x + this.stepSize;
+        anyDirection = true;
+      } else {
+        if (leftPressed) {
+          this.canMove('left', true);
+        }
+        if (rightPressed) {
+          this.canMove('right', true);
+        }
+      }
+
+      var upPressed = direction.indexOf('up') >= 0;
+      var downPressed = direction.indexOf('down') >= 0;
+
+      if (upPressed && this.canMove('up')) {
+        this._yDest = this._y - this.stepSize;
+        anyDirection = true;
+      } else if (downPressed && this.canMove('down')) {
+        this._yDest = this._y + this.stepSize;
+        anyDirection = true;
+      } else {
+        if (upPressed) {
+          this.canMove('up', true);
+        }
+        if (downPressed) {
+          this.canMove('down', true);
+        }
+      }
+
+      return anyDirection;
+    }
+
+    requestCollisionMapRefresh() {
+      TCHE.globals.map.requestCollisionMapRefresh();
     }
 
     isMoving() {
-      return this._frameInitialX !== this._x || this._frameInitialY !== this._y;
+      if (this._frameInitialX !== this._x || this._frameInitialY !== this._y) return true;
+      if (!!this._destX && !!this._destY && (this._x !== this._destX || this._y !== this._destY)) return true;
+      return false;
     }
 
     onBlockCharacter(character) {
