@@ -7,7 +7,7 @@
       params.forEach(function(param){
         var data = param.split('=');
         var name = data[0].toLowerCase();
-        if (data.length > 0) {
+        if (data.length > 1) {
           TCHE.Params.params[name] = data[1];
         } else {
           TCHE.Params.params[name] = true;
