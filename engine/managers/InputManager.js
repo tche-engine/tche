@@ -63,7 +63,7 @@
         }
       }
 
-      previousKeyStates = TCHE.shallowClone(keyStates);
+      previousKeyStates = TCHE.Clone.shallow(keyStates);
 
       for (var i = 0; i < triggeredKeys.length; i++) {
         var names = this.getKeyNames(triggeredKeys[i]);

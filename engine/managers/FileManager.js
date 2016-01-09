@@ -6,7 +6,7 @@
     static loadGameSettings() {
       var path = './game.json';
 
-      TCHE.ajaxLoadFileAsync('game', path);
+      TCHE.Ajax.loadFileAsync('game', path);
     }
 
     static loadAllMaps() {
@@ -24,7 +24,7 @@
       _loading++;
 
       TCHE.maps[mapName] = null;
-      TCHE.ajaxLoadFileAsync(mapName, path, function(xhr, filePath, name){
+      TCHE.Ajax.loadFileAsync(mapName, path, function(xhr, filePath, name){
         if (xhr.status < 400) {
           TCHE.maps[name] = JSON.parse(xhr.responseText);
           _loading--;
