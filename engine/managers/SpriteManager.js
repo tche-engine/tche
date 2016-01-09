@@ -4,60 +4,79 @@
       return TCHE.data.game.sprites[spriteName];
     }
 
-    static configureLoadedSprite(spriteObj, spriteData) {
-      switch(spriteData.type) {
-        case 'image' :
-          break;
-        case 'rpgmaker' :
-          var spriteWidth = spriteObj.texture.baseTexture.width / 4;
-          var spriteHeight = spriteObj.texture.baseTexture.height / 2;
-          var index = spriteData.index;
-          var spriteY = 0;
-          var spriteX = index * spriteWidth;
-          if (spriteX > spriteObj.texture.baseTexture.width) {
-            spriteX -= spriteObj.texture.baseTexture.width;
-            spriteY = spriteObj.texture.baseTexture.height;
-          }
-
-          var width = spriteWidth / 3;
-          var height = spriteHeight / 4;
-          var x = width;
-          var y = 0;
-
-          spriteObj.texture.frame = {
-            x : x,
-            y : y,
-            width : width,
-            height : height
-          };
-
-          break;
-        case 'frame' : 
-          spriteObj.texture.frame = {
-            x : spriteData.imageX,
-            y : spriteData.imageY,
-            width : spriteData.width,
-            height : spriteData.height
-          };
-          break;
+    static getSpriteType(spriteData) {
+      if (TCHE.spriteTypes[spriteData.type] !== undefined) {
+        return TCHE.spriteTypes[spriteData.type];
+      } else {
+        return TCHE.SpriteType;
       }
     }
 
-    static loadSprite(spriteName) {
-      var data = this.getSpriteData(spriteName);
-      var texture = PIXI.Texture.fromImage(data.image);
+    static configureLoadedSprite(character, spriteObj, spriteData) {
+      this.getSpriteType(spriteData).configureLoadedSprite(character, spriteObj, spriteData);
+    }
+
+    static getSpriteFrame(spriteObj, spriteName) {
+      var spriteData = this.getSpriteData(spriteName);
+
+      return this.getSpriteType(spriteData).getSpriteFrame(spriteObj, spriteData);
+    }
+
+    static getTextureFromCache(spriteName) {
+      if (this._textureCache === undefined) {
+        return undefined;
+      }
+
+      return this._textureCache[spriteName];
+    }
+
+    static saveTextureCache(spriteName, texture) {
+      if (this._textureCache === undefined) {
+        this._textureCache = {};
+      }
+
+      this._textureCache[spriteName] = texture;
+    }
+
+    static spriteIsFullImage(spriteData) {
+      return this.getSpriteType(spriteData).isFullImage(spriteData);
+    }
+
+    static loadSpriteTexture(spriteName, spriteData) {
+      var cached = this.getTextureFromCache(spriteName);
+
+      if (!!cached) {
+        return cached;
+      }
+
+      var image = PIXI.Texture.fromImage(spriteData.image);
+
+      if (this.spriteIsFullImage(spriteData)) {
+        return image;
+      }
+
+      return image.clone();
+    }
+
+    static loadSprite(character) {
+      var data = this.getSpriteData(character.sprite);
+      var texture = this.loadSpriteTexture(character.sprite, data);
       var spriteObj = new PIXI.Sprite(texture);
 
       if (texture.baseTexture.isLoading) {
         texture.baseTexture.addListener('loaded', function(){
-          TCHE.SpriteManager.configureLoadedSprite(spriteObj, data);
+          TCHE.SpriteManager.configureLoadedSprite(character, spriteObj, data);
         });
       } else {
-        TCHE.SpriteManager.configureLoadedSprite(spriteObj, data);
+        TCHE.SpriteManager.configureLoadedSprite(character, spriteObj, data);
       }
 
-
       return spriteObj;
+    }
+
+    static updateCharacterSprite(spriteObj, character) {
+      var data = this.getSpriteData(character.sprite);
+      this.getSpriteType(data).update(character, spriteObj, data);
     }
   }
   

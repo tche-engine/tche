@@ -17,7 +17,14 @@
 
         this.removeChildren();
 
-        this._sprite = TCHE.SpriteManager.loadSprite(this._character.sprite);
+        this._sprite = TCHE.SpriteManager.loadSprite(this._character);
+        var frame = TCHE.SpriteManager.getSpriteFrame(this._sprite, this._character.sprite);
+        if (frame === false) {
+          this._useFrame = false;
+        } else {
+          this._useFrame = true;
+          this._frame = frame;
+        }
         this.addChild(this._sprite);
 
         this._character.dirty = false;      
@@ -32,7 +39,9 @@
 
       //Syncs the position
       this.position.x = this._character.x;
-      this.position.y = this._character.y;        
+      this.position.y = this._character.y;
+
+      TCHE.SpriteManager.updateCharacterSprite(this._sprite, this._character);
     }
   }
   

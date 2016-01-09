@@ -7,6 +7,7 @@ module.exports = function(grunt) {
     'engine/Tche.js',
     'engine/helpers/*.js',
     'engine/classes/*.js',
+    'engine/spriteTypes/*.js',
     'engine/sprites/*.js',
     'engine/sprites/maps/*.js',
     'engine/managers/*.js',

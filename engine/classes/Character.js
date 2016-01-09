@@ -5,7 +5,7 @@
       this._y = null;
       this._xDest = null;
       this._yDest = null;
-      this._direction = null;
+      this._direction = "down";
       this._sprite = null;
       this._dirty = false;
       this._height = null;
@@ -105,14 +105,18 @@
     move(direction) {
       if (direction.indexOf('left') >= 0 && this.canMove('left')) {
         this._x -= this.stepSize;
+        this._direction = "left";
       } else if (direction.indexOf('right') >= 0 && this.canMove('right')) {
         this._x += this.stepSize;
+        this._direction = "right";
       }
 
       if (direction.indexOf('up') >= 0 && this.canMove('up')) {
         this._y -= this.stepSize;
+        this._direction = "up";
       } else if (direction.indexOf('down') >= 0 && this.canMove('down')) {
         this._y += this.stepSize;
+        this._direction = "down";
       }
 
       if (this.isMoving()) {
