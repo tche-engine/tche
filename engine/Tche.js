@@ -8,17 +8,17 @@ var TCHE = {
   /*jshint validthis: true */
   "use strict";
 
-  function registerClass(className, classDeclaration) {
+  $.registerClass = function(className, classDeclaration) {
     TCHE[className] = classDeclaration;
     TCHE.trigger(classDeclaration.prototype);
   }
 
-  function registerStaticClass(className, classDeclaration) {
+  $.registerStaticClass = function(className, classDeclaration) {
     TCHE[className] = classDeclaration;
     TCHE.trigger(classDeclaration);    
   }
 
-  function fillSettings(settings) {
+  $.fillSettings = function(settings) {
     settings.screenWidth = settings.screenWidth || 800;
     settings.screenHeight = settings.screenHeight || 600;
     settings.backgroundColor = settings.backgroundColor || 0x1099bb;
@@ -29,12 +29,12 @@ var TCHE = {
     TCHE.settings = settings;
   }
 
-  function createGlobals(){
+  $.createGlobals = function(){
     TCHE.globals.player = new TCHE.Player();
     TCHE.globals.map = new TCHE.Map();
   }
 
-  function setupFpsMeter(){
+  $.setupFpsMeter = function(){
     if (TCHE.settings.showFps) {
       TCHE.meter = new FPSMeter({theme : 'transparent', graph : 1, decimals : 0});
 
@@ -48,38 +48,31 @@ var TCHE = {
     }
   }
 
-  function init(settings) {
+  $.init = function(settings) {
     TCHE.fillSettings(settings);
 
     TCHE.renderer = PIXI.autoDetectRenderer(settings.screenWidth, settings.screenHeight, {backgroundColor : settings.backgroundColor});
     document.body.appendChild(TCHE.renderer.view);
 
-    setupFpsMeter();
-    createGlobals();
+    TCHE.setupFpsMeter();
+    TCHE.createGlobals();
 
     TCHE.SceneManager.start(TCHE.SceneLaunch);
     TCHE.fire("started");
   }
 
-  function startFrame(){
+  $.startFrame = function(){
     if (!!TCHE.meter) {
       TCHE.meter.tickStart();
     }
   }
 
-  function endFrame(){
+  $.endFrame = function(){
     if (!!TCHE.meter) {
       TCHE.meter.tick();
     }
   }
 
   $.trigger = Trigger;
-  $.fillSettings = fillSettings;
-  $.init = init;
-  $.startFrame = startFrame;
-  $.endFrame = endFrame;
-  $.registerClass = registerClass;
-  $.registerStaticClass = registerStaticClass;
-
   $.trigger(TCHE);
 })(TCHE);
