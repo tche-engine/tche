@@ -6,7 +6,7 @@
       this._xDest = null;
       this._yDest = null;
       this._direction = null;
-      this._image = null;
+      this._sprite = null;
       this._dirty = false;
       this._height = null;
       this._width = null;
@@ -36,40 +36,66 @@
     get rightX() { return this.x + this.width; }
     get bottomY() { return this.y + this.height; }
 
-    get image() { return this._image; }
-    set image(value) { 
-      this._image = value;
+    get sprite() { return this._sprite; }
+    set sprite(value) { 
+      this._sprite = value;
       this._dirty = true;
     }
 
     get stepSize() { return 4; }
 
+    getDirectionToDest() {
+      var directions = [];
+
+      if (this._xDest == this._x && this._yDest == this._y) {
+        this.clearDestination();
+        return false;
+      }
+
+      if (this._xDest >= this._x + this.stepSize) {
+        directions.push('right');
+      } else if (this._xDest <= this._x - this.stepSize) {
+        directions.push('left');
+      }
+
+      if (this._yDest >= this._y + this.stepSize) {
+        directions.push('down');
+      } else if (this._yDest <= this._y - this.stepSize) {
+        directions.push('up');
+      }
+
+      if (directions.length > 0) {
+        return directions.join(" ");
+      } else {
+        this.clearDestination();
+        return false;
+      }
+    }
+
+    respondToMouseMovement() {
+      if (!this._xDest || !this._yDest) return;
+
+      var direction = this.getDirectionToDest();
+      if (direction !== false) {
+        this.move(direction);
+      }
+    }
+
     update() {
       this._frameInitialX = this.x;
       this._frameInitialY = this.y;
 
-      var direction = {
-        "x": ["right", "left"],
-        "y": ["down", "up"]
-      };
-
-      this.move(Object.keys(direction).reduce(function(old, val) {
-        var dest = this["_" + val + "Dest"];
-        if (dest) {
-          var pos = this["_" + val];
-          if (Math.abs(dest - pos) >= this.stepSize) {
-            old.push(dest > pos ? direction[val][0] : direction[val][1]);
-          } else {
-            this["_" + val + "Dest"] = undefined;
-          }
-        }
-        return old;
-      }.bind(this), []).join(" "));
+      this.respondToMouseMovement();
     }
 
     setDest(x, y) {
       this._xDest = x;
       this._yDest = y;
+    }
+
+    clearDestination() {
+      this._xDest = null;
+      this._yDest = null;
     }
 
     canMove(direction) {

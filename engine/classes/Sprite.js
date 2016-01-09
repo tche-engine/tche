@@ -11,7 +11,18 @@
 
     update() {
       
-    }    
+    }
+
+    removeChildren() {
+      this.children.forEach(function(child){
+        if (!!child) {
+          child.removeStageReference();
+          child.parent = undefined;
+        }
+      });
+
+      this.children = [];
+    }
   }
   
   TCHE.registerClass('Sprite', Sprite);

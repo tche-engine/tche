@@ -51,7 +51,7 @@
         objCharacter.y = obj.y;
         objCharacter.width = obj.width;
         objCharacter.height = obj.height;
-        objCharacter.image = obj.image;
+        objCharacter.sprite = obj.sprite;
 
         this._objects.push(objCharacter);
       }.bind(this));

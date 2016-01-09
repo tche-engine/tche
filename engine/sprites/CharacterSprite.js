@@ -10,27 +10,18 @@
     set character(value) { this._character = value; }
 
     createPixiSprite() {
-      if (this._character.dirty) {
-        this._texture = null;
-        if (!!this._sprite) {
-          this._sprite.texture = null;
+      if (this._character.dirty || !this._sprite) {
+        if (!this._character.sprite) {
+          throw new Error("Character has no sprite defined.");
         }
-      }
 
-      if (!this._texture && !!this._character.image) {
-        this._texture = PIXI.Texture.fromImage(this._character.image);
-      }
+        this.removeChildren();
 
-      if (!this._sprite && !!this._texture) {
-        this._sprite = new PIXI.Sprite(this._texture);
+        this._sprite = TCHE.SpriteManager.loadSprite(this._character.sprite);
         this.addChild(this._sprite);
-      }
 
-      if (!!this._sprite && !!this._texture && this._sprite._texture != this._texture) {
-        this._sprite.texture = this._texture;
+        this._character.dirty = false;      
       }
-
-      this._character.dirty = false;      
     }
 
     update() {
