@@ -7,6 +7,8 @@
       TCHE.globals.player.y = TCHE.data.game.player.y;
       TCHE.globals.player.width = TCHE.data.game.player.width;
       TCHE.globals.player.height = TCHE.data.game.player.height;
+      TCHE.globals.player.offsetX = TCHE.data.game.player.offsetX;
+      TCHE.globals.player.offsetY = TCHE.data.game.player.offsetY;
       TCHE.globals.player.sprite = TCHE.data.game.player.sprite;
 
       TCHE.globals.map.loadMap(params.mapName);

@@ -24,6 +24,7 @@ var TCHE = {
     settings.screenWidth = settings.screenWidth || 800;
     settings.screenHeight = settings.screenHeight || 600;
     settings.backgroundColor = settings.backgroundColor || 0x1099bb;
+    settings.transparent = settings.transparent || true;
 
     settings.showFps = settings.showFps !== false;
     settings.fpsVisibleOnStartup = settings.fpsVisibleOnStartup === true;
@@ -53,7 +54,7 @@ var TCHE = {
   $.init = function(settings) {
     TCHE.fillSettings(settings);
 
-    var options = {backgroundColor : settings.backgroundColor};
+    var options = {backgroundColor : settings.backgroundColor, transparent : settings.transparent};
     var width = settings.screenWidth;
     var height = settings.screenHeight;
 

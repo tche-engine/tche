@@ -18,6 +18,8 @@
       this._animationStepCount = 0;
       this._animationDelay = 10;
       this._animationDelayCount = 0;
+      this._offsetX = 0;
+      this._offsetY = 0;
     }
 
     get x() { return this._x; }
@@ -47,6 +49,10 @@
     set animationDelay(value) { this._animationDelay = value; }
     get animationDelayCount() { return this._animationDelayCount; }
     set animationDelayCount(value) { this._animationDelayCount = value; }
+    get offsetX() { return this._offsetX; }
+    set offsetX(value) { this._offsetX = value; }
+    get offsetY() { return this._offsetY; }
+    set offsetY(value) { this._offsetY = value; }
 
     get rightX() { return this.x + this.width; }
     get bottomY() { return this.y + this.height; }

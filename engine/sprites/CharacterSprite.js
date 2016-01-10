@@ -36,8 +36,8 @@
       if (!this._sprite) return;
 
       //Syncs the position
-      this.position.x = this._character.x;
-      this.position.y = this._character.y;
+      this.position.x = this._character.x + this._character.offsetX;
+      this.position.y = this._character.y + this._character.offsetY;
 
       TCHE.SpriteManager.updateCharacterSprite(this._sprite, this._character);
     }

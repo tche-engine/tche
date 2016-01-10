@@ -30,10 +30,10 @@
 
     static getImportantObjectData(mapData, obj) {
       return {
-        x : obj.x,
-        y : obj.y,
-        width : obj.width,
-        height : obj.height,
+        x : Math.round(obj.x),
+        y : Math.round(obj.y),
+        width : Math.round(obj.width),
+        height : Math.round(obj.height),
         sprite : obj.properties.sprite || '',
         blockedBy : obj.properties.blockedBy || ''
       };
