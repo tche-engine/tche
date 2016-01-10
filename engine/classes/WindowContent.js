@@ -8,6 +8,12 @@
     update() {
     }
 
+    renderObjectInContainer(object) {
+      let container = new PIXI.Container();
+      container.addChild(object);
+      this.render(container);
+    }
+
     drawRect(color, x, y, width, height, alpha) {
       let graphics = new PIXI.Graphics();
 
@@ -22,7 +28,8 @@
       let textObj = new PIXI.Text(text);
       textObj.x = x;
       textObj.y = y;
-      this.render(textObj);
+
+      this.renderObjectInContainer(textObj);
     }
   }
   

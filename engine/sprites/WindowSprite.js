@@ -14,6 +14,14 @@
       return this._contents.height;
     }
 
+    get contents() {
+      return this._contents;
+    }
+
+    get lineHeight() {
+      return 24;
+    }
+
     createContents(width, height) {
       this._contents = new TCHE.WindowContent(TCHE.renderer, width, height);
     }
