@@ -31,10 +31,7 @@
     get yDest() { return this._yDest; }
     set yDest(value) { this._yDest = value; }
     get direction() { return this._direction; }
-    set direction(value) {
-      console.log(value);
-      this._direction = value;
-    }
+    set direction(value) { this._direction = value; }
     get dirty() { return this._dirty; }
     set dirty(value) { this._dirty = value; }
     get width() { return this._width; }

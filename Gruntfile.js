@@ -11,6 +11,7 @@ module.exports = function(grunt) {
     'engine/mapTypes/*.js',
     'engine/sprites/*.js',
     'engine/sprites/maps/*.js',
+    'engine/sprites/windows/*.js',
     'engine/managers/*.js',
     'engine/scenes/Scene.js',
     'engine/scenes/SceneLoading.js',
