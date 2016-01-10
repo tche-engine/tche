@@ -2,8 +2,6 @@
   class ChoiceWindow extends TCHE.WindowSprite {
     constructor(width, height) {
       super(width, height);
-      this._choices = [];
-      this.refresh();
     }
 
     get startFromTheBottom() {

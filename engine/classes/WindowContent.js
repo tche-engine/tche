@@ -48,7 +48,7 @@
       let container = new PIXI.Container();
       container.addChild(textObj);
 
-      container.width = textObj.x + width;
+      container.width = x + width;
       this.render(container);
       return textObj;
     }

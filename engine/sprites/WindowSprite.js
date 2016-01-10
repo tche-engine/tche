@@ -14,6 +14,16 @@
       return this._contents.height;
     }
 
+    // set width(value) {
+    //   this._sprite.width = value;
+    //   this._contents.width = value;
+    // }
+
+    // set height(value) {
+    //   this._sprite.height = value;
+    //   this._contents.height = value;
+    // }
+
     get contents() {
       return this._contents;
     }
