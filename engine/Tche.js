@@ -21,8 +21,8 @@ var TCHE = {
   };
 
   $.fillSettings = function(settings) {
-    settings.screenWidth = settings.screenWidth || 800;
-    settings.screenHeight = settings.screenHeight || 600;
+    settings.screenWidth = settings.screenWidth || window.innerWidth;
+    settings.screenHeight = settings.screenHeight || window.innerHeight;
     settings.backgroundColor = settings.backgroundColor || 0x1099bb;
     settings.transparent = settings.transparent || true;
 
@@ -51,6 +51,18 @@ var TCHE = {
     }
   };
 
+  $.getClientSize = function(){
+    return {
+      width : window.innerWidth,
+      height : window.innerHeight
+    };
+  };
+
+  $.onResize = function(e){
+    var size = TCHE.getClientSize();
+    TCHE.renderer.resize(size.width, size.height);    
+  };
+
   $.init = function(settings) {
     TCHE.fillSettings(settings);
 
@@ -67,6 +79,11 @@ var TCHE = {
     }
 
     document.body.appendChild(TCHE.renderer.view);
+    TCHE.renderer.view.style.width = "100%";
+    TCHE.renderer.view.style.height = "100%";
+
+    window.addEventListener('resize', function(e){ TCHE.onResize(e); } );
+    TCHE.onResize();
 
     TCHE.setupFpsMeter();
     TCHE.createGlobals();
