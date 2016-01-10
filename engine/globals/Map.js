@@ -38,20 +38,37 @@
       collisionMapDirty = true;
     }
 
+    getImportantObjectData(mapData, obj) {
+      var data = TCHE.MapManager.getImportantObjectData(mapData, obj);
+
+      data.x = data.x || 0;
+      data.y = data.y || 0;
+      data.width = data.width || 0;
+      data.height = data.height || 0;
+      data.sprite = data.sprite || '';
+      data.blockedBy = data.blockedBy || '';
+
+      return data;
+    }
+
     createObjects() {
       var objectList = [];
+      let map = this;
 
       if (!!this._mapData) {
-        objectList = this._mapData.objects || objectList;
+        objectList = TCHE.MapManager.getMapObjects(this._mapData) || objectList;
       }
 
       objectList.forEach(function(obj){
+        let data = map.getImportantObjectData(this._mapData, obj);
+
         var objCharacter = new TCHE.Character();
-        objCharacter.x = obj.x;
-        objCharacter.y = obj.y;
-        objCharacter.width = obj.width;
-        objCharacter.height = obj.height;
-        objCharacter.sprite = obj.sprite;
+        objCharacter.x = data.x;
+        objCharacter.y = data.y;
+        objCharacter.width = data.width;
+        objCharacter.height = data.height;
+        objCharacter.sprite = data.sprite;
+        objCharacter.blockedBy = data.blockedBy;
 
         this._objects.push(objCharacter);
       }.bind(this));
@@ -73,6 +90,10 @@
           this._collisionMap[x][y].push(character);
         }
       }
+    }
+
+    getMapObjects() {
+      return TCHE.MapManager.getMapObjects(this._mapData);
     }
 
     // Go over all objects to form a list of blocked pixels

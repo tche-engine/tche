@@ -14,12 +14,12 @@
 
       var maps = TCHE.data.game.maps;
 
-      maps.forEach(function(mapName){
-        this.loadMapData(mapName);
-      }.bind(this));
+      for (var mapName in maps) {
+        this.loadMapData(mapName, maps[mapName]);
+      }
     }
 
-    static loadMapData(mapName) {
+    static loadMapData(mapName, mapType) {
       var path = './maps/' + mapName + '.json';
       filesToLoad++;
 
@@ -27,6 +27,7 @@
       TCHE.Ajax.loadFileAsync(mapName, path, function(xhr, filePath, name){
         if (xhr.status < 400) {
           TCHE.maps[name] = JSON.parse(xhr.responseText);
+          TCHE.maps[name].mapType = mapType;
           filesToLoad--;
         } else {
           console.log(arguments);
@@ -72,7 +73,7 @@
         throw new Error("Invalid map name: " + mapName);
       }
 
-      this.loadTiledMapFiles(mapData);
+      TCHE.MapManager.loadMapFiles(mapData);
     }
 
     //Sound files are loaded by the sound lib

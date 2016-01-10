@@ -11,23 +11,21 @@
 
     createPixiSprite() {
       if (this._character.dirty || !this._sprite) {
-        if (!this._character.sprite) {
-          throw new Error("Character has no sprite defined.");
+        if (!!this._character.sprite) {
+          this.removeChildren();
+
+          this._sprite = TCHE.SpriteManager.loadSprite(this._character);
+          var frame = TCHE.SpriteManager.getSpriteFrame(this._character, this._sprite, this._character.sprite);
+          if (frame === false) {
+            this._useFrame = false;
+          } else {
+            this._useFrame = true;
+            this._frame = frame;
+          }
+          this.addChild(this._sprite);
+
+          this._character.dirty = false;
         }
-
-        this.removeChildren();
-
-        this._sprite = TCHE.SpriteManager.loadSprite(this._character);
-        var frame = TCHE.SpriteManager.getSpriteFrame(this._character, this._sprite, this._character.sprite);
-        if (frame === false) {
-          this._useFrame = false;
-        } else {
-          this._useFrame = true;
-          this._frame = frame;
-        }
-        this.addChild(this._sprite);
-
-        this._character.dirty = false;      
       }
     }
 

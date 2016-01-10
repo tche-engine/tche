@@ -11,6 +11,13 @@
     static getSpriteClass(mapData) {
       return TCHE.Map2d;
     }
+
+    static getMapObjects(mapData) {
+      return [];
+    }
+
+    static loadMapFiles(mapData) {
+    }
   }
 
   TCHE.MapType = MapType;

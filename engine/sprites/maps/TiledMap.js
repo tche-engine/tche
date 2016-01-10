@@ -7,8 +7,7 @@
       this._layers = [];
 
       this.createLayers();
-      // this.createObjects();
-
+      this.createObjects();
       this.createPlayer();      
     }
 
@@ -22,15 +21,14 @@
       var mapSprite = this;
 
       this._map.mapData.layers.forEach(function(layer){
-        if (layer.type == "tilelayer") {
-          mapSprite.createTileLayer(layer);
+        switch(layer.type) {
+          case 'tilelayer' :
+            mapSprite.createTileLayer(layer);
+            break;
+          case 'objectgroup' :
+            break;
         }
       });
-    }
-
-    createPlayer() {
-      this._playerSprite = new TCHE.CharacterSprite(TCHE.globals.player);
-      this.addChild(this._playerSprite);
     }
 
     createObjects() {
@@ -43,6 +41,11 @@
       }.bind(this));
     }
 
+    createPlayer() {
+      this._playerSprite = new TCHE.CharacterSprite(TCHE.globals.player);
+      this.addChild(this._playerSprite);
+    }
+
     updatePlayer(){
       this._playerSprite.update();
     }
@@ -50,12 +53,19 @@
     updateObjects(){
       this._objectSprites.forEach(function(objSprite) {
         objSprite.update();
+      });      
+    }
+
+    updateLayers(){
+      this._layers.forEach(function(layer){
+        layer.update();
       });
     }
 
     update() {
       super.update();
 
+      this.updateLayers();
       this.updateObjects();
       this.updatePlayer();
     }

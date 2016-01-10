@@ -49,26 +49,6 @@
           }
         }
       }
-      
-
-
-
-      // mapData.tilesets.forEach(function(tileset){
-      //   let fileName = './map/' + tileset.image;
-      //   let fileWidth = layerSprite._layerData.width * mapData.tileWidth;
-      //   let fileHeight = layerSprite._layerData.height * mapData.tileHeight;
-
-      //   console.log(fileWidth, fileHeight);
-
-      //   let sprite = PIXI.extras.TilingSprite.fromImage(fileName, fileWidth, fileHeight);
-      //   sprite.position.x = layerSprite._layerData.x;
-      //   sprite.position.y = layerSprite._layerData.y;
-      //   layerSprite._sprites.push(sprite);
-
-      //   layerSprite.addChild(sprite);
-      // });
-
-
     }
 
     update() {
