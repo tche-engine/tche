@@ -18,10 +18,6 @@
 
       this._mapSprite = new (spriteClass)(TCHE.globals.map);
       this.addChild(this._mapSprite);
-
-
-      this._windowSprite = new TCHE.ChoiceWindow(600, 600);
-      this.addChild(this._windowSprite);
     }
 
     update() {
@@ -31,9 +27,6 @@
       TCHE.globals.player.update();
 
       this._mapSprite.update();
-
-
-      this._windowSprite.update();
     }    
   }
   
