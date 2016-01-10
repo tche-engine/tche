@@ -1,11 +1,11 @@
 (function(){
   class TiledMapType extends TCHE.MapType {
     static getMapWidth(mapData) {
-      return mapData.width * mapData.tileWidth;
+      return mapData.width * mapData.tilewidth;
     }
 
     static getMapHeight(mapData) {
-      return mapData.height * mapData.tileHeight;
+      return mapData.height * mapData.tileheight;
     }
 
     static getSpriteClass(mapData) {

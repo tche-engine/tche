@@ -7,7 +7,6 @@
     update() {
       this.processInput();
       super.update();
-
     }
 
     processInput() {

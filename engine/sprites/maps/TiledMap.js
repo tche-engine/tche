@@ -65,6 +65,9 @@
     update() {
       super.update();
 
+      this.x = TCHE.globals.map.offsetX;
+      this.y = TCHE.globals.map.offsetY;
+
       this.updateLayers();
       this.updateObjects();
       this.updatePlayer();

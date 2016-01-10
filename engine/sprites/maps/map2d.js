@@ -17,7 +17,7 @@
       this._backgroundGraphic.drawRect(0, 0, TCHE.renderer.width, TCHE.renderer.height);
       this._backgroundGraphic.endFill();
 
-      this._backgroundTexture = new PIXI.RenderTexture(TCHE.renderer, TCHE.renderer.width, TCHE.renderer.height);
+      this._backgroundTexture = new PIXI.RenderTexture(TCHE.renderer, this._map.width, this._map.height);
       this._backgroundTexture.render(this._backgroundGraphic);
 
       this._backgroundSprite = new PIXI.Sprite(this._backgroundTexture);
@@ -52,6 +52,9 @@
 
     update() {
       super.update();
+
+      this.x = TCHE.globals.map.offsetX;
+      this.y = TCHE.globals.map.offsetY;
 
       this.updateObjects();
       this.updatePlayer();

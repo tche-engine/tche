@@ -26,7 +26,7 @@
     }
 
     createMessage() {
-      this._messageText = "Now Loading";
+      this._messageText = "Loading";
 
       this._messageSprite = new PIXI.Text(this._messageText);
       this._messageSprite.anchor.x = 0;

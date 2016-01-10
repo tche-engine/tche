@@ -8,6 +8,8 @@
       this._objects = [];
       this._collisionMap = [];
       this._mapName = null;
+      this._offsetX = 0;
+      this._offsetY = 0;
     }
 
     get mapName() { return this._mapName; }
@@ -21,6 +23,11 @@
 
     get width() { return TCHE.MapManager.getMapWidth(this._mapData); }
     get height() { return TCHE.MapManager.getMapHeight(this._mapData); }
+
+    get offsetX() { return this._offsetX; }
+    set offsetX(value) { this._offsetX = value; }
+    get offsetY() { return this._offsetY; }
+    set offsetY(value) { this._offsetY = value; }
 
     get objects() {
       return this._objects;
@@ -49,6 +56,49 @@
       data.blockedBy = data.blockedBy || '';
 
       return data;
+    }
+
+    updateOffset() {
+      var diffX = this.width - TCHE.renderer.width;
+      var diffY = this.height - TCHE.renderer.height;
+      var middleX = Math.floor(TCHE.renderer.width / 2);
+      var middleY = Math.floor(TCHE.renderer.height / 2);
+      var mapMiddleX = Math.floor(this.width / 2);
+      var mapMiddleY = Math.floor(this.height / 2);
+      var playerX = TCHE.globals.player.x;
+      var playerY = TCHE.globals.player.y;
+
+      if (diffX < 0) {
+        this._offsetX = Math.abs(Math.floor(diffX / 2));
+      } else if (diffX > 0) {
+        if (playerX > middleX) {
+          if (playerX < this.width - middleX) {
+            this._offsetX = middleX - playerX;
+          } else {
+            this._offsetX = TCHE.renderer.width - this.width;
+          }
+        } else {
+          this._offsetX = 0;
+        }
+      } else {
+        this._offsetX = 0;
+      }
+
+      if (diffY < 0) {
+        this._offsetY = Math.abs(Math.floor(diffY / 2));
+      } else if (diffY > 0) {
+        if (playerY > middleY) {
+          if (playerY < this.height - middleY) {
+            this._offsetY = middleY - playerY;
+          } else {
+            this._offsetY = TCHE.renderer.height - this.height;
+          }
+        } else {
+          this._offsetY = 0;
+        }
+      } else {
+        this._offsetY = 0;
+      }
     }
 
     createObjects() {
@@ -116,6 +166,8 @@
       if (collisionMapDirty) {
         shouldCreateCollisionMap = true;
       }
+
+      this.updateOffset();
     }
 
     isValid(x, y) {

@@ -239,7 +239,7 @@
   TCHE.on("started", function() {
     TCHE.renderer.view.addEventListener("click", function(evt) {
       var tmp = getMousePos(this, evt);
-      TCHE.globals.player.setDest(tmp.x, tmp.y);
+      TCHE.globals.player.setDest(tmp.x - TCHE.globals.map.offsetX, tmp.y - TCHE.globals.map.offsetY);
     });
   });
 

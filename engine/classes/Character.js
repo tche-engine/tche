@@ -130,22 +130,38 @@
       TCHE.SpriteManager.updateAnimationStep(this);
     }
 
+    performLeftMovement(stepSize) {
+      this._x -= stepSize;
+    }
+
+    performRightMovement(stepSize) {
+      this._x += this.stepSize;
+    }
+
+    performUpMovement(stepSize) {
+      this._y -= this.stepSize;
+    }
+
+    performDownMovement(stepSize) {
+      this._y += this.stepSize;
+    }
+
     performMovement(direction) {
       var actualDirections = [];
 
       if (direction.indexOf('left') >= 0 && this.canMove('left', true)) {
-        this._x -= this.stepSize;
+        this.performLeftMovement(this.stepSize);
         actualDirections.push('left');
       } else if (direction.indexOf('right') >= 0 && this.canMove('right', true)) {
-        this._x += this.stepSize;
+        this.performRightMovement(this.stepSize);
         actualDirections.push('right');
       }
 
       if (direction.indexOf('up') >= 0 && this.canMove('up', true)) {
-        this._y -= this.stepSize;
+        this.performUpMovement(this.stepSize);
         actualDirections.push('up');
       } else if (direction.indexOf('down') >= 0 && this.canMove('down', true)) {
-        this._y += this.stepSize;
+        this.performDownMovement('down');
         actualDirections.push('down');
       }
 
