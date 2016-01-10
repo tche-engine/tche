@@ -6,6 +6,7 @@
 
     static configureLoadedSprite(character, spriteObj, spriteData) {
       spriteObj.texture.frame = RpgMakerSpriteType.getSpriteFrame(character, spriteObj, spriteData);
+      character.animationStep = 1;
       character.animationStepCount = 3;
       character.animationDelayCount = 10;
     }

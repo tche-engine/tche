@@ -1,6 +1,6 @@
 (function(){
-  let _startedLoadingMaps = false;
-  let _loading = 0;
+  let startedLoadingMaps = false;
+  let filesToLoad = 0;
 
   class FileManager {
     static loadGameSettings() {
@@ -21,13 +21,13 @@
 
     static loadMapData(mapName) {
       var path = './maps/' + mapName + '.json';
-      _loading++;
+      filesToLoad++;
 
       TCHE.maps[mapName] = null;
       TCHE.Ajax.loadFileAsync(mapName, path, function(xhr, filePath, name){
         if (xhr.status < 400) {
           TCHE.maps[name] = JSON.parse(xhr.responseText);
-          _loading--;
+          filesToLoad--;
         } else {
           console.log(arguments);
           throw new Error("Failed to load map.");
@@ -47,10 +47,32 @@
         return;
       }
 
-      if (!_startedLoadingMaps) {
-        _startedLoadingMaps = true;
+      if (!startedLoadingMaps) {
+        startedLoadingMaps = true;
         this.loadAllMaps();
       }
+    }
+
+    static loadTiledMapFiles(mapData) {
+      mapData.tilesets.forEach(function(tileset){
+        let texture = PIXI.Texture.fromImage('./maps/' + tileset.image);
+        if (texture.isLoading) {
+          filesToLoad++;
+          texture.baseTexture.addListener('loaded', function(){
+            filesToLoad--;
+          });
+        }
+      });
+    }
+
+    static loadMapFiles(mapName) {
+      var mapData = TCHE.maps[mapName];
+
+      if (!mapData) {
+        throw new Error("Invalid map name: " + mapName);
+      }
+
+      this.loadTiledMapFiles(mapData);
     }
 
     //Sound files are loaded by the sound lib
@@ -64,8 +86,8 @@
 
     static isLoaded() {
       if (!TCHE.data.game) return false;
-      if (!_startedLoadingMaps) return false;
-      if (_loading > 0) return false;
+      if (!startedLoadingMaps) return false;
+      if (filesToLoad > 0) return false;
 
       return true;
     }

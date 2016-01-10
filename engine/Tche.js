@@ -2,7 +2,8 @@ var TCHE = {
   globals : {},
   data : {},
   maps : {},
-  spriteTypes : {}
+  spriteTypes : {},
+  mapTypes : {}
 };
 
 (function($){

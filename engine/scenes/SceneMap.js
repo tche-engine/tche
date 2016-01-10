@@ -11,7 +11,11 @@
 
       TCHE.globals.map.loadMap(params.mapName);
 
-      this._mapSprite = new TCHE.Map2d(TCHE.globals.map);
+      var mapData = TCHE.globals.map.mapData;
+      var spriteClass = TCHE.MapManager.getSpriteClass(mapData);
+
+      this._mapSprite = new (spriteClass)(TCHE.globals.map);
+      // this._mapSprite = new TCHE.Map2d(TCHE.globals.map);
       this.addChild(this._mapSprite);
     }
 

@@ -19,8 +19,8 @@
       this.createObjects();
     }
 
-    get width() { return this._mapData.width || 0; }
-    get height() { return this._mapData.height || 0; }
+    get width() { return TCHE.MapManager.getMapWidth(this._mapData); }
+    get height() { return TCHE.MapManager.getMapHeight(this._mapData); }
 
     get objects() {
       return this._objects;
@@ -305,7 +305,7 @@
     }
 
     changeMap(newMapName) {
-      TCHE.SceneManager.changeScene(TCHE.SceneMap, { mapName : newMapName });
+      TCHE.SceneManager.changeScene(TCHE.SceneMapLoading, { mapName : newMapName });
     }
   }
   
