@@ -21,6 +21,11 @@
       var mapSprite = this;
 
       this._map.mapData.layers.forEach(function(layer){
+        if (layer.name.toLowerCase() == 'player') {
+          mapSprite.createPlayer();
+          return;
+        }
+
         switch(layer.type) {
           case 'tilelayer' :
             mapSprite.createTileLayer(layer);
@@ -42,8 +47,10 @@
     }
 
     createPlayer() {
-      this._playerSprite = new TCHE.CharacterSprite(TCHE.globals.player);
-      this.addChild(this._playerSprite);
+      if (!this._playerSprite) {
+        this._playerSprite = new TCHE.CharacterSprite(TCHE.globals.player);
+        this.addChild(this._playerSprite);
+      }
     }
 
     updatePlayer(){
