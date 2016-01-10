@@ -19,7 +19,11 @@
     }
 
     get lineHeight() {
-      return 24;
+      return 26;
+    }
+
+    get margin() {
+      return 20;
     }
 
     createContents(width, height) {

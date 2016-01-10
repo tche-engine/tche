@@ -10,7 +10,8 @@
       if (TCHE.FileManager.isLoaded()) {
         TCHE.fire("ready");
 
-        TCHE.globals.map.changeMap(TCHE.data.game.initialMap);
+        TCHE.SceneManager.changeScene(TCHE.SceneTitle);
+        // TCHE.globals.map.changeMap(TCHE.data.game.initialMap);
       }
     }    
   }

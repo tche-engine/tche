@@ -11,6 +11,9 @@
     terminate() {
 
     }
+
+    processClick(pos) {
+    }
   }
   
   TCHE.registerClass('Scene', Scene);

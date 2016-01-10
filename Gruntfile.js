@@ -12,12 +12,15 @@ module.exports = function(grunt) {
     'engine/sprites/*.js',
     'engine/sprites/maps/*.js',
     'engine/sprites/windows/*.js',
+    'engine/windows/*.js',
     'engine/managers/*.js',
     'engine/scenes/Scene.js',
     'engine/scenes/SceneLoading.js',
     'engine/scenes/SceneLaunch.js',
     'engine/scenes/SceneMapLoading.js',
     'engine/scenes/SceneMap.js',
+    'engine/scenes/SceneWindow.js',
+    'engine/scenes/SceneTitle.js',
     'engine/globals/*.js'
   ];
   var config = {

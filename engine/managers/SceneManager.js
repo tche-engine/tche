@@ -63,6 +63,10 @@
     static end() {
       this.changeScene(null);
     }
+
+    static processClick(pos) {
+      this.scene.processClick(pos);
+    }
   }
   
   TCHE.registerStaticClass('SceneManager', SceneManager);

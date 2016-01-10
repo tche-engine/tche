@@ -6,6 +6,10 @@
       this.refresh();
     }
 
+    get startFromTheBottom() {
+      return false;
+    }
+
     draw() {
       this.drawChoices();
     }
@@ -14,13 +18,17 @@
       let choice = this._choices[index];
       let position = this.getChoicePosition(index);
 
-      this._contents.drawText(choice.displayName, position.x, position.y);
+      this._contents.drawTextCentered(choice.displayName, position.x, position.y, this.width);
     }
 
     drawChoices() {
       for (var i = 0; i < this._choices.length; i++) {
         this.drawChoice(i);
       }
+    }
+
+    onChoice(index) {
+      console.log('onChoice', index);
     }
 
     refresh() {
@@ -37,8 +45,13 @@
     }
 
     getChoicePosition(index) {
-      let y = index * this.lineHeight;
+      let y = index * this.lineHeight + this.margin;
       let x = 0;
+
+      if (this.startFromTheBottom) {
+        let reverseIndex = this._choices.length - index;
+        y = this.height - this.margin - (reverseIndex * this.lineHeight);
+      }
 
       return { x : x, y : y};
     }

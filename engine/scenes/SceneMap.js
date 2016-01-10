@@ -28,6 +28,10 @@
 
       this._mapSprite.update();
     }    
+
+    processClick(pos) {
+      TCHE.globals.player.setDest(pos.x - TCHE.globals.map.offsetX, pos.y - TCHE.globals.map.offsetY);
+    }
   }
   
   TCHE.registerClass('SceneMap', SceneMap);
