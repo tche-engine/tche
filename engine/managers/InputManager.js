@@ -4,6 +4,7 @@
   let previousKeyStates = {};
   let triggeredKeys = [];
   let releasedKeys = [];
+  let keyCodes = null;
 
   let keys = {
     9: 'tab', // tab
@@ -76,11 +77,14 @@
 
     static addKeyCode(code, name) {
       keys[code] = name;
+      keyCodes = null;
     }
 
     static addKeyAlias(keyName, keyAlias) {
       keyAliases[keyName] = keyAliases[keyName] || [];
       keyAliases[keyName].push(keyAlias);
+
+      keyCodes = null;
     }
 
     static isKeyCodePressed(keyCode) {
@@ -95,7 +99,7 @@
       return releasedKeys.indexOf(keyCode) >= 0;
     }
 
-    static getKeyCodes(keyName) {
+    static generateKeyCodes(keyName) {
       var codes = [];
 
       for (var key in keys) {
@@ -112,7 +116,18 @@
         }
       }
 
+      keyCodes = keyCodes || {};
+      keyCodes[keyName] = codes;
+
       return codes;
+    }
+
+    static getKeyCodes(keyName) {
+      if (!!keyCodes && !!keyCodes[keyName]) {
+        return keyCodes[keyName];
+      }
+
+      return this.generateKeyCodes(keyName);
     }
 
     static getKeyNames(keyCode) {
