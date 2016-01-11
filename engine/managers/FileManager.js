@@ -1,5 +1,6 @@
 (function(){
   let startedLoadingMaps = false;
+  let startedLoadingSprites = false;
   let filesToLoad = 0;
 
   class FileManager {
@@ -12,10 +13,32 @@
     static loadAllMaps() {
       if (!TCHE.data.game) return;
 
+      startedLoadingMaps = true;
       var maps = TCHE.data.game.maps;
 
       for (var mapName in maps) {
         this.loadMapData(mapName, maps[mapName]);
+      }
+    }
+
+    static loadAllSprites() {
+      if (!TCHE.data.game) return;
+
+      startedLoadingSprites = true;
+      var sprites = TCHE.data.game.sprites;
+
+      for (var spriteName in sprites) {
+        this.loadSpriteTexture(sprites[spriteName].image);
+      }
+    }
+
+    static loadSpriteTexture(imageName) {
+      let texture = PIXI.Texture.fromImage(imageName);
+      if (texture.baseTexture.isLoading) {
+        filesToLoad++;
+        texture.baseTexture.addListener('loaded', function(){
+          filesToLoad--;
+        });
       }
     }
 
@@ -49,8 +72,11 @@
       }
 
       if (!startedLoadingMaps) {
-        startedLoadingMaps = true;
         this.loadAllMaps();
+      }
+
+      if (!startedLoadingSprites) {
+        this.loadAllSprites();
       }
     }
 
