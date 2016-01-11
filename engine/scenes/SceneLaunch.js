@@ -11,7 +11,6 @@
         TCHE.fire("ready");
 
         TCHE.SceneManager.changeScene(TCHE.SceneTitle);
-        // TCHE.globals.map.changeMap(TCHE.data.game.initialMap);
       }
     }    
   }

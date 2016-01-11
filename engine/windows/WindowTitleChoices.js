@@ -18,6 +18,19 @@
       this.addChoice('quitGame', 'Quit Game');
     }
 
+    onChoice(index) {
+      switch(index) {
+        case 0 :
+          TCHE.globals.map.changeMap(TCHE.data.game.initialMap);
+          break;
+        case 1 :
+          console.log("There's no quitting. You're here FOREVER.");
+          // TCHE.SceneManager.end();
+          break;
+      }
+     
+    }
+
     update() {
       // this.refresh();
     }
