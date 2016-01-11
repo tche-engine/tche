@@ -1,4 +1,7 @@
 var pkg = require("./package.json");
+var argv = require('minimist')(process.argv.slice(2));
+console.log(process.argv);
+console.dir(argv);
 module.exports = function(grunt) {
 
   var files = [
@@ -81,6 +84,14 @@ module.exports = function(grunt) {
         }
       }
     },
+    "nwjs": {
+      options: {
+        platforms: ['linux', "win", "osx"],
+        buildDir: argv.dist || './generated', // Where the build version of my NW.js app is saved
+        version: '0.12.0'
+      },
+          src: [(argv.path||'.')  +'/src/**' ,"./engine/**"] // Your NW.js app
+  }
   };
 
   config.babel.dist.files['dist/' + pkg.name + '.js'] = 'dist/' + pkg.name + '.js';
@@ -88,6 +99,7 @@ module.exports = function(grunt) {
   grunt.initConfig(config);
   grunt.registerTask("bower-install", ["bower-install-simple:prod"]);
   grunt.loadNpmTasks('grunt-bower');
+  grunt.loadNpmTasks('grunt-nw-builder');
   grunt.loadNpmTasks("grunt-bower-install-simple");
   grunt.loadNpmTasks('grunt-babel');
   grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -102,6 +114,6 @@ module.exports = function(grunt) {
 
   grunt.registerTask('default', ['jshint', 'concat', 'babel','uglify']);
   grunt.registerTask('server', ['default', 'http-server']);
-  grunt.registerTask('build', ['default', 'copy', 'nwjs']);
+  grunt.registerTask('build', ['default', 'nwjs']);
 
 };
