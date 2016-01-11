@@ -57,7 +57,7 @@
     static loadTiledMapFiles(mapData) {
       mapData.tilesets.forEach(function(tileset){
         let texture = PIXI.Texture.fromImage('./maps/' + tileset.image);
-        if (texture.isLoading) {
+        if (texture.baseTexture.isLoading) {
           filesToLoad++;
           texture.baseTexture.addListener('loaded', function(){
             filesToLoad--;
