@@ -1,7 +1,7 @@
 (function(){
-  let scene;
-  let newScene;
-  let newSceneParams;
+  var scene;
+  var newScene;
+  var newSceneParams;
 
   class SceneManager {
     static get scene() { return scene; }

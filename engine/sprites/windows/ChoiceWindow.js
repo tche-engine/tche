@@ -14,27 +14,27 @@
     }
 
     drawChoice(index) {
-      let choice = this._choices[index];
-      let position = this.getChoicePosition(index);
+      var choice = this._choices[index];
+      var position = this.getChoicePosition(index);
 
       this._contents.drawTextCentered(choice.displayName, position.x, position.y, this.width);
     }
 
     getChoiceAtGlobal(x, y) {
-      let globalX = x;
-      let globalY = y;
-      let myGlobalX = this.worldTransform.tx;
-      let myGlobalY = this.worldTransform.ty;
+      var globalX = x;
+      var globalY = y;
+      var myGlobalX = this.worldTransform.tx;
+      var myGlobalY = this.worldTransform.ty;
 
-      let localX = globalX - myGlobalX;
-      let localY = globalY - myGlobalY;
+      var localX = globalX - myGlobalX;
+      var localY = globalY - myGlobalY;
 
       return this.getChoiceAt(localX, localY);
     }
 
     getChoiceAt(x, y) {
-      for (let i = 0; i < this._choices.length; i++) {
-        let pos = this.getChoicePosition(i);
+      for (var i = 0; i < this._choices.length; i++) {
+        var pos = this.getChoicePosition(i);
 
         if (x >= pos.x && y >= pos.y && y <= pos.y + this.lineHeight) {
           return i;
@@ -45,7 +45,7 @@
     }
 
     triggerChoiceAtGlobal(x, y) {
-      let choice = this.getChoiceAtGlobal(x, y);
+      var choice = this.getChoiceAtGlobal(x, y);
       return this.triggerChoice(choice);
     }
 
@@ -56,7 +56,7 @@
     }
 
     triggerChoiceAt(x, y) {
-      let choice = this.getChoiceAt(x, y);
+      var choice = this.getChoiceAt(x, y);
       return this.triggerChoice(choice);
     }
 
@@ -89,11 +89,11 @@
     }
 
     getChoicePosition(index) {
-      let y = index * this.lineHeight + this.margin;
-      let x = 0;
+      var y = index * this.lineHeight + this.margin;
+      var x = 0;
 
       if (this.startFromTheBottom) {
-        let reverseIndex = this._choices.length - index;
+        var reverseIndex = this._choices.length - index;
         y = this.height - this.margin - (reverseIndex * this.lineHeight);
       }
 

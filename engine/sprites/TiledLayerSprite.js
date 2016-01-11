@@ -12,47 +12,62 @@
     set layerData(value) { this._layerData = value; }
 
     addSprite(texture, x, y, tileId) {
-      let tileX = x * texture.frame.width;
-      let tileY = y * texture.frame.height;
+      var tileX = x * texture.frame.width;
+      var tileY = y * texture.frame.height;
 
-      let sprite = new PIXI.Sprite(texture);
+      var sprite = new PIXI.Sprite(texture);
       sprite.x = tileX;
       sprite.y = tileY;
       sprite.tileId = tileId;
 
-      let container = new PIXI.Container();
+      var container = new PIXI.Container();
       container.addChild(sprite);
 
       this._texture.render(container);
     }
 
+    onLoadTexture() {
+      var {x, y, texture, layerSprite, tileId} = this;
+      layerSprite.addSprite(texture, x, y, tileId);
+    }
+
     createPixiSprite() {
-      let layerData = this._layerData;
-      let mapName = TCHE.globals.map.mapName;
+      var layerData = this._layerData;
+      var mapName = TCHE.globals.map.mapName;
 
       this._texture = TCHE.TileManager.getLayerTextureFromCache(mapName, layerData.name);
       if (!this._texture) {
-        let layerSprite = this;
-        let mapData = TCHE.MapManager.getMapData(mapName);
+        var layerSprite = this;
+        var mapData = TCHE.MapManager.getMapData(mapName);
 
-        let width = mapData.width * mapData.tilewidth;
-        let height = mapData.height * mapData.tileheight;
+        var width = mapData.width * mapData.tilewidth;
+        var height = mapData.height * mapData.tileheight;
 
         this._texture = new PIXI.RenderTexture(TCHE.renderer, width, height);
 
-        let index = -1;
-        for (let y = 0; y < layerData.height; y++) {
-          for (let x = 0; x < layerData.width; x++) {
+        var index = -1;
+        for (var y = 0; y < layerData.height; y++) {
+          for (var x = 0; x < layerData.width; x++) {
             index++;
-            let tileId = layerData.data[index];
+            var tileId = layerData.data[index];
             if (tileId === 0) continue;
 
-            let texture = TCHE.TileManager.loadTileTexture(mapName, tileId);
+            var texture = TCHE.TileManager.loadTileTexture(mapName, tileId);
+
+            texture.baseTexture._futureX = x;
+            texture.baseTexture._futureY = y;
+            texture.baseTexture._futureTileId = tileId;
+            texture.baseTexture._futureLayer = layerSprite;
+            texture.baseTexture._futureTexture = texture;
 
             if (texture.baseTexture.isLoading) {
-              texture.baseTexture.addListener('loaded', function(){
-                layerSprite.addSprite(texture, x, y, tileId);
-              });
+              texture.baseTexture.addListener('loaded', layerSprite.onLoadTexture.bind({
+                x : x,
+                y : y,
+                tileId : tileId,
+                texture : texture,
+                layerSprite : layerSprite
+              }));
             } else {
               layerSprite.addSprite(texture, x, y, tileId);
             }

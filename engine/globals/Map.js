@@ -1,6 +1,6 @@
 (function(){
-  let collisionMapDirty = true;
-  let shouldCreateCollisionMap = true;
+  var collisionMapDirty = true;
+  var shouldCreateCollisionMap = true;
 
   class Map {
     constructor() {
@@ -103,14 +103,14 @@
 
     createObjects() {
       var objectList = [];
-      let map = this;
+      var map = this;
 
       if (!!this._mapData) {
         objectList = TCHE.MapManager.getMapObjects(this._mapData) || objectList;
       }
 
       objectList.forEach(function(obj){
-        let data = map.getImportantObjectData(this._mapData, obj);
+        var data = map.getImportantObjectData(this._mapData, obj);
 
         var objCharacter = new TCHE.Character();
         objCharacter.x = data.x;
@@ -128,8 +128,8 @@
     }
 
     addCharacterToCollisionMap(character) {
-      for (let x = character.x; x < character.rightX; x++) {
-        for (let y = character.y; y < character.bottomY; y++) {
+      for (var x = character.x; x < character.rightX; x++) {
+        for (var y = character.y; y < character.bottomY; y++) {
           if (this._collisionMap.length < x || !this._collisionMap[x]) {
             this._collisionMap[x] = {};
           }
@@ -150,8 +150,8 @@
     createCollisionMap() {
       this._collisionMap = {};
 
-      for (let i = 0; i < this._objects.length; i++) {
-        let obj = this._objects[i];
+      for (var i = 0; i < this._objects.length; i++) {
+        var obj = this._objects[i];
 
         this.addCharacterToCollisionMap(obj);
       }
@@ -192,7 +192,7 @@
         return false;
       }
 
-      let blockingCharacter = this.collisionMap[x][y].find(function(item){
+      var blockingCharacter = this.collisionMap[x][y].find(function(item){
         return item != character;
       });
 
@@ -213,7 +213,7 @@
         return [];
       }
 
-      let blockingCharacters = this.collisionMap[x][y].filter(function(item){
+      var blockingCharacters = this.collisionMap[x][y].filter(function(item){
         return item != character;
       });
 
@@ -221,10 +221,10 @@
     }
 
     canMoveLeft(character, triggerEvents = false) {
-      for (let y = character.y; y < character.bottomY; y++) {
+      for (var y = character.y; y < character.bottomY; y++) {
         if (!this.isValid(character.x - character.stepSize, y)) return false;
 
-        for (let i = character.stepSize; i > 0; i--) {
+        for (var i = character.stepSize; i > 0; i--) {
           if (this.isCollided(character.x - i, y, character, triggerEvents)) {
             return false;
           }
@@ -235,10 +235,10 @@
     }
 
     canMoveRight(character, triggerEvents = false) {
-      for (let y = character.y; y < character.bottomY; y++) {
+      for (var y = character.y; y < character.bottomY; y++) {
         if (!this.isValid(character.rightX + character.stepSize, y)) return false;
 
-        for (let i = character.stepSize; i > 0; i--) {
+        for (var i = character.stepSize; i > 0; i--) {
           if (this.isCollided(character.rightX + i, y, character, triggerEvents)) {
             return false;
           }
@@ -249,10 +249,10 @@
     }
 
     canMoveUp(character, triggerEvents = false) {
-      for (let x = character.x; x < character.rightX; x++) {
+      for (var x = character.x; x < character.rightX; x++) {
         if (!this.isValid(x, character.y - character.stepSize)) return false;
 
-        for (let i = character.stepSize; i > 0; i--) {
+        for (var i = character.stepSize; i > 0; i--) {
           if (this.isCollided(x, character.y - i, character, triggerEvents)) {
             return false;
           }
@@ -263,10 +263,10 @@
     }
 
     canMoveDown(character, triggerEvents = false) {
-      for (let x = character.x; x < character.rightX; x++) {
+      for (var x = character.x; x < character.rightX; x++) {
         if (!this.isValid(x, character.bottomY + character.stepSize)) return false;
 
-        for (let i = character.stepSize; i > 0; i--) {
+        for (var i = character.stepSize; i > 0; i--) {
           if (this.isCollided(x, character.bottomY + i, character, triggerEvents)) {
             return false;
           }
@@ -277,10 +277,10 @@
     }
 
     reasonNotToMoveUp(character) {
-      for (let x = character.x; x < character.rightX; x++) {
+      for (var x = character.x; x < character.rightX; x++) {
         if (!this.isValid(x, character.y - character.stepSize)) return [];
 
-        for (let i = character.stepSize; i > 0; i--) {
+        for (var i = character.stepSize; i > 0; i--) {
           if (this.isCollided(x, character.y - i, character)) {
             return this.collidedObjects(x, y, character);
           }
@@ -291,10 +291,10 @@
     }
 
     reasonNotToMoveDown(character) {
-      for (let x = character.x; x < character.rightX; x++) {
+      for (var x = character.x; x < character.rightX; x++) {
         if (!this.isValid(x, character.bottomY + character.stepSize)) return undefined;
 
-        for (let i = character.stepSize; i > 0; i--) {
+        for (var i = character.stepSize; i > 0; i--) {
           if (this.isCollided(x, character.bottomY + i, character)) {
             return this.collidedObjects(x, y, character);
           }
@@ -305,10 +305,10 @@
     }
 
     reasonNotToMoveLeft(character) {
-      for (let y = character.y; y < character.bottomY; y++) {
+      for (var y = character.y; y < character.bottomY; y++) {
         if (!this.isValid(character.x - character.stepSize, y)) return undefined;
 
-        for (let i = character.stepSize; i > 0; i--) {
+        for (var i = character.stepSize; i > 0; i--) {
           if (this.isCollided(character.x - i, y, character)) {
             return this.collidedObjects(x, y, character);
           }
@@ -319,10 +319,10 @@
     }
 
     reasonNotToMoveRight(character) {
-      for (let y = character.y; y < character.bottomY; y++) {
+      for (var y = character.y; y < character.bottomY; y++) {
         if (!this.isValid(character.rightX + character.stepSize, y)) return undefined;
 
-        for (let i = character.stepSize; i > 0; i--) {
+        for (var i = character.stepSize; i > 0; i--) {
           if (this.isCollided(character.rightX + i, y, character)) {
             return this.collidedObjects(x, y, character);
           }

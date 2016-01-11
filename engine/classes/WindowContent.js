@@ -9,13 +9,13 @@
     }
 
     renderObjectInContainer(object) {
-      let container = new PIXI.Container();
+      var container = new PIXI.Container();
       container.addChild(object);
       this.render(container);
     }
 
     drawRect(color, x, y, width, height, alpha) {
-      let graphics = new PIXI.Graphics();
+      var graphics = new PIXI.Graphics();
 
       graphics.beginFill(color, alpha);
       graphics.drawRect(x, y, width, height);
@@ -25,7 +25,7 @@
     }
 
     drawText(text, x, y) {
-      let textObj = new PIXI.Text(text);
+      var textObj = new PIXI.Text(text);
       textObj.x = x;
       textObj.y = y;
 
@@ -34,18 +34,18 @@
     }
 
     drawTextCentered(text, x, y, width) {
-      let textObj = new PIXI.Text(text);
+      var textObj = new PIXI.Text(text);
       textObj.x = x;
       textObj.y = y;
 
       if (textObj.width > width) {
         textObj.width = width;
       } else {
-        let diffX = width - textObj.width;
+        var diffX = width - textObj.width;
         textObj.x += Math.floor(diffX / 2);
       }
 
-      let container = new PIXI.Container();
+      var container = new PIXI.Container();
       container.addChild(textObj);
 
       container.width = x + width;

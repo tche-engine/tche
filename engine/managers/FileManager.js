@@ -1,7 +1,7 @@
 (function(){
-  let startedLoadingMaps = false;
-  let startedLoadingSprites = false;
-  let filesToLoad = 0;
+  var startedLoadingMaps = false;
+  var startedLoadingSprites = false;
+  var filesToLoad = 0;
 
   class FileManager {
     static loadGameSettings() {
@@ -33,7 +33,7 @@
     }
 
     static loadSpriteTexture(imageName) {
-      let texture = PIXI.Texture.fromImage(imageName);
+      var texture = PIXI.Texture.fromImage(imageName);
       if (texture.baseTexture.isLoading) {
         filesToLoad++;
         texture.baseTexture.addListener('loaded', function(){
@@ -82,7 +82,7 @@
 
     static loadTiledMapFiles(mapData) {
       mapData.tilesets.forEach(function(tileset){
-        let texture = PIXI.Texture.fromImage('./maps/' + tileset.image);
+        var texture = PIXI.Texture.fromImage('./maps/' + tileset.image);
         if (texture.baseTexture.isLoading) {
           filesToLoad++;
           texture.baseTexture.addListener('loaded', function(){

@@ -17,14 +17,14 @@
     }
 
     static loadTileTexture(mapName, tileId) {
-      let texture = this.getTileTextureFromCache(mapName, tileId);
+      var texture = this.getTileTextureFromCache(mapName, tileId);
       if (!!texture) {
         return texture;
       }
 
-      let mapData = TCHE.maps[mapName];
-      let tilesets = mapData.tilesets;
-      let theTileset;
+      var mapData = TCHE.maps[mapName];
+      var tilesets = mapData.tilesets;
+      var theTileset;
 
       tilesets.forEach(function(tileset){
         if (tileId < tileset.firstgid) return;
@@ -34,18 +34,18 @@
         return false;
       });
 
-      let subTileId = tileId - theTileset.firstgid;
-      let column = subTileId % theTileset.columns;
-      let line = Math.floor(subTileId / theTileset.columns);
+      var subTileId = tileId - theTileset.firstgid;
+      var column = subTileId % theTileset.columns;
+      var line = Math.floor(subTileId / theTileset.columns);
 
-      let frame = {
+      var frame = {
         width : theTileset.tilewidth,
         height : theTileset.tileheight,
         x : column * theTileset.tilewidth,
         y : line * theTileset.tileheight
       };
 
-      let baseTexture = PIXI.Texture.fromImage('./map/' + theTileset.image);      
+      var baseTexture = PIXI.Texture.fromImage('./map/' + theTileset.image);      
       texture = new PIXI.Texture(baseTexture);
       if (texture.baseTexture.isLoading) {
         texture.baseTexture.addListener('loaded', function(){

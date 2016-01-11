@@ -1,12 +1,12 @@
 (function(){
-  let keyAliases = {};
-  let keyStates = {};
-  let previousKeyStates = {};
-  let triggeredKeys = [];
-  let releasedKeys = [];
-  let keyCodes = null;
+  var keyAliases = {};
+  var keyStates = {};
+  var previousKeyStates = {};
+  var triggeredKeys = [];
+  var releasedKeys = [];
+  var keyCodes = null;
 
-  let keys = {
+  var keys = {
     9: 'tab', // tab
     13: 'ok', // enter
     16: 'shift', // shift
