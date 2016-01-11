@@ -1,19 +1,19 @@
 (function(){
   class TileManager {
     static getTileTextureFromCache(mapName, tileId) {
-      if (this._textureCache === undefined) {
+      if (this._tileCache === undefined) {
         return undefined;
       }
 
-      return this._textureCache[mapName + tileId];
+      return this._tileCache[mapName + tileId];
     }
 
     static saveTileTextureCache(mapName, tileId, texture) {
-      if (this._textureCache === undefined) {
-        this._textureCache = {};
+      if (this._tileCache === undefined) {
+        this._tileCache = {};
       }
 
-      this._textureCache[mapName + tileId] = texture;
+      this._tileCache[mapName + tileId] = texture;
     }
 
     static loadTileTexture(mapName, tileId) {
@@ -58,6 +58,22 @@
       this.saveTileTextureCache(mapName, tileId, texture);
 
       return texture;
+    }
+
+    static getLayerTextureFromCache(mapName, layerName) {
+      if (this._layerCache === undefined) {
+        return undefined;
+      }
+
+      return this._layerCache[mapName + '/' + layerName];
+    }
+
+    static saveLayerTextureCache(mapName, layerName, texture) {
+      if (this._layerCache === undefined) {
+        this._layerCache = {};
+      }
+
+      this._layerCache[mapName + '/' + layerName] = texture;
     }
   }
   

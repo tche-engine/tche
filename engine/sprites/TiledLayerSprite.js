@@ -27,36 +27,41 @@
     }
 
     createPixiSprite() {
-      this._sprite = null;
-      let layerSprite = this;
-      let mapName = TCHE.globals.map.mapName;
       let layerData = this._layerData;
-      let mapData = TCHE.MapManager.getMapData(mapName);
+      let mapName = TCHE.globals.map.mapName;
 
-      let width = mapData.width * mapData.tilewidth;
-      let height = mapData.height * mapData.tileheight;
+      this._texture = TCHE.TileManager.getLayerTextureFromCache(mapName, layerData.name);
+      if (!this._texture) {
+        let layerSprite = this;
+        let mapData = TCHE.MapManager.getMapData(mapName);
 
-      this._texture = new PIXI.RenderTexture(TCHE.renderer, width, height);
+        let width = mapData.width * mapData.tilewidth;
+        let height = mapData.height * mapData.tileheight;
 
-      let index = -1;
-      for (let y = 0; y < layerData.height; y++) {
-        for (let x = 0; x < layerData.width; x++) {
-          index++;
-          let tileId = layerData.data[index];
-          if (tileId === 0) continue;
+        this._texture = new PIXI.RenderTexture(TCHE.renderer, width, height);
 
-          let texture = TCHE.TileManager.loadTileTexture(mapName, tileId);
+        let index = -1;
+        for (let y = 0; y < layerData.height; y++) {
+          for (let x = 0; x < layerData.width; x++) {
+            index++;
+            let tileId = layerData.data[index];
+            if (tileId === 0) continue;
 
-          if (texture.baseTexture.isLoading) {
-            texture.baseTexture.addListener('loaded', function(){
+            let texture = TCHE.TileManager.loadTileTexture(mapName, tileId);
+
+            if (texture.baseTexture.isLoading) {
+              texture.baseTexture.addListener('loaded', function(){
+                layerSprite.addSprite(texture, x, y, tileId);
+              });
+            } else {
               layerSprite.addSprite(texture, x, y, tileId);
-            });
-          } else {
-            layerSprite.addSprite(texture, x, y, tileId);
+            }
           }
         }
-      }
 
+        TCHE.TileManager.saveLayerTextureCache(mapName, layerData.name, this._texture);
+      }
+      
       this._sprite = new PIXI.Sprite(this._texture);
       this.addChild(this._sprite);
     }
