@@ -3,7 +3,8 @@
     constructor(layerData) {
       super();
       this._layerData = layerData;
-      this._sprites = [];
+      this._texture = null;
+      this._sprite = null;
       this.createPixiSprite();
     }
 
@@ -19,17 +20,23 @@
       sprite.y = tileY;
       sprite.tileId = tileId;
 
-      this._sprites.push(sprite);
-      this.addChild(sprite);
+      let container = new PIXI.Container();
+      container.addChild(sprite);
+
+      this._texture.render(container);
     }
 
     createPixiSprite() {
-      //Create one sprite for each tile of the layer
-      this._sprites = [];
-
+      this._sprite = null;
       let layerSprite = this;
       let mapName = TCHE.globals.map.mapName;
       let layerData = this._layerData;
+      let mapData = TCHE.MapManager.getMapData(mapName);
+
+      let width = mapData.width * mapData.tilewidth;
+      let height = mapData.height * mapData.tileheight;
+
+      this._texture = new PIXI.RenderTexture(TCHE.renderer, width, height);
 
       let index = -1;
       for (let y = 0; y < layerData.height; y++) {
@@ -49,6 +56,9 @@
           }
         }
       }
+
+      this._sprite = new PIXI.Sprite(this._texture);
+      this.addChild(this._sprite);
     }
 
     update() {
