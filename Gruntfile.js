@@ -87,7 +87,7 @@ module.exports = function(grunt) {
     "nwjs": {
       options: {
         platforms: ['linux', "win", "osx"],
-        buildDir: argv.dist || './generated', // Where the build version of my NW.js app is saved
+        buildDir: argv.dir || './generated', // Where the build version of my NW.js app is saved
         version: '0.12.0'
       },
           src: [(argv.path||'.')  +'/src/**' ,"./engine/**"] // Your NW.js app
