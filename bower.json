@@ -1,12 +1,13 @@
 {
   "name": "tche",
   "description": "framework rpg tche",
-  "main": "./sample-game/index.html",
+  "main": "./game/index.html",
   "authors": [
-    "Guilherme Gazzo <guilhermegazzo@gmail.com>"
+    "Guilherme Gazzo <guilhermegazzo@gmail.com>",
+    "Pierre Lehnen <tche@hudell.com>"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/Hudell/tche",
+  "homepage": "https://github.com/tche-engine/tche",
   "moduleType": [],
   "private": true,
   "ignore": [

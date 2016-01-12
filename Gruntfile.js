@@ -1,7 +1,6 @@
 var pkg = require("./package.json");
 var argv = require('minimist')(process.argv.slice(2));
-console.log(process.argv);
-console.dir(argv);
+
 module.exports = function(grunt) {
 
   var files = [
@@ -64,11 +63,23 @@ module.exports = function(grunt) {
   "copy": {
       main: {
         files: [
-          // includes files within path
           {
             expand: true,
-            src: ['dist/**', "sample-game/**", 'package.json', "engine/libs/**"],
-            dest: 'tmp/'
+            cwd : argv.path || "./game" + "/",
+            src: ["**/*"],
+            dest: 'tmp/game/'
+          },
+          {
+            expand : true,
+            src : ["dist/tche.js"],
+            flatten : true,
+            dest : "tmp/game/tche/"
+          },
+          {
+            expand : true,
+            src : ["engine/libs/pixi.js/bin/pixi.js", "engine/libs/fpsmeter/dist/fpsmeter.min.js", "engine/libs/SoundJS/lib/soundjs-0.6.2.min.js"],
+            flatten : true,
+            dest : "tmp/game/libs/"
           },
         ],
       },
@@ -87,11 +98,11 @@ module.exports = function(grunt) {
     "nwjs": {
       options: {
         platforms: ['linux', "win", "osx"],
-        buildDir: argv.dir || './generated', // Where the build version of my NW.js app is saved
-        version: '0.12.0'
+        buildDir: './bin/',
+        version: '0.12.0',
       },
-          src: [(argv.path||'.')  +'/src/**' ,"./engine/**"] // Your NW.js app
-  }
+      src: ["./tmp/game/**"]
+    },
   };
 
   config.babel.dist.files['dist/' + pkg.name + '.js'] = 'dist/' + pkg.name + '.js';
@@ -112,7 +123,7 @@ module.exports = function(grunt) {
 
 
 
-  grunt.registerTask('default', ['jshint', 'concat', 'babel','uglify']);
+  grunt.registerTask('default', ['jshint', 'concat', 'babel','uglify', 'copy']);
   grunt.registerTask('server', ['default', 'http-server']);
   grunt.registerTask('build', ['default', 'nwjs']);
 

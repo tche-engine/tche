@@ -1,0 +1,10 @@
+{
+  "name": "tche-game",
+  "version": "0.0.1",
+  "main": "./index.html",
+  "window": {
+    "frame": true,
+    "toolbar": true,
+    "fullscreen": false
+  }
+}

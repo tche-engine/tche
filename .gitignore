@@ -3,5 +3,6 @@ node_modules/*
 cache/*
 tmp/*
 generated/*
+bin/*
 engine/libs/*
 dist/*
