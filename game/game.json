@@ -1,0 +1,22 @@
+{
+  "player" : {
+    "sprite" : "",
+    "x" : 0,
+    "y" : 0,
+    "width" : 32,
+    "height" : 25,
+    "offsetX" : 0,
+    "offsetY" : 0
+  },
+
+  "sprites" : {
+  },
+
+  "initialMap" : "",
+  
+  "maps" : {
+  },
+
+  "sounds" : {
+  }
+}
