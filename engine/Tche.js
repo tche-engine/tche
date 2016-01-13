@@ -3,7 +3,8 @@ var TCHE = {
   data : {},
   maps : {},
   spriteTypes : {},
-  mapTypes : {}
+  mapTypes : {},
+  skinTypes : {}
 };
 
 (function($){

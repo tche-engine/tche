@@ -11,6 +11,7 @@ module.exports = function(grunt) {
     'engine/classes/*.js',
     'engine/spriteTypes/*.js',
     'engine/mapTypes/*.js',
+    'engine/skinTypes/*.js',
     'engine/sprites/*.js',
     'engine/sprites/maps/*.js',
     'engine/sprites/windows/*.js',

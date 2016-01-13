@@ -1,8 +1,15 @@
 (function(){
   class WindowSprite extends TCHE.Sprite {
-    constructor(width, height) {
+    constructor(width, height, skinName) {
       super();
-      this.createContents(width, height);
+
+      if (skinName === undefined) {
+        skinName = TCHE.data.game.mainSkin;
+      }
+
+      this.createBackground(skinName);
+
+      this.createContents(width, height, skinName);
       this.createSprite();
       this.refresh();
     }
@@ -13,16 +20,6 @@
     get height() {
       return this._contents.height;
     }
-
-    // set width(value) {
-    //   this._sprite.width = value;
-    //   this._contents.width = value;
-    // }
-
-    // set height(value) {
-    //   this._sprite.height = value;
-    //   this._contents.height = value;
-    // }
 
     get contents() {
       return this._contents;
@@ -36,8 +33,28 @@
       return 20;
     }
 
-    createContents(width, height) {
-      this._contents = new TCHE.WindowContent(TCHE.renderer, width, height);
+    get skinName() {
+      return this._contents.skinName;
+    }
+
+    // set skinName(value) {
+    //   this._contents.skinName = value;
+    //   this.refresh();
+    // }
+
+    createBackground(skinName) {
+      if (!!this._backgroundContainer) {
+        this._backgroundContainer.removeChildren();
+      } else {
+        this._backgroundContainer = new PIXI.Container();
+        this.addChild(this._backgroundContainer);
+      }
+
+      TCHE.SkinManager.addSkinBackground(skinName, this, this._backgroundContainer);
+    }
+
+    createContents(width, height, skinName) {
+      this._contents = new TCHE.WindowContent(TCHE.renderer, width, height, skinName);
     }
 
     createSprite() {
@@ -45,8 +62,15 @@
       this.addChild(this._sprite);      
     }
 
+    drawFrame() {
+      if (!!this.skinName) {
+        this._contents.drawSkinFrame();
+      }
+    }
+
     refresh() {
       this.clear();
+      // this.drawFrame();
       this.draw();
 
       this._contents.update();

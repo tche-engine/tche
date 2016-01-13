@@ -15,7 +15,7 @@
     }
 
     static updateAnimationStep(character) {
-    }    
+    }
   }
 
   TCHE.SpriteType = SpriteType;

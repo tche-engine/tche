@@ -1,7 +1,7 @@
 (function(){
   class WindowTitleChoices extends TCHE.ChoiceWindow {
     constructor() {
-      super(300, 62);
+      super(300, 92);
     }
 
     get startFromTheBottom() {
@@ -9,7 +9,7 @@
     }
 
     get margin() {
-      return 5;
+      return 20;
     }
 
     makeChoiceList() {
@@ -36,7 +36,7 @@
     }
 
     draw() {
-      this._contents.drawRect('0xFF0000', 0, 0, this.width, this.height);
+      // this._contents.drawRect('0xFF0000', 0, 0, this.width, this.height);
       this.drawChoices();
     }    
   }
