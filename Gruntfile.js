@@ -1,7 +1,7 @@
-var pkg = require("./package.json");
 var argv = require('minimist')(process.argv.slice(2));
 
-module.exports = function(grunt) {
+module.exports = function (grunt) {
+  var pkg = grunt.file.readJSON('package.json');
 
   var files = [
     'engine/pollyfills/*.js',
@@ -27,7 +27,7 @@ module.exports = function(grunt) {
     'engine/globals/*.js'
   ];
   var config = {
-    pkg: grunt.file.readJSON('package.json'),
+    pkg: pkg,
     concat: {
       options: {},
       dist: {
@@ -60,8 +60,8 @@ module.exports = function(grunt) {
     "watch": {
       files: ['<%= jshint.files %>'],
       tasks: ['default']
-  },
-  "copy": {
+    },
+    "copy": {
       main: {
         files: [
           {
