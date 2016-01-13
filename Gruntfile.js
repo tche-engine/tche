@@ -1,52 +1,31 @@
-var argv = require('minimist')(process.argv.slice(2));
-
 module.exports = function (grunt) {
-  var pkg = grunt.file.readJSON('package.json');
-
-  var files = [
-    'engine/pollyfills/*.js',
-    'engine/Bah.js',
-    'engine/Tche.js',
-    'engine/helpers/*.js',
-    'engine/classes/*.js',
-    'engine/spriteTypes/*.js',
-    'engine/mapTypes/*.js',
-    'engine/skinTypes/*.js',
-    'engine/sprites/*.js',
-    'engine/sprites/maps/*.js',
-    'engine/sprites/windows/*.js',
-    'engine/windows/*.js',
-    'engine/managers/*.js',
-    'engine/scenes/Scene.js',
-    'engine/scenes/SceneLoading.js',
-    'engine/scenes/SceneLaunch.js',
-    'engine/scenes/SceneMapLoading.js',
-    'engine/scenes/SceneMap.js',
-    'engine/scenes/SceneWindow.js',
-    'engine/scenes/SceneTitle.js',
-    'engine/globals/*.js'
-  ];
-  var config = {
-    pkg: pkg,
-    concat: {
-      options: {},
-      dist: {
-        src: files,
-        dest: 'dist/<%= pkg.name %>.js'
-      }
-    },
-    uglify: {
-      options: {
-        banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
-      },
-      dist: {
-        files: {
-          'dist/<%= pkg.name %>.min.js': ['<%= concat.dist.dest %>']
-        }
-      }
-    },
-    "jshint": {
-      src: files,
+  grunt.initConfig({
+    pkg: grunt.file.readJSON('package.json'),
+    sources: [
+      'engine/pollyfills/*.js',
+      'engine/Bah.js',
+      'engine/Tche.js',
+      'engine/helpers/*.js',
+      'engine/classes/*.js',
+      'engine/spriteTypes/*.js',
+      'engine/mapTypes/*.js',
+      'engine/skinTypes/*.js',
+      'engine/sprites/*.js',
+      'engine/sprites/maps/*.js',
+      'engine/sprites/windows/*.js',
+      'engine/windows/*.js',
+      'engine/managers/*.js',
+      'engine/scenes/Scene.js',
+      'engine/scenes/SceneLoading.js',
+      'engine/scenes/SceneLaunch.js',
+      'engine/scenes/SceneMapLoading.js',
+      'engine/scenes/SceneMap.js',
+      'engine/scenes/SceneWindow.js',
+      'engine/scenes/SceneTitle.js',
+      'engine/globals/*.js'
+    ],
+    
+    jshint: {
       options: {
         esnext: true,
         globals: {
@@ -55,18 +34,45 @@ module.exports = function (grunt) {
           module: true,
           document: true
         }
+      },
+      dist: {
+        src: '<%= sources %>'
       }
     },
-    "watch": {
-      files: ['<%= jshint.files %>'],
-      tasks: ['default']
+
+    concat: {
+      dist: {
+        src: '<%= sources %>',
+        dest: 'dist/<%= pkg.name %>.js'
+      }
     },
-    "copy": {
+
+    babel: {
+      options: {
+        presets: ['babel-preset-es2015']
+      },
+      dist: {
+        src: 'dist/<%= pkg.name %>.js',
+        dest: 'dist/<%= pkg.name %>.js'
+      }
+    },
+
+    uglify: {
+      options: {
+        banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
+      },
+      dist: {
+        src: 'dist/<%= pkg.name %>.js',
+        dest: 'dist/<%= pkg.name %>.min.js'
+      }
+    },
+
+    copy: {
       main: {
         files: [
           {
             expand: true,
-            cwd : argv.path || "./game" + "/",
+            cwd : grunt.option('path') || "./game" + "/",
             src: ["**/*"],
             dest: 'tmp/game/'
           },
@@ -85,34 +91,25 @@ module.exports = function (grunt) {
         ],
       },
     },
-    "babel": {
-      options: {
-        // sourceMap: true,
-        presets: ['babel-preset-es2015']
-      },
-      dist: {
-        files: {
 
-        }
-      }
+    watch: {
+      files: ['<%= jshint.files %>'],
+      tasks: ['default']
     },
-    "nwjs": {
+    
+    nwjs: {
       options: {
         platforms: ['linux', "win", "osx"],
         buildDir: './bin/',
         version: '0.12.0',
       },
       src: ["./tmp/game/**"]
-    },
-  };
+    }
+  });
 
-  config.babel.dist.files['dist/' + pkg.name + '.js'] = 'dist/' + pkg.name + '.js';
-
-  grunt.initConfig(config);
-  grunt.registerTask("bower-install", ["bower-install-simple:prod"]);
+  /*grunt.registerTask('bower-install', ['bower-install-simple:prod']);
   grunt.loadNpmTasks('grunt-bower');
-  grunt.loadNpmTasks('grunt-nw-builder');
-  grunt.loadNpmTasks("grunt-bower-install-simple");
+  grunt.loadNpmTasks('grunt-bower-install-simple');*/
   grunt.loadNpmTasks('grunt-babel');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-jshint');
@@ -122,10 +119,8 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-nw-builder');
   grunt.loadNpmTasks('grunt-contrib-copy');
 
-
-
-  grunt.registerTask('default', ['jshint', 'concat', 'babel','uglify', 'copy']);
+  grunt.registerTask('default', ['dist', 'copy']);
   grunt.registerTask('server', ['default', 'http-server']);
   grunt.registerTask('build', ['default', 'nwjs']);
-
+  grunt.registerTask('dist', ['jshint', 'concat', 'babel', 'uglify']);
 };
