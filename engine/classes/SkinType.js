@@ -9,6 +9,9 @@
 
     static addSkinBackground(window, container, skinData) {
     }
+
+    static drawCursor(skinData, contents, x, y) {
+    }
   }
 
   TCHE.SkinType = SkinType;

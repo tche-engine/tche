@@ -14,6 +14,10 @@
       this.refresh();
     }
 
+    get style() {
+      return this._contents.style;
+    }
+
     get width() {
       return this._contents.width;
     }
@@ -26,21 +30,17 @@
     }
 
     get lineHeight() {
-      return 26;
+      var text = new PIXI.Text("Testing", this.style);
+      return text.height;
     }
 
     get margin() {
-      return 20;
+      return 16;
     }
 
     get skinName() {
       return this._contents.skinName;
     }
-
-    // set skinName(value) {
-    //   this._contents.skinName = value;
-    //   this.refresh();
-    // }
 
     createBackground(skinName) {
       if (!!this._backgroundContainer) {
@@ -51,6 +51,10 @@
       }
 
       TCHE.SkinManager.addSkinBackground(skinName, this, this._backgroundContainer);
+    }
+
+    drawCursor(x, y) {
+      TCHE.SkinManager.drawSkinCursor(this.skinName, this._contents, x, y);
     }
 
     createContents(width, height, skinName) {
@@ -81,6 +85,12 @@
     }
 
     draw() {
+    }
+
+    redraw() {
+      this.clear();
+      this.draw();
+      this._contents.update();
     }
 
     update() {

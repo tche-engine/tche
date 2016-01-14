@@ -64,6 +64,16 @@
       var data = this.getSkinData(skinName);
       this.getSkinType(data).addSkinBackground(windowObj, container, data);
     }
+
+    static drawSkinCursor(skinName, content, x, y) {
+      var data = this.getSkinData(skinName);
+      this.getSkinType(data).drawSkinCursor(data, content, x, y);
+    }
+
+    static getSkinCursorSize(skinName) {
+      var data = this.getSkinData(skinName);
+      return this.getSkinType(data).getSkinCursorSize(data);
+    }
   }
   
   TCHE.registerStaticClass('SkinManager', SkinManager);

@@ -183,6 +183,46 @@
       }      
     }
 
+    static drawCursor(content, texture, x, y) {
+      //The rpg maker cursor is at x = 81,25%, y = 18,75%, width = 6,25%, height = 12,5%
+      texture.frame = {
+        x : Math.floor(texture.baseTexture.width / 16 * 13),
+        y : Math.floor(texture.baseTexture.height / 16 * 3),
+        width : Math.floor(texture.baseTexture.width / 16),
+        height : Math.floor(texture.baseTexture.height / 8)
+      };
+
+      var sprite = new PIXI.Sprite(texture);
+      sprite.x = x;
+      sprite.y = y;
+      content.renderObjectInContainer(sprite);
+    }
+
+    static drawSkinCursor(skinData, content, x, y) {
+      var texture = TCHE.SkinManager.loadSkinFrameTexture(skinData);
+
+      if (texture.baseTexture.isLoading) {
+        texture.baseTexture.addListener('loaded', function(){
+          RpgMakerSkinType.drawCursor(content, texture, x, y);
+        });
+      } else {
+        this.drawCursor(content, texture, x, y);
+      }
+    }
+
+    static getSkinCursorSize(skinData) {
+      var texture = TCHE.SkinManager.loadSkinFrameTexture(skinData);
+
+      if (texture.baseTexture.isLoading) {
+        return { width : 12, height : 24 };
+      } else {
+        var width = texture.baseTexture.width / 16;
+        var height = texture.baseTexture.height / 8;
+
+        return { width : width, height : height };
+      }
+
+    }
   }
 
   TCHE.skinTypes.rpgmaker = RpgMakerSkinType;
