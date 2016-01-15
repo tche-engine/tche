@@ -28,7 +28,7 @@
     createMessage() {
       this._messageText = "Loading";
 
-      this._messageSprite = new PIXI.Text(this._messageText);
+      this._messageSprite = new PIXI.Text("");
       this._messageSprite.anchor.x = 0;
       this._messageSprite.anchor.y = 0.5;
       this._messageSprite.position.y = Math.floor(TCHE.renderer.height / 2);
@@ -38,6 +38,7 @@
 
       this._dots = 0;
       this._counter = 0;
+      this._initialCounter = 10;
     }
 
     updateBackground() {
@@ -45,6 +46,11 @@
     }
 
     updateMessage() {
+      if (!!this._initialCounter && this._initialCounter > 0) {
+        this._initialCounter--;
+        return;
+      }
+
       this._counter++;
 
       if (this._counter > 20) {
