@@ -16,7 +16,7 @@
       this._frameInitialY = null;
       this._animationStep = 0;
       this._animationStepCount = 0;
-      this._animationDelay = 10;
+      this._animationDelay = 13;
       this._animationDelayCount = 0;
       this._offsetX = 0;
       this._offsetY = 0;

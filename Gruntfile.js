@@ -72,7 +72,7 @@ module.exports = function (grunt) {
         files: [
           {
             expand: true,
-            cwd : grunt.option('path') || "./game" + "/",
+            cwd : (grunt.option('path') || "./game") + "/",
             src: ["**/*"],
             dest: 'tmp/game/'
           },

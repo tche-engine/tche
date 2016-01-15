@@ -8,7 +8,7 @@
       spriteObj.texture.frame = RpgMakerSpriteType.getSpriteFrame(character, spriteObj, spriteData);
       character.animationStep = 1;
       character.animationStepCount = 3;
-      character.animationDelayCount = 10;
+      character.animationDelayCount = character.animationDelay;
     }
 
     static getSpriteFrame(character, spriteObj, spriteData) {

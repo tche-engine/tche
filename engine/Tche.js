@@ -22,8 +22,8 @@ var TCHE = {
   };
 
   $.fillSettings = function(settings) {
-    settings.screenWidth = settings.screenWidth || window.innerWidth;
-    settings.screenHeight = settings.screenHeight || window.innerHeight;
+    settings.screenWidth = settings.screenWidth || 640;
+    settings.screenHeight = settings.screenHeight || 360;
     settings.backgroundColor = settings.backgroundColor || 0x1099bb;
     settings.transparent = settings.transparent || true;
 
@@ -61,7 +61,8 @@ var TCHE = {
 
   $.onResize = function(e){
     var size = TCHE.getClientSize();
-    TCHE.renderer.resize(size.width, size.height);    
+    TCHE.renderer.view.style.width = size.width + 'px';
+    TCHE.renderer.view.style.height = size.height + 'px';
   };
 
   $.init = function(settings) {
