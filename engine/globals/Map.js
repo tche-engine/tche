@@ -54,6 +54,9 @@
       data.height = data.height || 0;
       data.sprite = data.sprite || '';
       data.blockedBy = data.blockedBy || '';
+      data.offsetY = data.offsetY || 0;
+      data.offsetX = data.offsetX || 0;
+      data.ghost = !!data.ghost;
 
       return data;
     }
@@ -111,14 +114,16 @@
 
       objectList.forEach(function(obj){
         var data = map.getImportantObjectData(this._mapData, obj);
+        var characterClass = TCHE.Character;
 
-        var objCharacter = new TCHE.Character();
-        objCharacter.x = data.x;
-        objCharacter.y = data.y;
-        objCharacter.width = data.width;
-        objCharacter.height = data.height;
-        objCharacter.sprite = data.sprite;
-        objCharacter.blockedBy = data.blockedBy;
+        if (data.class && TCHE[data.class] && typeof(TCHE[data.class]) == "function") {
+          characterClass = TCHE[data.class];
+        }
+
+        var objCharacter = new (characterClass)();
+        for (var key in data) {
+          objCharacter[key] = data[key];
+        }
 
         this._objects.push(objCharacter);
       }.bind(this));
@@ -193,7 +198,7 @@
       }
 
       var blockingCharacter = this.collisionMap[x][y].find(function(item){
-        return item != character;
+        return item != character && !item.ghost;
       });
 
       if (blockingCharacter === undefined) {

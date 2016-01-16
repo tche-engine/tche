@@ -3,12 +3,9 @@
     constructor(map) {
       super(map);
 
-      this._objectSprites = [];
       this._layers = [];
 
       this.createLayers();
-      this.createObjects();
-      this.createPlayer();      
     }
 
     createTileLayer(layer) {
@@ -21,46 +18,33 @@
       var mapSprite = this;
 
       this._map.mapData.layers.forEach(function(layer){
-        if (layer.name.toLowerCase() == 'player') {
-          mapSprite.createPlayer();
-          return;
-        }
-
         switch(layer.type) {
           case 'tilelayer' :
             mapSprite.createTileLayer(layer);
             break;
           case 'objectgroup' :
+            mapSprite.creatObjectLayer(layer);
             break;
         }
       });
     }
 
-    createObjects() {
-      this._objectSprites = [];
+    creatObjectLayer(layer) {
+      var layerSprite = new TCHE.TiledObjectLayerSprite(layer);
+      this._layers.push(layerSprite);
+      this.addChild(layerSprite);
 
       this._map.objects.forEach(function(obj){
-        var objSprite = new TCHE.CharacterSprite(obj);
-        this._objectSprites.push(objSprite);
-        this.addChild(objSprite);
+        if (obj.layerName == layer.name) {
+          layerSprite.createObjectSprite(obj);
+        }
       }.bind(this));
-    }
 
-    createPlayer() {
-      if (!this._playerSprite) {
-        this._playerSprite = new TCHE.CharacterSprite(TCHE.globals.player);
-        this.addChild(this._playerSprite);
+      if (layer.properties !== undefined && layer.properties.playerLayer !== undefined) {
+        layerSprite.createObjectSprite(TCHE.globals.player);
       }
-    }
 
-    updatePlayer(){
-      this._playerSprite.update();
-    }
-
-    updateObjects(){
-      this._objectSprites.forEach(function(objSprite) {
-        objSprite.update();
-      });      
+      layerSprite.update();
     }
 
     updateLayers(){
@@ -72,12 +56,10 @@
     update() {
       super.update();
 
+      this.updateLayers();
+      
       this.x = TCHE.globals.map.offsetX;
       this.y = TCHE.globals.map.offsetY;
-
-      this.updateLayers();
-      this.updateObjects();
-      this.updatePlayer();
     }
   }
   

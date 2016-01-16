@@ -20,6 +20,7 @@
       this._animationDelayCount = 0;
       this._offsetX = 0;
       this._offsetY = 0;
+      this._ghost = false;
     }
 
     get x() { return this._x; }
@@ -50,6 +51,8 @@
     set offsetX(value) { this._offsetX = value; }
     get offsetY() { return this._offsetY; }
     set offsetY(value) { this._offsetY = value; }
+    get ghost() { return this._ghost; }
+    set ghost(value) { this._ghost = value; }
 
     get rightX() { return this.x + this.width; }
     get bottomY() { return this.y + this.height; }

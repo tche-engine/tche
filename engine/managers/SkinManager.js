@@ -2,7 +2,9 @@
   class SkinManager {
     static getSkinData(skinName) {
       var data = TCHE.data.game.skins[skinName];
-      data.skinName = skinName;
+      if (!!data) {
+        data.skinName = skinName;
+      }
       return data;
     }
 
