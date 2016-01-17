@@ -10,6 +10,10 @@
       if (TCHE.FileManager.isLoaded()) {
         TCHE.fire("ready");
 
+        if (TCHE.Params.param('debug')) {
+          TCHE.Validation.checkBasicFiles();
+        }
+
         TCHE.SceneManager.changeScene(TCHE.SceneTitle);
       }
     }    

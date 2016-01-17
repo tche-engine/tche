@@ -25,7 +25,7 @@
         }
         return result;
       }
-      return obj;      
+      return obj;
     }
   }
 
