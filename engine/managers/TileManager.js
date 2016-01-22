@@ -34,9 +34,11 @@
         return false;
       });
 
+      var columns = theTileset.imagewidth / theTileset.tilewidth;
+
       var subTileId = tileId - theTileset.firstgid;
-      var column = subTileId % theTileset.columns;
-      var line = Math.floor(subTileId / theTileset.columns);
+      var column = subTileId % columns;
+      var line = Math.floor(subTileId / columns);
 
       var frame = {
         width : theTileset.tilewidth,
