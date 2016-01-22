@@ -17,6 +17,26 @@
     createLayers() {
       var mapSprite = this;
 
+      //Iterate over every layer to make sure there's a layer for the player
+      var lastObjectLayer;
+      var foundPlayerLayer = false;
+
+      this._map.mapData.layers.forEach(function(layer){
+        if (layer.type == 'objectgroup') {
+          lastObjectLayer = layer;
+
+          if (layer.properties !== undefined && layer.properties.playerLayer !== undefined) {
+            foundPlayerLayer = true;
+          }
+        }
+      });
+
+      //If no playerLayer was found, set the last object layer as the player layer
+      if (!foundPlayerLayer && !!lastObjectLayer) {
+        lastObjectLayer.properties = lastObjectLayer.properties || {};
+        lastObjectLayer.properties.playerLayer = true;
+      }
+
       this._map.mapData.layers.forEach(function(layer){
         switch(layer.type) {
           case 'tilelayer' :
