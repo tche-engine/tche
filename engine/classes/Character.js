@@ -7,6 +7,7 @@
       this._yDest = null;
       this._direction = "down";
       this._sprite = null;
+      this._objectType = null;
       this._dirty = false;
       this._height = null;
       this._width = null;
@@ -60,6 +61,12 @@
     get sprite() { return this._sprite; }
     set sprite(value) { 
       this._sprite = value;
+      this._dirty = true;
+    }
+
+    get objectType() { return this._objectType; }
+    set objectType(value) {
+      this._objectType = value;
       this._dirty = true;
     }
 
@@ -234,10 +241,22 @@
       return false;
     }
 
+    executeEvent(eventName) {
+      if (!this.objectType) return;
+      if (!this.objectType.events) return;
+      if (!this.objectType.events[eventName]) return;
+
+      TCHE.CodeManager.executeEvent(this.objectType.events[eventName]);
+    }
+
     onBlockCharacter(character) {
       if (this._lastBlockCharacter !== character) {
         this._lastBlockCharacter = character;
         this.fire('blockCharacter', character);
+
+        if (character == TCHE.globals.player) {
+          this.executeEvent('On Block Player');
+        }
       }
     }
 

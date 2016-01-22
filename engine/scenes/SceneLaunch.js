@@ -8,6 +8,8 @@
       super.update();
       
       if (TCHE.FileManager.isLoaded()) {
+        TCHE.ObjectTypeManager.loadCustomObjectTypes();
+
         TCHE.fire("ready");
 
         if (TCHE.Params.param('debug')) {

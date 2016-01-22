@@ -2,6 +2,7 @@ var TCHE = {
   globals : {},
   data : {},
   maps : {},
+  objectTypes : {},
   spriteTypes : {},
   mapTypes : {},
   skinTypes : {}
