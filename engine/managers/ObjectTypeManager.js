@@ -19,20 +19,21 @@
         parentObject = TCHE.ObjectTypeManager.loadObjectType(parentName);
       }
 
-      var objectType = function(){
+      var customObjectType = function(){
         parentObject.call(this);
         for (var eventName in events) {
           this._events[eventName] = TCHE.Clone.shallow(events[eventName]);
         }
       };
-      objectType.prototype = Object.create(parentObject.prototype);
-      objectType.prototype.constructor = objectType;
+      customObjectType.prototype = Object.create(parentObject.prototype);
+      customObjectType.prototype.constructor = customObjectType;
 
-      TCHE.objectTypes[objectName] = objectType;
+      TCHE.objectTypes[objectName] = customObjectType;
       return TCHE.objectTypes[objectName];
     }
 
     static loadCustomObjectTypes() {
+      var objects = TCHE.data.game.objects || {};
       for (var objectName in objects) {
         TCHE.ObjectTypeManager.loadObjectType(objectName);
       }

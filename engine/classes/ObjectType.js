@@ -1,7 +1,6 @@
 (function(){
   class ObjectType {
     constructor() {
-      super();
       this._events = {};
     }
 

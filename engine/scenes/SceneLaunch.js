@@ -9,13 +9,12 @@
       
       if (TCHE.FileManager.isLoaded()) {
         TCHE.ObjectTypeManager.loadCustomObjectTypes();
-
-        TCHE.fire("ready");
-
         if (TCHE.Params.param('debug')) {
           TCHE.Validation.checkBasicFiles();
         }
 
+        TCHE.fire("ready");
+        
         var initialScene = TCHE.data.game.initialScene;
         if (!TCHE[initialScene]) {
           initialScene = TCHE.SceneTitle;

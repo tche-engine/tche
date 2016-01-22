@@ -1,7 +1,6 @@
 (function(){
   class CodeInterpreter {
     constructor() {
-      super();
       this._codeBlock = null;
       this._index = 0;
     }

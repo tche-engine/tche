@@ -40,7 +40,7 @@
         height : Math.round(obj.height),
         sprite : obj.properties.sprite || '',
         class : obj.properties.class || undefined,
-        blockedBy : obj.properties.blockedBy || '',
+        objectType : obj.properties.objectType || '',
         offsetX : Number(obj.properties.offsetX) || 0,
         offsetY : Number(obj.properties.offsetY) || 0,
         ghost : !!obj.properties.ghost && obj.properties.ghost != "false" && obj.properties.ghost !== "0",

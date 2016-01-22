@@ -1,7 +1,7 @@
 (function(){
   class CodeManager {
     static executeEvent(event) {
-      this.runCodeBlock(event.codeBlock);
+      this.runCodeBlock(event.codeLines);
     }
 
     static runCodeBlock(codeBlock) {

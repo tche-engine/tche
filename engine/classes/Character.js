@@ -66,7 +66,17 @@
 
     get objectType() { return this._objectType; }
     set objectType(value) {
-      this._objectType = value;
+      if (typeof value == "string") {
+        var objectTypeClass = TCHE.objectTypes[value];
+        if (!!objectTypeClass) {
+          this._objectType = new (objectTypeClass)();
+        } else {
+          this._objectType = null;
+        }
+      } else {
+        this._objectType = value;
+      }
+
       this._dirty = true;
     }
 

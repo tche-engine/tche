@@ -11,7 +11,7 @@
         width : obj.width,
         height : obj.height,
         sprite : obj.sprite || '',
-        blockedBy : obj.blockedBy || '',
+        objectType : obj.objectType || '',
         ghost : !!obj.ghost && obj.ghost !== "false" && obj.ghost !== "0"
       };
     }    

@@ -53,7 +53,7 @@
       data.width = data.width || 0;
       data.height = data.height || 0;
       data.sprite = data.sprite || '';
-      data.blockedBy = data.blockedBy || '';
+      data.objectType = data.objectType || '';
       data.offsetY = data.offsetY || 0;
       data.offsetX = data.offsetX || 0;
       data.ghost = !!data.ghost;
