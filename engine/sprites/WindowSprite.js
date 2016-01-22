@@ -4,7 +4,9 @@
       super();
 
       if (skinName === undefined) {
-        skinName = TCHE.data.game.mainSkin;
+        if (!!TCHE.data.game.mainSkin) {
+          skinName = TCHE.data.game.mainSkin;
+        }
       }
 
       this.createBackground(skinName);

@@ -59,22 +59,32 @@
 
     static drawSkinFrame(skinName, content) {
       var data = this.getSkinData(skinName);
-      this.getSkinType(data).drawSkinFrame(content, data);
+      if (!!data) {
+        this.getSkinType(data).drawSkinFrame(content, data);
+      }
     }
 
     static addSkinBackground(skinName, windowObj, container) {
       var data = this.getSkinData(skinName);
-      this.getSkinType(data).addSkinBackground(windowObj, container, data);
+      if (!!data) {
+        this.getSkinType(data).addSkinBackground(windowObj, container, data);
+      }
     }
 
     static drawSkinCursor(skinName, content, x, y) {
       var data = this.getSkinData(skinName);
-      this.getSkinType(data).drawSkinCursor(data, content, x, y);
+      if (!!data) {
+        this.getSkinType(data).drawSkinCursor(data, content, x, y);
+      }
     }
 
     static getSkinCursorSize(skinName) {
       var data = this.getSkinData(skinName);
-      return this.getSkinType(data).getSkinCursorSize(data);
+      if (!!data) {
+        return this.getSkinType(data).getSkinCursorSize(data);
+      } else {
+        return 0;
+      }
     }
   }
   

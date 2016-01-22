@@ -43,7 +43,7 @@
     }
 
     static loadMapData(mapName, mapType) {
-      var path = './maps/' + mapName + '.json';
+      var path = './maps/' + mapName;
       filesToLoad++;
 
       TCHE.maps[mapName] = null;

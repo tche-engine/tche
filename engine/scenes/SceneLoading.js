@@ -29,10 +29,10 @@
       this._messageText = "Loading";
 
       this._messageSprite = new PIXI.Text("");
-      this._messageSprite.anchor.x = 0;
+      this._messageSprite.anchor.x = 0.5;
       this._messageSprite.anchor.y = 0.5;
       this._messageSprite.position.y = Math.floor(TCHE.renderer.height / 2);
-      this._messageSprite.position.x = Math.floor(TCHE.renderer.width / 2 - this._messageSprite.width / 2);
+      this._messageSprite.position.x = Math.floor(TCHE.renderer.width / 2);
 
       this.addChild(this._messageSprite);
 
