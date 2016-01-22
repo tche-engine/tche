@@ -14,7 +14,20 @@
           TCHE.Validation.checkBasicFiles();
         }
 
-        TCHE.SceneManager.changeScene(TCHE.SceneTitle);
+        var initialScene = TCHE.data.game.initialScene;
+        if (!TCHE[initialScene]) {
+          initialScene = TCHE.SceneTitle;
+        } else {
+          initialScene = TCHE[initialScene];
+        }
+
+        var params = {};
+
+        if (initialScene == TCHE.SceneMap || initialScene.prototype instanceof TCHE.SceneMap) {
+          params.mapName = TCHE.data.game.initialMap;
+        }
+
+        TCHE.SceneManager.changeScene(initialScene, params);
       }
     }    
   }

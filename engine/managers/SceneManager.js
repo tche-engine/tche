@@ -52,7 +52,7 @@
 
     static changeScene(newSceneClass, params) {
       newScene = newSceneClass;
-      newSceneParams = params;
+      newSceneParams = params || {};
     }
 
     static start(initialScene) {
