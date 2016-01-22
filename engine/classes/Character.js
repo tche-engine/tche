@@ -24,9 +24,9 @@
     }
 
     get x() { return this._x; }
-    set x(value) { this._x = value; }
+    set x(value) { this._x = Math.round(value); }
     get y() { return this._y; }
-    set y(value) { this._y = value; }
+    set y(value) { this._y = Math.round(value); }
     get xDest() { return this._xDest; }
     set xDest(value) { this._xDest = value; }
     get yDest() { return this._yDest; }
@@ -36,9 +36,9 @@
     get dirty() { return this._dirty; }
     set dirty(value) { this._dirty = value; }
     get width() { return this._width; }
-    set width(value) { this._width = value; }
+    set width(value) { this._width = Math.round(value); }
     get height() { return this._height; }
-    set height(value) { this._height = value; }
+    set height(value) { this._height = Math.round(value); }
     get animationStep() { return this._animationStep; }
     set animationStep(value) { this._animationStep = value; }
     get animationStepCount() { return this._animationStepCount; }
