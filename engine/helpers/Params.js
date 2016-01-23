@@ -23,6 +23,10 @@
       return this.param('webgl');
     }
 
+    static get isNwjs() {
+      return !!(typeof require);
+    }
+
     static param(paramName) {
       return this.params[paramName.toLowerCase()] || false;
     }

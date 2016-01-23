@@ -8,7 +8,9 @@
       super.update();
       
       if (TCHE.FileManager.isLoaded()) {
+        TCHE.ResolutionManager.updateResolution();
         TCHE.ObjectTypeManager.loadCustomObjectTypes();
+
         if (TCHE.Params.param('debug')) {
           TCHE.Validation.checkBasicFiles();
         }
