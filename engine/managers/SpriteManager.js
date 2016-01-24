@@ -58,6 +58,11 @@
       return image.clone();
     }
 
+    static getSpriteTexture(spriteName) {
+      var data = this.getSpriteData(spriteName);
+      return this.loadSpriteTexture(spriteName, data);
+    }
+
     static loadSprite(character) {
       var data = this.getSpriteData(character.sprite);
       var texture = this.loadSpriteTexture(character.sprite, data);

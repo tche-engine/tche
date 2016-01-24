@@ -54,12 +54,6 @@
 
             var texture = TCHE.TileManager.loadTileTexture(mapName, tileId);
 
-            texture.baseTexture._futureX = x;
-            texture.baseTexture._futureY = y;
-            texture.baseTexture._futureTileId = tileId;
-            texture.baseTexture._futureLayer = layerSprite;
-            texture.baseTexture._futureTexture = texture;
-
             if (texture.baseTexture.isLoading) {
               texture.baseTexture.addListener('loaded', layerSprite.onLoadTexture.bind({
                 x : x,

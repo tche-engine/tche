@@ -24,7 +24,7 @@
     }
 
     static get isNwjs() {
-      return !!(typeof require);
+      return (typeof require) !== "undefined";
     }
 
     static param(paramName) {
