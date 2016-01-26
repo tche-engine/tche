@@ -4,6 +4,8 @@
   var previousKeyStates = {};
   var triggeredKeys = [];
   var releasedKeys = [];
+  var mouseClicked = [];
+  var mousePos = {x : 0, y : 0};
   var keyCodes = null;
 
   var keys = {
@@ -229,6 +231,10 @@
 
     static clear() {
       keyStates = {};
+      for (var i = 0; i < mouseClicked.length; i++) {
+        mouseClicked[i] = false;
+      }
+      mousePos = {x : 0, y : 0};
     }
 
     static isBlockedKey(keyCode) {
@@ -245,6 +251,46 @@
           return false;
       }      
     }
+
+    static isMouseClicked(button) {
+      return mouseClicked[button];
+    }
+
+    static isLeftMouseClicked() {
+      return mouseClicked[0];
+    }
+
+    static isMiddleMouseClicked() {
+      return mouseClicked[1];
+    }
+
+    static isRightMouseClicked() {
+      return mouseClicked[2];
+    }
+
+    static currentMousePos() {
+      return mousePos;
+    }
+
+    static processMouseDown(pos, button) {
+      mouseClicked[button] = true;
+      mousePos = pos;
+    }
+
+    static processMouseOut() {
+      for (var i = 0; i < mouseClicked.length; i++) {
+        mouseClicked[i] = false;
+      }
+    }
+
+    static processMouseUp(pos, button) {
+      mouseClicked[button] = false;
+      mousePos = pos;
+    }
+
+    static processMouseMove(pos) {
+      mousePos = pos;
+    }
   }
 
   document.addEventListener('keydown', InputManager.onKeyDown.bind(InputManager));
@@ -256,6 +302,28 @@
       var pos = getMousePos(this, evt);
 
       TCHE.SceneManager.processClick(pos);
+    });
+
+    TCHE.renderer.view.addEventListener("mousedown", function(evt) {
+      var pos = getMousePos(this, evt);
+
+      TCHE.InputManager.processMouseDown(pos, evt.button);
+    });
+
+    TCHE.renderer.view.addEventListener("mousemove", function(evt) {
+      var pos = getMousePos(this, evt);
+
+      TCHE.InputManager.processMouseMove(pos);
+    });
+
+    TCHE.renderer.view.addEventListener("mouseout", function(evt) {
+      TCHE.InputManager.processMouseOut();
+    });
+
+    TCHE.renderer.view.addEventListener("mouseup", function(evt) {
+      var pos = getMousePos(this, evt);
+
+      TCHE.InputManager.processMouseUp(pos, evt.button);
     });
   });
 
