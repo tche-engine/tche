@@ -34,6 +34,10 @@
     static getImportantObjectData(mapData, obj) {
       return this.getMapType(mapData).getImportantObjectData(mapData, obj);
     }
+
+    static getTileFrame(mapData, tileset, tileId) {
+      return this.getMapType(mapData).getTileFrame(mapData, tileset, tileId);
+    }
   }
   
   TCHE.registerStaticClass('MapManager', MapManager);

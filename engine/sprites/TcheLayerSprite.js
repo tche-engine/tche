@@ -1,5 +1,5 @@
 (function(){
-  class TiledLayerSprite extends TCHE.Sprite {
+  class TcheLayerSprite extends TCHE.Sprite {
     constructor(layerData) {
       super();
       this._layerData = layerData;
@@ -79,5 +79,5 @@
     }
   }
   
-  TCHE.registerClass('TiledLayerSprite', TiledLayerSprite);
+  TCHE.registerClass('TcheLayerSprite', TcheLayerSprite);
 })();

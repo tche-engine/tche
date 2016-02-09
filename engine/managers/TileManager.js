@@ -32,22 +32,10 @@
         theTileset = tileset;
 
         return false;
-      });
+      });      
+      var frame = TCHE.MapManager.getTileFrame(mapData, theTileset, tileId);
 
-      var columns = theTileset.imagewidth / theTileset.tilewidth;
-
-      var subTileId = tileId - theTileset.firstgid;
-      var column = subTileId % columns;
-      var line = Math.floor(subTileId / columns);
-
-      var frame = {
-        width : theTileset.tilewidth,
-        height : theTileset.tileheight,
-        x : column * theTileset.tilewidth,
-        y : line * theTileset.tileheight
-      };
-
-      var baseTexture = PIXI.Texture.fromImage('./map/' + theTileset.image);      
+      var baseTexture = PIXI.Texture.fromImage('./map/' + theTileset.image);
       texture = new PIXI.Texture(baseTexture);
       if (texture.baseTexture.isLoading) {
         texture.baseTexture.addListener('loaded', function(){
